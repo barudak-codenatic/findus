@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindUs - Solusi Kebutuhan Mahasiswa</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Navbar -->
+    <nav class="bg-indigo-700 text-white p-4 fixed w-full top-0 z-10 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold">FindUs</h1>
+            <div>
+                <a href="login.html" class="mr-4 hover:underline text-lg">Masuk</a>
+                <a href="register.html" class="bg-yellow-400 text-indigo-900 px-4 py-2 rounded-lg hover:bg-yellow-500 font-semibold">Daftar</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-32 pt-24 text-center relative">
+        <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://images.unsplash.com/photo-1516321318422-0c5f5f8b6f9b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <h2 class="text-5xl font-extrabold mb-4 animate-fade-in">FindUs: Partner Setia Mahasiswa</h2>
+            <p class="text-xl mb-8 max-w-3xl mx-auto animate-fade-in">Belanja kebutuhan kos, temukan layanan jasa terpercaya, dan kelola keuanganmu dengan mudah dalam satu platform modern!</p>
+            <a href="register.html" class="bg-yellow-400 text-indigo-900 px-8 py-4 rounded-full text-lg font-semibold hover:bg-yellow-500 transform hover:scale-105 transition-transform">Mulai Sekarang</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-4xl font-bold mb-12 animate-fade-in">Tentang FindUs</h3>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto mb-8">FindUs adalah platform yang dirancang untuk memenuhi kebutuhan mahasiswa. Kami menyediakan solusi lengkap mulai dari belanja kebutuhan kos, layanan jasa, hingga pengelolaan keuangan, semua dalam satu tempat. Visi kami adalah membuat hidup mahasiswa lebih mudah dan terjangkau.</p>
+            <p class="text-lg text-gray-700 max-w-3xl mx-auto">Dengan FindUs, mahasiswa dapat fokus pada studi dan kegiatan mereka tanpa khawatir tentang kebutuhan sehari-hari. Bergabunglah dengan kami dan rasakan kemudahan hidup sebagai mahasiswa!</p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-gray-100">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-4xl font-bold mb-12 animate-fade-in">Mengapa Memilih FindUs?</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                    <h4 class="text-2xl font-semibold mb-4">Belanja Kebutuhan Kos</h4>
+                    <p class="text-gray-700">Dapatkan perlengkapan kos, alat tulis, hingga kebutuhan sehari-hari dengan harga ramah mahasiswa.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                    <h4 class="text-2xl font-semibold mb-4">Layanan Jasa</h4>
+                    <p class="text-gray-700">Pesan jasa seperti laundry, cleaning service, atau reparasi langsung dari aplikasi.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                    <h4 class="text-2xl font-semibold mb-4">Kelola Keuangan</h4>
+                    <p class="text-gray-700">Catat pengeluaran, buat anggaran, dan pantau keuanganmu dengan laporan yang sederhana dan jelas.</p>
+                </div>
+            </div>
+
+            <!-- Recommended Items Section -->
+            <div class="py-12">
+                <h4 class="text-3xl font-bold mb-8 animate-fade-in">Rekomendasi Barang</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                        <img src="images/item1.jpg" alt="Kasur Lipat" class="w-full h-48 object-cover rounded-lg mb-4 cursor-pointer item-photo" onclick="openPopup('popup-item1')">
+                        <h5 class="text-xl font-semibold mb-2">Kasur Lipat</h5>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                        <img src="images/item2.jpg" alt="Alat Tulis Set" class="w-full h-48 object-cover rounded-lg mb-4 cursor-pointer item-photo" onclick="openPopup('popup-item2')">
+                        <h5 class="text-xl font-semibold mb-2">Alat Tulis Set</h5>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                        <img src="images/item3.jpg" alt="Rice Cooker Mini" class="w-full h-48 object-cover rounded-lg mb-4 cursor-pointer item-photo" onclick="openPopup('popup-item3')">
+                        <h5 class="text-xl font-semibold mb-2">Rice Cooker Mini</h5>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                        <img src="images/item4.jpg" alt="Rak Sepatu" class="w-full h-48 object-cover rounded-lg mb-4 cursor-pointer item-photo" onclick="openPopup('popup-item4')">
+                        <h5 class="text-xl font-semibold mb-2">Rak Sepatu</h5>
+                    </div>
+                </div>
+                <!-- Popups for Items -->
+                <div id="popup-item1" class="popup hidden">
+                    <div class="popup-content">
+                        <h5 class="text-xl font-semibold mb-2">Kasur Lipat</h5>
+                        <p class="text-gray-700 mb-4">Kasur lipat ini dirancang untuk menghemat ruang di kamar kosmu. Dengan bahan berkualitas tinggi, kasur ini nyaman digunakan dan mudah disimpan. Cocok untuk mahasiswa yang ingin kenyamanan tanpa memakan banyak tempat.</p>
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700" onclick="closePopup('popup-item1')">Tutup</button>
+                    </div>
+                </div>
+                <div id="popup-item2" class="popup hidden">
+                    <div class="popup-content">
+                        <h5 class="text-xl font-semibold mb-2">Alat Tulis Set</h5>
+                        <p class="text-gray-700 mb-4">Paket alat tulis lengkap termasuk pulpen, buku catatan, dan highlighter. Dirancang untuk mendukung kebutuhan kuliahmu, set ini praktis dan terjangkau, membantu kamu tetap terorganisir di kelas.</p>
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700" onclick="closePopup('popup-item2')">Tutup</button>
+                    </div>
+                </div>
+                <div id="popup-item3" class="popup hidden">
+                    <div class="popup-content">
+                        <h5 class="text-xl font-semibold mb-2">Rice Cooker Mini</h5>
+                        <p class="text-gray-700 mb-4">Rice cooker mini dengan kapasitas ideal untuk kosan. Mudah digunakan dan hemat listrik, cocok untuk mahasiswa yang ingin memasak sendiri dengan praktis tanpa perlu peralatan besar.</p>
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700" onclick="closePopup('popup-item3')">Tutup</button>
+                    </div>
+                </div>
+                <div id="popup-item4" class="popup hidden">
+                    <div class="popup-content">
+                        <h5 class="text-xl font-semibold mb-2">Rak Sepatu</h5>
+                        <p class="text-gray-700 mb-4">Rak sepatu minimalis untuk menjaga kamar kosmu tetap rapi. Dengan desain ringkas, rak ini dapat menampung beberapa pasang sepatu dan mudah dipasang di ruang kecil.</p>
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700" onclick="closePopup('popup-item4')">Tutup</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services Section -->
+            <div class="py-12">
+                <h4 class="text-3xl font-bold mb-8 animate-fade-in">Layanan Jasa Kami</h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                        <img src="images/jasa1.jpg" alt="Laundry" class="w-full h-48 object-cover rounded-lg mb-4 cursor-pointer service-photo" onclick="openPopup('popup-service1')">
+                        <h5 class="text-xl font-semibold mb-4">Laundry</h5>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                        <img src="images/jasa2.jpg" alt="Cleaning Service" class="w-full h-48 object-cover rounded-lg mb-4 cursor-pointer service-photo" onclick="openPopup('popup-service2')">
+                        <h5 class="text-xl font-semibold mb-4">Cleaning Service</h5>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                        <img src="images/jasa3.jpg" alt="Reparasi Elektronik" class="w-full h-48 object-cover rounded-lg mb-4 cursor-pointer service-photo" onclick="openPopup('popup-service3')">
+                        <h5 class="text-xl font-semibold mb-4">Reparasi Elektronik</h5>
+                    </div>
+                </div>
+                <!-- Popups for Services -->
+                <div id="popup-service1" class="popup hidden">
+                    <div class="popup-content">
+                        <h5 class="text-xl font-semibold mb-2">Laundry</h5>
+                        <p class="text-gray-700 mb-4">Layanan laundry kami menawarkan pencucian cepat dan bersih dengan harga terjangkau. Kami menggunakan deterjen berkualitas dan memastikan pakaianmu kembali dalam kondisi terbaik, cocok untuk mahasiswa sibuk.</p>
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700" onclick="closePopup('popup-service1')">Tutup</button>
+                    </div>
+                </div>
+                <div id="popup-service2" class="popup hidden">
+                    <div class="popup-content">
+                        <h5 class="text-xl font-semibold mb-2">Cleaning Service</h5>
+                        <p class="text-gray-700 mb-4">Jaga kamar kosmu tetap bersih dengan layanan pembersihan profesional kami. Tim kami akan membersihkan setiap sudut kamar, memberikan kenyamanan maksimal.</p>
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700" onclick="closePopup('popup-service2')">Tutup</button>
+                    </div>
+                </div>
+                <div id="popup-service3" class="popup hidden">
+                    <div class="popup-content">
+                        <h5 class="text-xl font-semibold mb-2">Reparasi Elektronik</h5>
+                        <p class="text-gray-700 mb-4">Laptop atau gadgetmu bermasalah? Teknisi kami siap membantu memperbaiki perangkatmu dengan cepat dan terpercaya, sehingga kamu bisa kembali fokus pada studimu tanpa khawatir.</p>
+                        <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700" onclick="closePopup('popup-service3')">Tutup</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Budget Recommendations Section -->
+            <div class="py-12">
+                <h4 class="text-3xl font-bold mb-8 animate-fade-in">Rekomendasi Pengeluaran untuk Mahasiswa</h4>
+                <div class="max-w-3xl mx-auto text-left text-gray-700 space-y-8">
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <img src="images/budget1.jpg" alt="Kebutuhan Pokok" class="w-full md:w-1/3 h-48 object-cover rounded-lg">
+                        <div>
+                            <h5 class="text-xl font-semibold mb-2">50% untuk Kebutuhan Pokok</h5>
+                            <p>Alokasikan setengah dari uang sakumu untuk kebutuhan utama seperti sewa kos, makan sehari-hari, dan transportasi. Dengan perencanaan yang baik, kamu bisa memastikan kebutuhan dasarmu terpenuhi tanpa kekurangan di akhir bulan.</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <img src="images/budget2.jpg" alt="Pendidikan" class="w-full md:w-1/3 h-48 object-cover rounded-lg">
+                        <div>
+                            <h5 class="text-xl font-semibold mb-2">20% untuk Pendidikan</h5>
+                            <p>Sisihkan 20% untuk kebutuhan akademis seperti buku, alat tulis, atau biaya tambahan untuk kuliah, seperti print tugas atau kursus tambahan. Ini membantu kamu tetap siap untuk setiap kebutuhan studimu.</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <img src="images/budget3.jpg" alt="Tabungan" class="w-full md:w-1/3 h-48 object-cover rounded-lg">
+                        <div>
+                            <h5 class="text-xl font-semibold mb-2">20% untuk Tabungan</h5>
+                            <p>Menyisihkan 20% untuk tabungan sangat penting untuk kebutuhan mendadak atau rencana masa depan, seperti liburan atau investasi kecil. Tabungan ini memberikan keamanan finansial selama masa kuliah.</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <img src="images/budget4.jpg" alt="Hiburan" class="w-full md:w-1/3 h-48 object-cover rounded-lg">
+                        <div>
+                            <h5 class="text-xl font-semibold mb-2">10% untuk Hiburan</h5>
+                            <p>Gunakan 10% untuk kegiatan rekreasi seperti nongkrong dengan teman atau hobi. Tetap bijak dalam pengeluaran ini agar tidak mengganggu anggaran utamamu, sambil tetap menikmati waktu luang.</p>
+                        </div>
+                    </div>
+                    <p class="mt-6 text-center">Gunakan fitur keuangan FindUs untuk melacak dan mengelola anggaranmu dengan mudah!</p>
+                </div>
+            </div>
+
+            <!-- Team Section -->
+            <div class="py-12">
+                <h4 class="text-3xl font-bold mb-8 animate-fade-in">Pembuat FindUs</h4>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                        <img src="images/team1.jpg" alt="Jagat Saksena" class="w-24 h-24 rounded-full mx-auto mb-4 team-photo">
+                        <h5 class="text-xl font-semibold mb-2">Jagat Saksena</h5>
+                        <p class="text-gray-700">Backend Developer, ahli dalam membangun sistem yang aman dan skalabel.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                        <img src="images/team2.jpg" alt="Derryl Satria Ma" class="w-24 h-24 rounded-full mx-auto mb-4 team-photo">
+                        <h5 class="text-xl font-semibold mb-2">Derryl Satria M</h5>
+                        <p class="text-gray-700">Frontend Developer, menciptakan antarmuka yang ramah dan responsif.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+                        <img src="images/team3.jpg" alt="Ega Alfarabi" class="w-24 h-24 rounded-full mx-auto mb-4 team-photo">
+                        <h5 class="text-xl font-semibold mb-2">Ega Alfarabi</h5>
+                        <p class="text-gray-700">UI/UX Designer, merancang pengalaman pengguna yang intuitif.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-indigo-700 text-white py-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-lg">© 2025 FindUs. Semua hak dilindungi.</p>
+            <p class="mt-2">Kontak: <a href="mailto:support@findus.id" class="hover:underline">support@findus.id</a> | Ikuti kami di media sosial</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

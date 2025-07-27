@@ -1,0 +1,14 @@
+{
+    "name": "findus-app",
+    "version": "1.0.0",
+    "description": "Website belanja dan layanan untuk mahasiswa",
+    "main": "server/server.js",
+    "scripts": {
+        "start": "node server/server.js"
+    },
+    "dependencies": {
+        "express": "^4.17.1",
+        "mysql2": "^2.3.3",
+        "bcrypt": "^5.0.1"
+    }
+}
