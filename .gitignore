@@ -1,0 +1,22 @@
+# Folder dan file bawaan
+node_modules/
+.env
+.DS_Store
+npm-debug.log
+.vscode/
+.idea/
+
+# Build/Generated
+dist/
+build/
+
+# Logs
+logs/
+*.log
+
+# SQLite atau DB lokal
+*.sqlite
+*.db
+
+# Ignore sistem/OS
+Thumbs.db
