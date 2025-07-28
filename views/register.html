@@ -1,24 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
   <head>
-    <title>Register</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - Marketplace Jasa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
-    <h2>Register</h2>
-    <form action="/register" method="POST">
-      <input name="full_name" placeholder="Nama Lengkap" required /><br />
-      <input name="email" type="email" placeholder="Email" required /><br />
-      <input
-        name="password"
-        type="password"
-        placeholder="Password"
-        required
-      /><br />
-      <select name="role" required>
-        <option value="USER">User</option>
-        <option value="PROVIDER">Penyedia Jasa</option></select
-      ><br />
-      <button type="submit">Daftar</button>
-    </form>
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+      <h2 class="text-2xl font-semibold text-center mb-6">Register</h2>
+      <form action="/register" method="POST" class="space-y-4">
+        <!-- Nama Lengkap -->
+        <div>
+          <label for="full_name" class="block font-medium mb-1"
+            >Nama Lengkap</label
+          >
+          <input
+            id="full_name"
+            name="full_name"
+            type="text"
+            placeholder="Nama Lengkap"
+            required
+            class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label for="email" class="block font-medium mb-1">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Email"
+            required
+            class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label for="password" class="block font-medium mb-1">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Password"
+            required
+            class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
+        </div>
+
+        <!-- Role -->
+        <div>
+          <label for="role" class="block font-medium mb-1"
+            >Daftar Sebagai</label
+          >
+          <select
+            id="role"
+            name="role"
+            required
+            class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-teal-500"
+          >
+            <option value="">Pilih Role</option>
+            <option value="USER">Pengguna</option>
+            <option value="PROVIDER">Penyedia Jasa</option>
+          </select>
+        </div>
+
+        <!-- Tombol Submit -->
+        <button
+          type="submit"
+          class="w-full bg-teal-600 text-white py-2 rounded hover:bg-teal-700 transition"
+        >
+          Daftar
+        </button>
+      </form>
+
+      <p class="text-center text-sm mt-4">
+        Sudah punya akun?
+        <a href="/login" class="text-teal-600 hover:underline">Login di sini</a>
+      </p>
+    </div>
   </body>
 </html>
