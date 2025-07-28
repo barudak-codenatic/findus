@@ -18,14 +18,14 @@ router.get("/dashboard", (req, res) => {
   if (role === "PROVIDER") {
     return res.redirect("/dashboard-penyedia");
   } else if (role === "USER") {
-    return res.redirect("/dashboard-user");
+    return res.redirect("/user/dashboard");
   } else {
     return res.send("Role tidak dikenali");
   }
 });
 
-router.get("/dashboard-user", (req, res) => {
-  res.sendFile(path.join(__dirname, "../views/pengguna/dashboard.html"));
+router.get("/user/dashboard", (req, res) => {
+  res.sendFile(path.join(__dirname, "../views/user/dashboard.html"));
 });
 
 router.get("/dashboard-penyedia", (req, res) => {

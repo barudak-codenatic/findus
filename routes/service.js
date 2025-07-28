@@ -10,6 +10,7 @@ router.get(
   isProvider,
   serviceController.renderEditServicePage
 );
+router.get("/services/:id/detail", serviceController.renderDetailServicePage);
 
 // Rute API untuk penyedia jasa
 router.get("/api/services/my", isProvider, serviceController.getMyServices);
@@ -18,6 +19,7 @@ router.put("/api/services", isProvider, serviceController.updateService);
 router.delete("/api/services/:id", isProvider, serviceController.deleteService);
 
 // Rute untuk mendapatkan detail layanan (bisa diakses semua pengguna)
+router.get("/api/services", serviceController.getAllServices);
 router.get("/api/services/:id", serviceController.getServiceDetail);
 
 module.exports = router;

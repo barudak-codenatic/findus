@@ -11,6 +11,25 @@ const isProvider = (req, res, next) => {
   next();
 };
 
+// Mendapatkan semua layanan (untuk user umum)
+exports.getAllServices = async (req, res) => {
+  try {
+    const services = await Service.findAll({
+      order: [["created_at", "DESC"]],
+      include: [
+        {
+          model: User,
+          attributes: ["full_name", "email", "phone", "photo_url"],
+        },
+      ],
+    });
+    res.json({ services });
+  } catch (error) {
+    console.error("Error fetching all services:", error);
+    res.status(500).json({ error: "Gagal mengambil semua layanan" });
+  }
+};
+
 // Mendapatkan semua layanan milik penyedia jasa tertentu
 exports.getMyServices = async (req, res) => {
   try {
@@ -134,6 +153,11 @@ exports.renderAddServicePage = (req, res) => {
 // Render halaman edit jasa
 exports.renderEditServicePage = (req, res) => {
   res.sendFile(path.join(__dirname, "../views/penyedia-jasa/edit-jasa.html"));
+};
+
+// Render halaman detail jasa
+exports.renderDetailServicePage = (req, res) => {
+  res.sendFile(path.join(__dirname, "../views/user/service-detail.html"));
 };
 
 module.exports.isProvider = isProvider;
