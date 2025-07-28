@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Register</title>
+  </head>
+  <body>
+    <h2>Register</h2>
+    <form action="/register" method="POST">
+      <input name="full_name" placeholder="Nama Lengkap" required /><br />
+      <input name="email" type="email" placeholder="Email" required /><br />
+      <input
+        name="password"
+        type="password"
+        placeholder="Password"
+        required
+      /><br />
+      <select name="role" required>
+        <option value="USER">User</option>
+        <option value="PROVIDER">Penyedia Jasa</option></select
+      ><br />
+      <button type="submit">Daftar</button>
+    </form>
+  </body>
+</html>

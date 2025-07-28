@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tambah Jasa Baru - FindUS</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body class="bg-gray-50">
+    <!-- Top Bar -->
+    <div class="bg-white border-b">
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16"
+      >
+        <!-- Logo dan Navigasi -->
+        <div class="flex items-center">
+          <div class="flex items-center space-x-2">
+            <div
+              class="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center"
+            >
+              <span class="text-white font-bold text-sm">F</span>
+            </div>
+            <span class="text-xl font-bold text-gray-800">FindUS</span>
+          </div>
+
+          <div class="hidden md:flex ml-10 space-x-8">
+            <a
+              href="/dashboard-penyedia"
+              class="text-gray-500 hover:text-teal-500 px-3 py-2 text-sm font-medium"
+              >Dashboard</a
+            >
+            <a
+              href="#"
+              class="text-gray-500 hover:text-teal-500 px-3 py-2 text-sm font-medium"
+              >Produk</a
+            >
+            <a
+              href="#"
+              class="text-teal-600 hover:text-teal-500 px-3 py-2 text-sm font-medium"
+              >Layanan</a
+            >
+            <a
+              href="#"
+              class="text-gray-500 hover:text-teal-500 px-3 py-2 text-sm font-medium"
+              >Tentang</a
+            >
+          </div>
+        </div>
+
+        <!-- User Info dan Profile -->
+        <div class="flex items-center space-x-4">
+          <span id="user-info" class="text-sm font-medium text-gray-700"
+            >Halo, Pengguna</span
+          >
+          <div class="relative">
+            <button
+              type="button"
+              class="flex text-sm rounded-full focus:outline-none"
+            >
+              <img
+                class="h-8 w-8 rounded-full"
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt=""
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Banner -->
+    <div class="bg-teal-500 text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="text-3xl font-bold">Tambah Jasa Baru</h1>
+        <p class="mt-2">Tambahkan layanan jasa baru yang akan Anda tawarkan</p>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+        <form id="service-form" class="space-y-6">
+          <input type="hidden" id="service-id" />
+
+          <div>
+            <label
+              for="service-name"
+              class="block text-sm font-medium text-gray-700"
+              >Nama Jasa</label
+            >
+            <input
+              type="text"
+              id="service-name"
+              name="name"
+              required
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              placeholder="Masukkan nama jasa"
+            />
+          </div>
+
+          <div>
+            <label
+              for="service-description"
+              class="block text-sm font-medium text-gray-700"
+              >Deskripsi</label
+            >
+            <textarea
+              id="service-description"
+              name="description"
+              rows="4"
+              required
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              placeholder="Masukkan deskripsi jasa"
+            ></textarea>
+          </div>
+
+          <div>
+            <label
+              for="service-price"
+              class="block text-sm font-medium text-gray-700"
+              >Harga (Rp)</label
+            >
+            <input
+              type="number"
+              id="service-price"
+              name="price"
+              required
+              min="0"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              placeholder="Masukkan harga jasa"
+            />
+          </div>
+
+          <div>
+            <label
+              for="service-image"
+              class="block text-sm font-medium text-gray-700"
+              >URL Gambar</label
+            >
+            <input
+              type="text"
+              id="service-image"
+              name="image_url"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              placeholder="Masukkan URL gambar jasa (opsional)"
+            />
+          </div>
+
+          <div class="flex justify-end space-x-3">
+            <a
+              href="/dashboard-penyedia"
+              class="px-4 py-2 border rounded-md hover:bg-gray-100"
+            >
+              Batal
+            </a>
+            <button
+              type="submit"
+              class="px-4 py-2 bg-teal-500 text-white rounded-md hover:bg-teal-600"
+            >
+              Simpan
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t mt-12">
+      <div
+        class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm text-gray-600"
+      >
+        <!-- Logo dan Deskripsi -->
+        <div>
+          <div class="flex items-center space-x-2 mb-4">
+            <div
+              class="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center"
+            >
+              <span class="text-white font-bold text-sm">F</span>
+            </div>
+            <span class="text-xl font-bold text-gray-800">FindUS</span>
+          </div>
+          <p class="text-gray-600 mb-4">
+            Platform online untuk mahasiswa yang kos! Belanja kebutuhan harian,
+            perlengkapan kamar, serta pesan layanan seperti jasa layanan,
+            bersih-bersih, dan lainnya dengan mudah.
+          </p>
+          <div class="flex space-x-4 mt-2 text-gray-500">
+            <a href="#" class="hover:text-teal-500"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            <a href="#" class="hover:text-teal-500"
+              ><i class="fab fa-twitter"></i
+            ></a>
+            <a href="#" class="hover:text-teal-500"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            <a href="#" class="hover:text-teal-500"
+              ><i class="fab fa-youtube"></i
+            ></a>
+          </div>
+        </div>
+
+        <!-- Kategori -->
+        <div>
+          <h4 class="font-semibold mb-4 text-gray-700">Category</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-teal-600">Peralatan Mandi</a></li>
+            <li><a href="#" class="hover:text-teal-600">Alat Masak</a></li>
+            <li><a href="#" class="hover:text-teal-600">Elektronik</a></li>
+            <li>
+              <a href="#" class="text-teal-600 font-medium">Dekorasi Kamar</a>
+            </li>
+            <li><a href="#" class="hover:text-teal-600">Alat Makan</a></li>
+            <li><a href="#" class="hover:text-teal-600">Jasa Layanan</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div>
+          <h4 class="font-semibold mb-4 text-gray-700">Support</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-teal-600">Cara Pemesanan</a></li>
+            <li>
+              <a href="#" class="hover:text-teal-600">Syarat & Ketentuan</a>
+            </li>
+            <li>
+              <a href="#" class="hover:text-teal-600">Kebijakan Privasi</a>
+            </li>
+            <li><a href="#" class="hover:text-teal-600">Hubungi Kami</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div
+        class="p-5 flex justify-between border-t text-center text-xs text-gray-500 py-4"
+      >
+        <div>
+          © 2025 - Blogy - Designed & Develop by
+          <a href="#" class="text-teal-600 font-semibold">egaalfrb</a>
+        </div>
+        <!-- Metode Pembayaran -->
+        <div class="flex items-end justify-start md:justify-end">
+          <img
+            src="/public/images/payments-logo.png"
+            alt="Banner"
+            class="h-5 opacity-70"
+          />
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Fungsi untuk memuat data pengguna
+      async function loadUserInfo() {
+        try {
+          const response = await fetch("/api/me");
+          const data = await response.json();
+
+          if (!data.user || data.user.role !== "PROVIDER") {
+            alert("Akses ditolak atau bukan role PENYEDIA");
+            window.location = "/login";
+            return;
+          }
+
+          document.getElementById(
+            "user-info"
+          ).textContent = `Halo, ${data.user.name}`;
+        } catch (error) {
+          console.error("Error loading user info:", error);
+          alert("Gagal memuat informasi pengguna");
+        }
+      }
+
+      // Event listener untuk form submit
+      document
+        .getElementById("service-form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const serviceData = {
+            name: document.getElementById("service-name").value,
+            description: document.getElementById("service-description").value,
+            price: parseInt(document.getElementById("service-price").value),
+            image_url: document.getElementById("service-image").value,
+          };
+
+          try {
+            const response = await fetch("/api/services", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(serviceData),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+              alert("Layanan berhasil ditambahkan");
+              window.location.href = "/dashboard-penyedia";
+            } else {
+              alert(data.error || "Gagal menyimpan layanan");
+            }
+          } catch (error) {
+            console.error("Error saving service:", error);
+            alert("Gagal menyimpan layanan");
+          }
+        });
+
+      // Load user info when page loads
+      document.addEventListener("DOMContentLoaded", loadUserInfo);
+    </script>
+  </body>
+</html>
