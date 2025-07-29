@@ -11,14 +11,28 @@ const isAuthenticated = (req, res, next) => {
 };
 
 // Halaman chat
-router.get("/user/chat", isAuthenticated, chatController.isUser, chatController.renderUserChatPage);
-router.get("/penyedia-jasa/chat", isAuthenticated, chatController.isProvider, chatController.renderProviderChatPage);
+router.get(
+  "/user/chat",
+  isAuthenticated,
+  chatController.isUser,
+  chatController.renderUserChatPage
+);
+router.get(
+  "/provider/chat",
+  isAuthenticated,
+  chatController.isProvider,
+  chatController.renderProviderChatPage
+);
 
 // API endpoints
 router.get("/api/chats", isAuthenticated, chatController.getMyChats);
 router.get("/api/chats/:chatId", isAuthenticated, chatController.getChatDetail);
 router.post("/api/chats", isAuthenticated, chatController.createChat);
 router.post("/api/messages", isAuthenticated, chatController.sendMessage);
-router.get("/api/messages/unread", isAuthenticated, chatController.getUnreadCount);
+router.get(
+  "/api/messages/unread",
+  isAuthenticated,
+  chatController.getUnreadCount
+);
 
 module.exports = router;

@@ -269,5 +269,5 @@ exports.renderUserChatPage = (req, res) => {
 
 // Render halaman chat untuk penyedia jasa
 exports.renderProviderChatPage = (req, res) => {
-  res.sendFile(path.join(__dirname, "../views/penyedia-jasa/chat.html"));
+  res.sendFile(path.join(__dirname, "../views/provider/chat.html"));
 };
