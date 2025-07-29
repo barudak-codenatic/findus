@@ -27,7 +27,7 @@ exports.login = async (req, res) => {
   }
 
   req.session.user = { id: user.id, name: user.full_name, role: user.role };
-  res.redirect("/dashboard");
+  res.redirect("/api/auth/dashboard");
 };
 
 exports.logout = (req, res) => {

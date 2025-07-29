@@ -3,23 +3,11 @@ const router = express.Router();
 const serviceController = require("../controllers/serviceController");
 const { isProvider } = require("../controllers/serviceController");
 
-// Rute untuk halaman tambah dan edit jasa
-router.get("/tambah-jasa", isProvider, serviceController.renderAddServicePage);
-router.get(
-  "/edit-jasa/:id",
-  isProvider,
-  serviceController.renderEditServicePage
-);
-router.get("/services/:id/detail", serviceController.renderDetailServicePage);
-
-// Rute API untuk penyedia jasa
-router.get("/api/services/my", isProvider, serviceController.getMyServices);
-router.post("/api/services", isProvider, serviceController.addService);
-router.put("/api/services", isProvider, serviceController.updateService);
-router.delete("/api/services/:id", isProvider, serviceController.deleteService);
-
-// Rute untuk mendapatkan detail layanan (bisa diakses semua pengguna)
-router.get("/api/services", serviceController.getAllServices);
-router.get("/api/services/:id", serviceController.getServiceDetail);
+router.get("/my", isProvider, serviceController.getMyServices);
+router.post("/", isProvider, serviceController.addService);
+router.put("/", isProvider, serviceController.updateService);
+router.delete("/:id", isProvider, serviceController.deleteService);
+router.get("/", serviceController.getAllServices);
+router.get("/:id", serviceController.getService);
 
 module.exports = router;

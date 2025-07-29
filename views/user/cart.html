@@ -76,45 +76,31 @@
         </div>
     </header>
     <main class="container mx-auto px-6 py-2 mb-24">
-        <section class="hero my-6 rounded-md w-full"><img src="/public/images/Hero.svg" alt=""
-                onerror="this.src='https://placehold.co/1200x400?text=Banner+Penyedia+Jasa'">
+        <section class="hero my-6 rounded-md w-full"><img src="/public/images/Hero.svg" alt="">
         </section>
-        <div class="service-detail flex flex-col md:flex-row mt-12 gap-10">
-            <div class="md:w-1/3">
-                <img src="https://placehold.co/400x400.png?text=Inside+%26+Outdoor+Cleaning"
-                    alt="Inside & Outdoor Cleaning Service" class="rounded-lg w-full h-auto">
-            </div>
+        <h1 class="text-2xl font-semibold mb-6">Keranjang:</h1>
 
-            <div class="md:w-2/3 space-y-4">
-                <h1 class="text-2xl font-semibold text-gray-800">Jasa Cleaning Service</h1>
-                <p class="text-gray-600">Terima Jasa Cleaning Inside & Outdoor Service Panggilan.</p>
-                <p class="text-gray-600">Alamat: Jalan Cisaranten Kidul No.14, Kota Bandung.</p>
-                <p class="text-xl font-bold text-[#029FAE]">Rp100.000 - 200.000</p>
-                <button id="add-to-cart-btn"
-                    class="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition">Tambahkan Ke
-                    Keranjang</button>
+        <div class="border-t pt-6">
+            <div class="flex flex-col md:flex-row items-start gap-6 md:gap-10 bg-white rounded-lg">
+                <!-- Gambar Jasa -->
+                <img src="https://placehold.co/200x150.png?text=Inside+%26+Outdoor+Cleaning" alt="Jasa Cleaning Service"
+                    class="w-48 h-auto rounded-md object-cover">
 
-                <!-- <div class="mt-10">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Ulasan:</h2>
-                    <div class="grid md:grid-cols-3 gap-4">
-                        <div class="bg-white border rounded p-4 shadow-sm">
-                            <p class="font-medium text-gray-700">Raden Faza Wigieana</p>
-                            <p class="text-sm text-gray-600 mt-1">Kerjanya Cepat dan Bersih</p>
-                        </div>
-                        <div class="bg-white border rounded p-4 shadow-sm">
-                            <p class="font-medium text-gray-700">Muhammad Faris</p>
-                            <p class="text-sm text-gray-600 mt-1">Harga murah dan cepat dihubungi</p>
-                        </div>
-                        <div class="bg-white border rounded p-4 shadow-sm">
-                            <p class="font-medium text-gray-700">Muhammad R</p>
-                            <p class="text-sm text-gray-600 mt-1">Ramah dan nego</p>
-                        </div>
-                    </div>
-                </div> -->
+                <!-- Detail Jasa -->
+                <div class="flex-1">
+                    <h2 class="text-xl font-bold text-gray-900">Jasa Cleaning Service</h2>
+                    <p class="text-gray-500 mt-1">Alamat : Jalan Cisaranten Kidul No.14, Kota Bandung.</p>
+                    <p class="text-lg text-black mt-2">Rp.100.000-200.000</p>
+                </div>
+
+                <!-- Tombol Pesan -->
+                <div class="mt-4 md:mt-0">
+                    <a href="/order?service_id=${item.Service?.id}"
+                        class="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition">Pesan</a>
+                </div>
             </div>
         </div>
     </main>
-
     <footer class="border-t border-gray-200 py-10 text-sm text-gray-700">
         <div class="container mx-auto flex justify-start w-full px-28 py-4 gap-24">
             <div class="w-1/4 flex flex-col gap-4">
@@ -199,63 +185,38 @@
                 window.location.href = "/login";
             });
 
-        function getServiceIdFromUrl() {
-            const match = window.location.pathname.match(/service-detail\/([^\/]+)\/?/);
-            return match ? match[1] : null;
-        }
-
-        const serviceId = getServiceIdFromUrl();
-        if (!serviceId) {
-            alert("ID layanan tidak ditemukan di URL.");
-        } else {
-            fetch(`/api/services/${serviceId}`)
-                .then(res => res.json())
-                .then(data => {
-                    const service = data.service;
-                    if (!service) {
-                        document.querySelector('.service-detail').innerHTML = "<p>Layanan tidak ditemukan.</p>";
-                        return;
-                    }
-                    document.querySelector('.service-detail').innerHTML = `
-                    <div class="md:w-1/3">
-                        <img src="${service.image_url || 'https://placehold.co/400x400.png?text=Gambar+Jasa'}"
-                            alt="${service.name}" class="rounded-lg w-full h-auto">
+        fetch("/api/cart")
+            .then(res => res.json())
+            .then(data => {
+                const cart = data.cart || [];
+                const container = document.querySelector("main .border-t.pt-6");
+                container.innerHTML = "";
+                if (cart.length === 0) {
+                    container.innerHTML = "<p>Keranjang kosong.</p>";
+                    return;
+                }
+                cart.forEach(item => {
+                    container.innerHTML += `
+                    <div class="flex flex-col md:flex-row items-start gap-6 md:gap-10 bg-white rounded-lg mb-4">
+                    <img src="${item.Service?.image_url || 'https://placehold.co/200x150.png?text=Service'}" class="w-48 h-auto rounded-md object-cover">
+                    <div class="flex-1">
+                        <h2 class="text-xl font-bold text-gray-900">${item.Service?.name || '-'}</h2>
+                        <p class="text-gray-500 mt-1">Penyedia: ${item.Service?.User?.full_name || '-'}</p>
+                        <p class="text-gray-500 mt-1">${item.Service?.description || '-'}</p>
                     </div>
-                    <div class="md:w-2/3 space-y-4">
-                        <h1 class="text-2xl font-semibold text-gray-800">${service.name}</h1>
-                        <p class="text-gray-600">${service.description || ''}</p>
-                        <p class="text-gray-600">Penyedia: ${service.User ? service.User.full_name : '-'}</p>
-                        <p class="text-gray-600">Email: ${service.User ? service.User.email : '-'}</p>
-                        <p class="text-gray-600">Telepon: ${service.User ? service.User.phone : '-'}</p>
-                        <p class="text-xl font-bold text-[#029FAE]">Rp${service.price ? service.price.toLocaleString('id-ID') : '-'}</p>
-                        <button id="add-to-cart-btn" class="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 hover:cursor-pointer transition">Tambahkan Ke Keranjang</button>
-                        <a href="/order" class="px-6 py-2 border rounded hover:bg-gray-100 hover:cursor-pointer transition">Pesan Sekarang</a>
+                    <div class="mt-4 md:mt-0">
+                        <a href="/order?service_id=${item.Service?.id}" class="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition">Pesan</a>
+                        <button onclick="removeFromCart('${item.id}')" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-800 transition">Hapus</button>
                     </div>
-                    `;
-
-                    const addToCartBtn = document.getElementById("add-to-cart-btn");
-                    if (addToCartBtn && serviceId) {
-                        addToCartBtn.addEventListener("click", function () {
-                            fetch("/api/cart", {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ service_id: serviceId, quantity: 1 })
-                            })
-                                .then(res => res.json())
-                                .then(data => {
-                                    if (data.success) {
-                                        alert("Berhasil ditambahkan ke keranjang!");
-                                    } else {
-                                        alert(data.error || "Gagal menambah ke keranjang");
-                                    }
-                                });
-                        });
-                    }
-                })
-                .catch(err => {
-                    console.error("Gagal memuat detail layanan:", err);
-                    document.querySelector('.service-detail').innerHTML = "<p>Gagal memuat detail layanan.</p>";
+                    </div>
+                `;
                 });
+            });
+
+        function removeFromCart(id) {
+            fetch("/api/cart/" + id, { method: "DELETE" })
+                .then(res => res.json())
+                .then(() => location.reload());
         }
     </script>
 </body>

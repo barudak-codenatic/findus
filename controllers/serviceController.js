@@ -2,7 +2,6 @@ const { Service, User } = require("../models");
 const path = require("path");
 const fs = require("fs");
 
-// Middleware untuk memeriksa apakah pengguna adalah penyedia jasa
 const isProvider = (req, res, next) => {
   if (!req.session.user) return res.redirect("/login");
   if (req.session.user.role !== "PROVIDER") {
@@ -11,7 +10,6 @@ const isProvider = (req, res, next) => {
   next();
 };
 
-// Mendapatkan semua layanan (untuk user umum)
 exports.getAllServices = async (req, res) => {
   try {
     const services = await Service.findAll({
@@ -30,7 +28,6 @@ exports.getAllServices = async (req, res) => {
   }
 };
 
-// Mendapatkan semua layanan milik penyedia jasa tertentu
 exports.getMyServices = async (req, res) => {
   try {
     const services = await Service.findAll({
@@ -44,7 +41,6 @@ exports.getMyServices = async (req, res) => {
   }
 };
 
-// Menambahkan layanan baru
 exports.addService = async (req, res) => {
   try {
     const { name, description, price, image_url } = req.body;
@@ -64,7 +60,6 @@ exports.addService = async (req, res) => {
   }
 };
 
-// Mengedit layanan
 exports.updateService = async (req, res) => {
   try {
     const { id, name, description, price, image_url } = req.body;
@@ -94,7 +89,6 @@ exports.updateService = async (req, res) => {
   }
 };
 
-// Menghapus layanan
 exports.deleteService = async (req, res) => {
   try {
     const { id } = req.params;
@@ -119,8 +113,7 @@ exports.deleteService = async (req, res) => {
   }
 };
 
-// Mendapatkan detail layanan
-exports.getServiceDetail = async (req, res) => {
+exports.getService = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -143,21 +136,6 @@ exports.getServiceDetail = async (req, res) => {
     console.error("Error fetching service detail:", error);
     res.status(500).json({ error: "Gagal mengambil detail layanan" });
   }
-};
-
-// Render halaman tambah jasa
-exports.renderAddServicePage = (req, res) => {
-  res.sendFile(path.join(__dirname, "../views/penyedia-jasa/tambah-jasa.html"));
-};
-
-// Render halaman edit jasa
-exports.renderEditServicePage = (req, res) => {
-  res.sendFile(path.join(__dirname, "../views/penyedia-jasa/edit-jasa.html"));
-};
-
-// Render halaman detail jasa
-exports.renderDetailServicePage = (req, res) => {
-  res.sendFile(path.join(__dirname, "../views/user/service-detail.html"));
 };
 
 module.exports.isProvider = isProvider;
