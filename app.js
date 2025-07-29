@@ -22,10 +22,12 @@ app.use(
 
 // Routing
 const authRoutes = require("./routes/auth");
-const serviceRoutes = require("./routes/service"); // Tambahkan ini
+const serviceRoutes = require("./routes/service");
+const chatRoutes = require("./routes/chat");
 
 app.use("/", authRoutes);
-app.use("/", serviceRoutes); // Tambahkan ini
+app.use("/", serviceRoutes);
+app.use("/", chatRoutes);
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/public", express.static(path.join(__dirname, "public")));

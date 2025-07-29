@@ -41,7 +41,7 @@
                         </span>
                         Riwayat
                     </a>
-                    <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="">
+                    <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="/user/chat">
                         <span class="material-symbols-outlined !text-lg">
                             chat
                         </span>
@@ -236,9 +236,49 @@
                         <p class="text-gray-600">Email: ${service.User ? service.User.email : '-'}</p>
                         <p class="text-gray-600">Telepon: ${service.User ? service.User.phone : '-'}</p>
                         <p class="text-xl font-bold text-[#029FAE]">Rp${service.price ? service.price.toLocaleString('id-ID') : '-'}</p>
-                        <button class="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition">Tambahkan Ke Keranjang</button>
+                        <div class="flex gap-3">
+                            <button class="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition">Tambahkan Ke Keranjang</button>
+                            <button id="chat-button" class="bg-[#029FAE] text-white px-6 py-2 rounded hover:bg-[#027e8a] transition flex items-center gap-1">
+                                <span class="material-symbols-outlined !text-lg">chat</span>
+                                Chat dengan Penyedia
+                            </button>
+                        </div>
                     </div>
                 `;
+                    
+                    // Tambahkan event listener untuk tombol chat
+                    const chatButton = document.getElementById('chat-button');
+                    if (chatButton) {
+                        chatButton.addEventListener('click', function() {
+                            const serviceId = getServiceIdFromUrl();
+                            const providerId = service.provider_id;
+                            
+                            // Buat chat baru atau buka chat yang sudah ada
+                            fetch('/api/chats', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    serviceId: serviceId,
+                                    providerId: providerId
+                                })
+                            })
+                            .then(res => res.json())
+                            .then(chatData => {
+                                if (chatData.success) {
+                                    // Redirect ke halaman chat
+                                    window.location.href = `/user/chat?chatId=${chatData.chat.id}`;
+                                } else {
+                                    alert(chatData.message || 'Gagal membuat chat');
+                                }
+                            })
+                            .catch(err => {
+                                console.error('Gagal membuat chat:', err);
+                                alert('Terjadi kesalahan saat membuat chat');
+                            });
+                        });
+                    }
                 })
                 .catch(err => {
                     console.error("Gagal memuat detail layanan:", err);

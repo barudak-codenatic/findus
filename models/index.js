@@ -20,6 +20,8 @@ const Cart = require("./cart")(sequelize);
 const Order = require("./order")(sequelize);
 const Payment = require("./payment")(sequelize);
 const Review = require("./review")(sequelize);
+const Chat = require("./chat")(sequelize);
+const Message = require("./message")(sequelize);
 
 // Setup associations
 User.hasMany(Service, { foreignKey: "provider_id" });
@@ -48,6 +50,21 @@ Review.belongsTo(Order, { foreignKey: "order_id" });
 User.hasMany(Review, { foreignKey: "user_id" });
 Review.belongsTo(User, { foreignKey: "user_id" });
 
+// Chat associations
+User.hasMany(Chat, { foreignKey: "user_id", as: "UserChats" });
+User.hasMany(Chat, { foreignKey: "provider_id", as: "ProviderChats" });
+Service.hasMany(Chat, { foreignKey: "service_id" });
+
+Chat.belongsTo(User, { foreignKey: "user_id", as: "User" });
+Chat.belongsTo(User, { foreignKey: "provider_id", as: "Provider" });
+Chat.belongsTo(Service, { foreignKey: "service_id" });
+
+// Message associations
+Chat.hasMany(Message, { foreignKey: "chat_id" });
+Message.belongsTo(Chat, { foreignKey: "chat_id" });
+User.hasMany(Message, { foreignKey: "sender_id" });
+Message.belongsTo(User, { foreignKey: "sender_id", as: "Sender" });
+
 module.exports = {
   sequelize,
   User,
@@ -56,4 +73,6 @@ module.exports = {
   Order,
   Payment,
   Review,
+  Chat,
+  Message,
 };

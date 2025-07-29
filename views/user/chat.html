@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FindUs - Chat</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200,0,0"
+    />
+  </head>
+
+  <body class="font-sans bg-gray-50">
+    <header class="header">
+      <div
+        class="flex justify-center items-center w-full bg-[#272343] text-white p-2"
+      >
+        <nav class="flex space-x-4 items-center text-xs font-light">
+          <a href="" class="flex items-center gap-1">
+            <span class="material-symbols-outlined !text-lg">
+              keyboard_arrow_down
+            </span>
+            Eng
+          </a>
+          <a href="">Faqs</a>
+          <a href="" class="flex items-center gap-1">
+            <span class="material-symbols-outlined !text-lg"> error </span>
+            Need Help
+          </a>
+        </nav>
+      </div>
+      <div class="bg-gray-100">
+        <div
+          class="container mx-auto flex justify-between items-center w-full px-28 py-4"
+        >
+          <a class="brand" href=""
+            ><img src="/public/images/Logo.svg" alt=""
+          /></a>
+          <input
+            type="text"
+            placeholder="Search here..."
+            class="w-full md:w-1/3 px-4 py-2 text-sm bg-white rounded focus:outline-none"
+          />
+          <nav class="flex space-x-4 items-center text-xs">
+            <a
+              class="bg-white rounded px-4 py-1 flex items-center gap-1"
+              href=""
+            >
+              <span class="material-symbols-outlined !text-lg"> history </span>
+              Riwayat
+            </a>
+            <a
+              class="bg-[#029FAE] text-white rounded px-4 py-1 flex items-center gap-1"
+              href="/user/chat"
+            >
+              <span class="material-symbols-outlined !text-lg"> chat </span>
+              Chat
+            </a>
+            <a
+              class="bg-white rounded px-4 py-1 flex items-center gap-1"
+              href=""
+            >
+              <span class="material-symbols-outlined !text-lg">
+                shopping_cart
+              </span>
+              Cart
+            </a>
+            <a class="bg-white rounded px-4 py-1" href="">
+              <span class="material-symbols-outlined !text-lg"> favorite </span>
+            </a>
+            <a
+              class="bg-white rounded px-4 py-1 flex items-center gap-1"
+              href=""
+              id="profile-link"
+            >
+              <span class="material-symbols-outlined !text-lg"> person </span>
+            </a>
+          </nav>
+        </div>
+      </div>
+      <div class="border-b-1 border-gray-300">
+        <div
+          class="container mx-auto flex justify-between items-center w-full px-28 py-4 text-xs"
+        >
+          <nav class="flex space-x-6 items-center">
+            <button
+              class="bg-white border border-gray-300 px-4 py-1 rounded text-sm flex items-center gap-1"
+            >
+              <span class="material-symbols-outlined !text-lg"> menu </span>
+              Semua Kategori
+            </button>
+            <a href="" class="text-gray-700">Home</a>
+            <a href="" class="text-gray-700">Product</a>
+            <a href="" class="text-gray-700">Service</a>
+            <a href="" class="text-gray-700">Expense</a>
+            <a href="" class="text-gray-700">About</a>
+          </nav>
+          <div class="contact flex gap-2">
+            <span class="text-gray-500">Contact:</span>(0812) 1284-8626
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-10 mb-24">
+      <div
+        class="flex bg-white rounded-2xl shadow-lg overflow-hidden ring-1 ring-gray-200"
+        style="min-height: 600px"
+      >
+        <!-- Daftar Chat -->
+        <div class="w-1/3 border-r border-gray-200 bg-gray-50">
+          <div class="p-4 border-b border-gray-200">
+            <h2 class="text-lg font-semibold text-gray-700">Semua Pesan</h2>
+          </div>
+          <div
+            id="chat-list"
+            class="overflow-y-auto"
+            style="height: calc(600px - 64px)"
+          >
+            <!-- Chat list akan diisi oleh JavaScript -->
+            <div
+              class="flex justify-center items-center h-full text-gray-400 italic"
+            >
+              <p>Memuat daftar chat...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detail Chat -->
+        <div class="w-2/3 flex flex-col bg-white">
+          <!-- Header -->
+          <div
+            id="chat-header"
+            class="p-4 border-b border-gray-200 flex items-center gap-3"
+          >
+            <div id="chat-info">
+              <p class="text-gray-500">Pilih chat untuk memulai percakapan</p>
+            </div>
+          </div>
+
+          <!-- Isi Pesan -->
+          <div
+            id="message-container"
+            class="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50"
+            style="height: calc(600px - 136px)"
+          >
+            <!-- Pesan akan diisi oleh JavaScript -->
+          </div>
+
+          <!-- Form Kirim Pesan -->
+          <div
+            id="message-form"
+            class="p-4 border-t border-gray-200 hidden bg-white"
+          >
+            <div class="flex items-center gap-2">
+              <input
+                type="text"
+                id="message-input"
+                placeholder="Ketik pesan..."
+                class="flex-1 px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#029FAE]"
+              />
+              <button
+                id="send-button"
+                class="bg-[#029FAE] text-white p-2 rounded-full hover:bg-[#028592] transition shadow-sm"
+              >
+                <span class="material-symbols-outlined"> send </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="border-t border-gray-200 py-10 text-sm text-gray-700">
+      <div
+        class="container mx-auto flex justify-start w-full px-28 py-4 gap-24"
+      >
+        <div class="w-1/4 flex flex-col gap-4">
+          <a class="brand" href=""
+            ><img src="/public/images/Logo.svg" alt=""
+          /></a>
+          <p>
+            Platform online untuk mahasiswa yang kos! Belanja kebutuhan harian,
+            perlengkapan kamar, serta pesan layanan seperti jasa layanan,
+            bersih-bersih, dan lainnya dengan mudah.
+          </p>
+          <div class="flex gap-3">
+            <a href="#"><img src="icon-fb.svg" alt="FB" class="w-5" /></a>
+            <a href="#"><img src="icon-ig.svg" alt="IG" class="w-5" /></a>
+            <a href="#"><img src="icon-tw.svg" alt="TW" class="w-5" /></a>
+          </div>
+        </div>
+
+        <div>
+          <h5 class="font-medium mb-2 text-gray-400">Category</h5>
+          <ul class="space-y-1">
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Peralatan Mandi</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Alat Masak</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Elektronik</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Dekorasi Kamar</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Alat Makan</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Jasa Layanan</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h5 class="font-medium mb-2 text-gray-400">Support</h5>
+          <ul class="space-y-1">
+            <li><a href="#" class="hover:underline">Cara Pemesanan</a></li>
+            <li><a href="#" class="hover:underline">Syarat & Ketentuan</a></li>
+            <li><a href="#" class="hover:underline">Kebijakan Privasi</a></li>
+            <li><a href="#" class="hover:underline">Hubungi Kami</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div
+        class="mt-8 border-t border-gray-200 pt-4 text-center text-xs text-gray-500"
+      >
+        &copy; 2025 - FindUS • Designed & Developed by epaarito
+      </div>
+    </footer>
+
+    <script>
+      // Cek apakah pengguna sudah login
+      fetch("/api/me")
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data.user || data.user.role !== "USER") {
+            alert("Akses ditolak. Silakan login sebagai USER.");
+            window.location.href = "/login";
+          } else {
+            // Setup profile dropdown
+            const profileLink = document.getElementById("profile-link");
+            if (profileLink) {
+              profileLink.innerHTML = `
+                        <div class="relative cursor-pointer select-none" id="profile-dropdown-parent">
+                            <span class="flex items-center gap-1" id="profile-dropdown-toggle">
+                            <span class="material-symbols-outlined !text-lg">person</span>
+                            ${data.user.name}
+                            <span class="material-symbols-outlined !text-lg">expand_more</span>
+                            </span>
+                            <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded shadow-lg z-50 shadow-md text-gray-700">
+                            <a href="/profile" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+                            <a href="/logout" class="block px-4 py-2 hover:bg-gray-100">Logout</a>
+                            </div>
+                        </div>
+                        `;
+              profileLink.href = "javascript:void(0)";
+
+              const toggle = document.getElementById("profile-dropdown-toggle");
+              const menu = document.getElementById("profile-dropdown-menu");
+              document.addEventListener("click", function (e) {
+                if (toggle && menu) {
+                  if (toggle.contains(e.target)) {
+                    menu.classList.toggle("hidden");
+                  } else if (!menu.contains(e.target)) {
+                    menu.classList.add("hidden");
+                  }
+                }
+              });
+            }
+
+            // Load chat list
+            loadChatList();
+          }
+        });
+
+      // Variabel untuk menyimpan ID chat yang aktif
+      let activeChatId = null;
+
+      // Fungsi untuk memuat daftar chat
+      function loadChatList() {
+        fetch("/api/chats")
+          .then((res) => res.json())
+          .then((data) => {
+            const chatListElement = document.getElementById("chat-list");
+            if (data.chats && data.chats.length > 0) {
+              let chatListHTML = "";
+              data.chats.forEach((chat) => {
+                const lastMessage =
+                  chat.Messages && chat.Messages.length > 0
+                    ? chat.Messages[0]
+                    : null;
+                const unreadClass =
+                  lastMessage &&
+                  !lastMessage.is_read &&
+                  lastMessage.sender_id !== userId
+                    ? "font-bold"
+                    : "";
+
+                chatListHTML += `
+                            <div class="chat-item p-4 border-b border-gray-200 hover:bg-gray-50 cursor-pointer ${
+                              activeChatId === chat.id ? "bg-gray-100" : ""
+                            }" 
+                                 data-chat-id="${chat.id}" data-provider-id="${
+                  chat.provider_id
+                }">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full bg-gray-300 flex-shrink-0 overflow-hidden">
+                                        <img src="${
+                                          chat.Provider.photo_url ||
+                                          "https://via.placeholder.com/40"
+                                        }" alt="" class="w-full h-full object-cover">
+                                    </div>
+                                    <div class="ml-3 flex-1">
+                                        <p class="font-medium ${unreadClass}">${
+                  chat.Provider.full_name
+                }</p>
+                                        <p class="text-sm text-gray-500 truncate ${unreadClass}">
+                                            ${
+                                              lastMessage
+                                                ? lastMessage.content
+                                                : "Belum ada pesan"
+                                            }
+                                        </p>
+                                    </div>
+                                    <div class="text-xs text-gray-400">
+                                        ${
+                                          lastMessage
+                                            ? formatDate(lastMessage.created_at)
+                                            : ""
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            `;
+              });
+              chatListElement.innerHTML = chatListHTML;
+
+              // Tambahkan event listener untuk setiap chat item
+              document.querySelectorAll(".chat-item").forEach((item) => {
+                item.addEventListener("click", function () {
+                  const chatId = this.getAttribute("data-chat-id");
+                  activeChatId = chatId;
+                  loadChatDetail(chatId);
+
+                  // Tandai chat ini sebagai aktif
+                  document.querySelectorAll(".chat-item").forEach((el) => {
+                    el.classList.remove("bg-gray-100");
+                  });
+                  this.classList.add("bg-gray-100");
+                });
+              });
+            } else {
+              chatListElement.innerHTML = `
+                        <div class="flex flex-col justify-center items-center h-full text-gray-500 p-4">
+                            <p class="mb-2">Belum ada percakapan</p>
+                            <p class="text-sm">Mulai chat dengan penyedia jasa dari halaman detail layanan</p>
+                        </div>
+                        `;
+            }
+          })
+          .catch((error) => {
+            console.error("Error loading chat list:", error);
+            document.getElementById("chat-list").innerHTML = `
+                    <div class="flex justify-center items-center h-full text-red-500">
+                        <p>Gagal memuat daftar chat</p>
+                    </div>
+                    `;
+          });
+      }
+
+      // Fungsi untuk memuat detail chat
+      function loadChatDetail(chatId) {
+        fetch(`/api/chats/${chatId}`)
+          .then((res) => res.json())
+          .then((data) => {
+            // Update header chat
+            const chatHeaderElement = document.getElementById("chat-info");
+            chatHeaderElement.innerHTML = `
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-gray-300 flex-shrink-0 overflow-hidden">
+                            <img src="${
+                              data.chat.Provider.photo_url ||
+                              "https://via.placeholder.com/40"
+                            }" alt="" class="w-full h-full object-cover">
+                        </div>
+                        <div class="ml-3">
+                            <p class="font-medium">${
+                              data.chat.Provider.full_name
+                            }</p>
+                            <p class="text-xs text-gray-500">${
+                              data.chat.Service.name
+                            }</p>
+                        </div>
+                    </div>
+                    `;
+
+            // Update container pesan
+            const messageContainerElement =
+              document.getElementById("message-container");
+            if (data.messages && data.messages.length > 0) {
+              let messagesHTML = "";
+              data.messages.forEach((message) => {
+                const isCurrentUser = message.sender_id === userId;
+                messagesHTML += `
+                            <div class="mb-4 ${
+                              isCurrentUser ? "text-right" : ""
+                            }">
+                                <div class="inline-block max-w-xs sm:max-w-md rounded-lg px-4 py-2 ${
+                                  isCurrentUser
+                                    ? "bg-[#029FAE] text-white"
+                                    : "bg-gray-200 text-gray-800"
+                                }">
+                                    <p>${message.content}</p>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">${formatTime(
+                                  message.created_at
+                                )}</p>
+                            </div>
+                            `;
+              });
+              messageContainerElement.innerHTML = messagesHTML;
+              // Scroll ke pesan terbaru
+              messageContainerElement.scrollTop =
+                messageContainerElement.scrollHeight;
+            } else {
+              messageContainerElement.innerHTML = `
+                        <div class="flex justify-center items-center h-full text-gray-500">
+                            <p>Belum ada pesan. Mulai percakapan sekarang!</p>
+                        </div>
+                        `;
+            }
+
+            // Tampilkan form pesan
+            document.getElementById("message-form").classList.remove("hidden");
+
+            // Setup event listener untuk form pesan
+            setupMessageForm(chatId);
+          })
+          .catch((error) => {
+            console.error("Error loading chat detail:", error);
+            document.getElementById("message-container").innerHTML = `
+                    <div class="flex justify-center items-center h-full text-red-500">
+                        <p>Gagal memuat detail chat</p>
+                    </div>
+                    `;
+          });
+      }
+
+      // Fungsi untuk setup form pesan
+      function setupMessageForm(chatId) {
+        const messageInput = document.getElementById("message-input");
+        const sendButton = document.getElementById("send-button");
+
+        // Reset event listener
+        const newMessageInput = messageInput.cloneNode(true);
+        const newSendButton = sendButton.cloneNode(true);
+        messageInput.parentNode.replaceChild(newMessageInput, messageInput);
+        sendButton.parentNode.replaceChild(newSendButton, sendButton);
+
+        // Setup event listener baru
+        newMessageInput.addEventListener("keypress", function (event) {
+          if (event.key === "Enter" && !event.shiftKey) {
+            event.preventDefault();
+            sendMessage(chatId, newMessageInput.value);
+          }
+        });
+
+        newSendButton.addEventListener("click", function () {
+          sendMessage(chatId, newMessageInput.value);
+        });
+      }
+
+      // Fungsi untuk mengirim pesan
+      function sendMessage(chatId, content) {
+        if (!content.trim()) return;
+
+        const messageInput = document.getElementById("message-input");
+        messageInput.value = "";
+
+        fetch("/api/messages", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            chatId,
+            content: content.trim(),
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            // Tambahkan pesan baru ke container
+            const messageContainerElement =
+              document.getElementById("message-container");
+            const messageElement = document.createElement("div");
+            messageElement.className = "mb-4 text-right";
+            messageElement.innerHTML = `
+                    <div class="inline-block max-w-xs sm:max-w-md rounded-lg px-4 py-2 bg-[#029FAE] text-white">
+                        <p>${data.message.content}</p>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">${formatTime(
+                      data.message.created_at
+                    )}</p>
+                    `;
+            messageContainerElement.appendChild(messageElement);
+            // Scroll ke pesan terbaru
+            messageContainerElement.scrollTop =
+              messageContainerElement.scrollHeight;
+          })
+          .catch((error) => {
+            console.error("Error sending message:", error);
+            alert("Gagal mengirim pesan. Silakan coba lagi.");
+          });
+      }
+
+      // Fungsi untuk memformat tanggal
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const yesterday = new Date(now);
+        yesterday.setDate(yesterday.getDate() - 1);
+
+        if (date.toDateString() === now.toDateString()) {
+          return formatTime(dateString);
+        } else if (date.toDateString() === yesterday.toDateString()) {
+          return "Kemarin";
+        } else {
+          return `${date.getDate()}/${date.getMonth() + 1}`;
+        }
+      }
+
+      // Fungsi untuk memformat waktu
+      function formatTime(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      }
+
+      // Dapatkan ID pengguna dari session
+      let userId = null;
+      fetch("/api/me")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.user) {
+            userId = data.user.id;
+          }
+        });
+
+      // Refresh chat list setiap 10 detik
+      setInterval(() => {
+        if (activeChatId) {
+          loadChatDetail(activeChatId);
+        }
+        loadChatList();
+      }, 10000);
+    </script>
+  </body>
+</html>
