@@ -2,6 +2,13 @@ const db = require("../database/db");
 const bcrypt = require("bcrypt");
 const { User } = require("../models");
 
+exports.isAuthenticated = (req, res, next) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+  next();
+};
+
 exports.register = async (req, res) => {
   const { full_name, email, password, role } = req.body;
   const hashed = await bcrypt.hash(password, 10);

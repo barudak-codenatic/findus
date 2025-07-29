@@ -1,28 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const chatController = require("../controllers/chatController");
-
-// Middleware untuk memeriksa apakah pengguna sudah login
-const isAuthenticated = (req, res, next) => {
-  if (!req.session.user) {
-    return res.redirect("/login");
-  }
-  next();
-};
-
-// Halaman chat
-router.get(
-  "/user/chat",
-  isAuthenticated,
-  chatController.isUser,
-  chatController.renderUserChatPage
-);
-router.get(
-  "/provider/chat",
-  isAuthenticated,
-  chatController.isProvider,
-  chatController.renderProviderChatPage
-);
+const { isAuthenticated } = require("../controllers/authController");
 
 // API endpoints
 router.get("/api/chats", isAuthenticated, chatController.getMyChats);

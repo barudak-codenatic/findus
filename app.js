@@ -5,6 +5,8 @@ const db = require("./models");
 require("dotenv").config();
 const mysql = require("mysql2/promise");
 const { isProvider } = require("./controllers/serviceController");
+const chatController = require("./controllers/chatController");
+const { isAuthenticated } = require("./controllers/authController");
 
 const app = express();
 
@@ -26,11 +28,11 @@ const authRoutes = require("./routes/auth");
 const serviceRoutes = require("./routes/service");
 const cartRoutes = require("./routes/cart");
 const orderRoutes = require("./routes/order");
-const serviceRoutes = require("./routes/service");
 const chatRoutes = require("./routes/chat");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/services", serviceRoutes);
+app.use("/", chatRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/order", orderRoutes);
 
@@ -77,9 +79,19 @@ app.get("/payment", (req, res) => {
 app.get("/order-success", (req, res) => {
   res.sendFile(path.join(__dirname, "./views/user/order-success.html"));
 });
-app.use("/", authRoutes);
-app.use("/", serviceRoutes);
-app.use("/", chatRoutes);
+
+app.get("/user/chat", isAuthenticated, chatController.isUser, (req, res) => {
+  res.sendFile(path.join(__dirname, "./views/user/chat.html"));
+});
+
+app.get(
+  "/provider/chat",
+  isAuthenticated,
+  chatController.isProvider,
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "./views/provider/chat.html"));
+  }
+);
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/public", express.static(path.join(__dirname, "public")));

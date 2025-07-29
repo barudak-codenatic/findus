@@ -261,13 +261,3 @@ exports.isUser = (req, res, next) => {
   }
   next();
 };
-
-// Render halaman chat untuk pengguna
-exports.renderUserChatPage = (req, res) => {
-  res.sendFile(path.join(__dirname, "../views/user/chat.html"));
-};
-
-// Render halaman chat untuk penyedia jasa
-exports.renderProviderChatPage = (req, res) => {
-  res.sendFile(path.join(__dirname, "../views/provider/chat.html"));
-};
