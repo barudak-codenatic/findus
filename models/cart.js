@@ -1,4 +1,3 @@
-// models/Cart.js
 const { DataTypes } = require("sequelize");
 const { v4: uuidv4 } = require("uuid");
 
@@ -18,10 +17,6 @@ module.exports = (sequelize) => {
       service_id: {
         type: DataTypes.UUID,
         allowNull: false,
-      },
-      quantity: {
-        type: DataTypes.INTEGER,
-        defaultValue: 1,
       },
       note: DataTypes.TEXT,
       created_at: {

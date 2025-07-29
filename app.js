@@ -4,12 +4,13 @@ const path = require("path");
 const db = require("./models");
 require("dotenv").config();
 const mysql = require("mysql2/promise");
+const { isProvider } = require("./controllers/serviceController");
 
 const app = express();
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json()); // Tambahkan ini untuk parsing JSON
+app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(
@@ -23,8 +24,59 @@ app.use(
 // Routing
 const authRoutes = require("./routes/auth");
 const serviceRoutes = require("./routes/service");
+const cartRoutes = require("./routes/cart");
+const orderRoutes = require("./routes/order");
+const serviceRoutes = require("./routes/service");
 const chatRoutes = require("./routes/chat");
 
+app.use("/api/auth", authRoutes);
+app.use("/api/services", serviceRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/order", orderRoutes);
+
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "./views/login.html"));
+});
+
+app.get("/register", (req, res) => {
+  res.sendFile(path.join(__dirname, "./views/register.html"));
+});
+
+app.get("/dashboard-provider", (req, res) => {
+  res.sendFile(path.join(__dirname, "./views/provider/dashboard.html"));
+});
+
+app.get("/provider/add-service", isProvider, (req, res) => {
+  res.sendFile(path.join(__dirname, "./views/provider/add-service.html"));
+});
+
+app.get("/provider/edit-service/:id", isProvider, (req, res) => {
+  res.sendFile(path.join(__dirname, "./views/provider/edit-service.html"));
+});
+
+app.get("/dashboard-user", (req, res) => {
+  res.sendFile(path.join(__dirname, "./views/user/dashboard.html"));
+});
+
+app.get("/service-detail/:id", (req, res) => {
+  res.sendFile(path.join(__dirname, "./views/user/service-detail.html"));
+});
+
+app.get("/cart", (req, res) => {
+  res.sendFile(path.join(__dirname, "./views/user/cart.html"));
+});
+
+app.get("/order", (req, res) => {
+  res.sendFile(path.join(__dirname, "./views/user/order.html"));
+});
+
+app.get("/payment", (req, res) => {
+  res.sendFile(path.join(__dirname, "./views/user/payment.html"));
+});
+
+app.get("/order-success", (req, res) => {
+  res.sendFile(path.join(__dirname, "./views/user/order-success.html"));
+});
 app.use("/", authRoutes);
 app.use("/", serviceRoutes);
 app.use("/", chatRoutes);
