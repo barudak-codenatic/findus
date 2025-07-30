@@ -80,6 +80,10 @@ app.get("/order-success", (req, res) => {
   res.sendFile(path.join(__dirname, "./views/user/order-success.html"));
 });
 
+app.get("/order-history", (req, res) => {
+  res.sendFile(path.join(__dirname, "./views/user/order-history.html"));
+});
+
 app.get("/user/chat", isAuthenticated, chatController.isUser, (req, res) => {
   res.sendFile(path.join(__dirname, "./views/user/chat.html"));
 });

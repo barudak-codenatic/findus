@@ -87,3 +87,23 @@ exports.getOrder = async (req, res) => {
     res.status(500).json({ error: "Gagal mengambil detail order" });
   }
 };
+
+//get orders history by user logged in
+exports.getOrdersHistory = async (req, res) => {
+  try {
+    if (!req.session.user)
+      return res.status(401).json({ error: "Unauthorized" });
+
+    const user_id = req.session.user.id;
+    const orders = await Order.findAll({
+      where: { user_id },
+      include: [{ model: Service }, { model: User, attributes: ["full_name"] }],
+      order: [["createdAt", "DESC"]],
+    });
+
+    res.json({ orders });
+  } catch (err) {
+    console.error("Error fetching orders history:", err);
+    res.status(500).json({ error: "Gagal mengambil riwayat order" });
+  }
+};
