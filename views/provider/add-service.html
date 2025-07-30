@@ -1,286 +1,492 @@
 <!DOCTYPE html>
 <html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FindUS - Tambah Jasa</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200,0,0"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD"
+      crossorigin="anonymous"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FindUS - Tambah Jasa</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
+  <body class="font-sans">
+    <header class="header">
+      <div
+        class="flex justify-center items-center w-full bg-[#272343] text-white p-2"
+      >
+        <nav class="flex space-x-4 items-center text-xs font-light">
+          <a href="" class="flex items-center gap-1">
+            <span class="material-symbols-outlined !text-lg">
+              expand_more
+            </span>
+            Eng
+          </a>
+          <a href="">Faqs</a>
+          <a href="" class="flex items-center gap-1">
+            <span class="material-symbols-outlined !text-lg"> error </span>
+            Need Help
+          </a>
+        </nav>
+      </div>
+      <div class="bg-gray-100">
+        <div
+          class="container mx-auto flex justify-between items-center w-full px-28 py-4"
+        >
+          <a class="brand" href="/dashboard-provider"
+            ><img src="/public/images/Logo.svg" alt=""
+          /></a>
+          <input
+            type="text"
+            placeholder="Search here..."
+            class="w-full md:w-1/3 px-4 py-2 text-sm bg-white rounded focus:outline-none"
+          />
+          <nav class="flex space-x-4 items-center text-xs">
+            <a
+              class="bg-white rounded px-4 py-1 flex items-center gap-1"
+              href="/provider/services"
+            >
+              <span class="material-symbols-outlined !text-lg">
+                inventory
+              </span>
+              Layanan Saya
+            </a>
+            <a
+              class="bg-white rounded px-4 py-1 flex items-center gap-1"
+              href="/provider/orders"
+            >
+              <span class="material-symbols-outlined !text-lg">
+                receipt_long
+              </span>
+              Pesanan
+            </a>
+            <a
+              class="bg-white rounded px-4 py-1 flex items-center gap-1"
+              href="/provider/chat"
+            >
+              <span class="material-symbols-outlined !text-lg"> chat </span>
+              Chat
+            </a>
+            <a
+              class="bg-white rounded px-4 py-1 flex items-center gap-1"
+              href=""
+              id="profile-link"
+            >
+              <span class="material-symbols-outlined !text-lg"> person </span>
+            </a>
+          </nav>
+        </div>
+      </div>
+      <div class="border-b-1 border-gray-300">
+        <div
+          class="container mx-auto flex justify-between items-center w-full px-28 py-4 text-xs"
+        >
+          <nav
+            class="flex items-center space-x-2 text-gray-600"
+            aria-label="Breadcrumb"
+          >
+            <a href="/" class="hover:underline flex items-center gap-1">
+              <span class="material-symbols-outlined !text-base align-middle"
+                >home</span
+              >
+              Home
+            </a>
+            <span class="mx-1 text-gray-400">/</span>
+            <a href="/dashboard-provider" class="hover:underline"
+              >Provider Dashboard</a
+            >
+            <span class="mx-1 text-gray-400">/</span>
+            <span class="text-gray-500">Tambah Jasa</span>
+          </nav>
+          <div class="contact flex gap-2">
+            <span class="text-gray-500">Contact:</span>(0812) 1284-8626
+          </div>
+        </div>
+      </div>
+    </header>
 
-<body class="bg-white text-gray-800">
-  <!-- Top Bar -->
-  <div class="bg-slate-800 text-white text-sm py-2">
-    <div class="max-w-7xl mx-auto px-4 flex justify-center space-x-4">
-      <a href="#" class="hover:text-teal-300">Eng</a>
-      <span>|</span>
-      <a href="#" class="hover:text-teal-300">Faqs</a>
-      <span>|</span>
-      <a href="#" class="hover:text-teal-300">Need help</a>
-    </div>
-  </div>
+    <!-- Section: Form Tambah Jasa Layanan -->
+    <main class="container mx-auto px-6 py-8 mb-24">
+      <section class="max-w-7xl mx-auto">
+        <!-- Header Section -->
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">
+            Form Tambah Jasa Layanan
+          </h2>
 
-  <!-- Navigation -->
-  <nav class="bg-white shadow-sm border-b">
-    <div class="w-full px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <!-- Logo -->
-        <div class="flex items-center">
-          <div class="flex items-center space-x-2">
-            <div class="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center">
-              <span class="text-white font-bold text-sm">F</span>
+          <hr class="mt-6 border-gray-300" />
+        </div>
+
+        <!-- Form -->
+        <form id="add-service-form" class="space-y-6 bg-white">
+          <!-- Nama Jasa -->
+          <div>
+            <label
+              for="service-name"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Nama Jasa <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="service-name"
+              placeholder="Contoh: Jasa Sedot WC, Cuci Sepeda Motor, dll"
+              class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition"
+              required
+            />
+          </div>
+
+          <!-- Deskripsi -->
+          <div>
+            <label
+              for="service-description"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Deskripsi <span class="text-red-500">*</span>
+            </label>
+            <textarea
+              id="service-description"
+              rows="5"
+              placeholder="Jelaskan detail layanan yang Anda tawarkan, termasuk cara kerja, durasi, dan hal-hal yang perlu diketahui customer..."
+              class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition resize-none"
+              required
+            ></textarea>
+          </div>
+
+          <!-- Harga -->
+          <div>
+            <label
+              for="service-price"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Harga <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <span class="absolute left-4 top-3 text-gray-500">Rp</span>
+              <input
+                type="number"
+                id="service-price"
+                placeholder="0"
+                min="0"
+                class="w-full bg-gray-100 pl-12 pr-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition"
+                required
+              />
             </div>
-            <span class="text-xl font-bold text-gray-800">FindUS</span>
+            <p class="text-xs text-gray-500 mt-1">
+              Masukkan harga dalam Rupiah tanpa titik atau koma
+            </p>
           </div>
-        </div>
 
-        <!-- Search Bar -->
-        <div class="flex-1 max-w-md mx-8">
-          <div class="relative">
-            <input type="text" placeholder="Search here..."
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" />
-            <button class="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Profile Icon -->
-        <div class="flex items-center">
-          <div id="user-info" class="mr-4 text-sm font-medium">Memuat...</div>
-          <button class="p-2 text-gray-600 hover:text-gray-900">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- Secondary Navigation -->
-      <div class="border-t py-3">
-        <div class="flex justify-between items-center">
-          <div class="flex items-center space-x-6">
-            <button class="flex items-center space-x-1 text-gray-700 hover:text-teal-600">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
-                </path>
-              </svg>
-              <span>Semua Kategori</span>
-            </button>
-            <div class="flex space-x-6">
-              <a href="#" class="text-gray-600 hover:text-teal-600 transition-colors">Home</a>
-              <a href="#" class="text-gray-600 hover:text-teal-600 transition-colors">Product</a>
-              <a href="#" class="text-gray-600 hover:text-teal-600 transition-colors">Service</a>
-              <a href="#" class="text-gray-600 hover:text-teal-600 transition-colors">Expense</a>
-              <a href="#" class="text-gray-600 hover:text-teal-600 transition-colors">About</a>
+          <!-- Upload Gambar -->
+          <div>
+            <label
+              for="service-image"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Gambar Jasa
+            </label>
+            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6">
+              <input
+                type="file"
+                id="service-image"
+                accept="image/*"
+                class="hidden"
+              />
+              <label
+                for="service-image"
+                class="cursor-pointer flex flex-col items-center justify-center"
+              >
+                <span
+                  class="material-symbols-outlined text-4xl text-gray-400 mb-2"
+                  >cloud_upload</span
+                >
+                <span class="text-sm text-gray-600 mb-1"
+                  >Klik untuk upload gambar</span
+                >
+                <span class="text-xs text-gray-500">PNG, JPG hingga 5MB</span>
+              </label>
+            </div>
+            <div id="image-preview" class="mt-4 hidden">
+              <img
+                id="preview-img"
+                src=""
+                alt="Preview"
+                class="max-w-xs h-48 object-cover rounded-lg border"
+              />
+              <button
+                type="button"
+                id="remove-image"
+                class="mt-2 text-sm text-red-600 hover:text-red-800"
+              >
+                Hapus gambar
+              </button>
             </div>
           </div>
-          <div class="text-right">
-            <span class="text-sm text-gray-600">Contact: </span>
-            <span class="text-sm font-semibold text-gray-800">(0812) 1334-5678</span>
+
+          <!-- Tombol Submit -->
+          <div class="pt-6 border-t border-gray-200">
+            <div class="flex gap-4">
+              <button
+                type="button"
+                onclick="history.back()"
+                class="flex-1 bg-gray-100 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-200 transition"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                class="flex-1 bg-[#029FAE] text-white py-3 rounded-lg font-medium hover:bg-[#027f8a] transition flex items-center justify-center gap-2"
+                id="submit-btn"
+              >
+                <span class="material-symbols-outlined">add</span>
+                Tambah Jasa Layanan
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <footer class="border-t border-gray-200 py-10 text-sm text-gray-700">
+      <div
+        class="container mx-auto flex justify-start w-full px-28 py-4 gap-24"
+      >
+        <div class="w-1/4 flex flex-col gap-4">
+          <a class="brand" href=""
+            ><img src="/public/images/Logo.svg" alt=""
+          /></a>
+          <p>
+            Platform online untuk mahasiswa yang kos! Belanja kebutuhan harian,
+            perlengkapan kamar, serta pesan layanan seperti jasa layanan,
+            bersih-bersih, dan lainnya dengan mudah.
+          </p>
+          <div class="flex gap-3">
+            <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"
+              ><i class="bi bi-facebook"></i
+            ></a>
+            <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"
+              ><i class="bi bi-instagram"></i
+            ></a>
+            <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"
+              ><i class="bi bi-twitter"></i
+            ></a>
           </div>
         </div>
-      </div>
-    </div>
-  </nav>
 
-  <!-- Section: Form Tambah Jasa Layanan -->
-  <section class="max-w-4xl mx-auto mt-10 px-6">
-    <!-- Judul -->
-    <h2 class="text-2xl font-bold text-gray-800 mb-6">
-      Form Tambah Jasa Layanan
-    </h2>
-    <hr class="mb-6 border-gray-300" />
-
-    <!-- Form -->
-    <form id="add-service-form" class="space-y-5">
-      <!-- Nama Jasa -->
-      <div>
-        <label for="nama" class="block text-sm font-medium text-gray-700 mb-1">Nama Jasa</label>
-        <input type="text" id="service-name" placeholder="Nama Jasa Layanan"
-          class="w-full px-4 py-2 border border-gray-300 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-          required />
-      </div>
-
-      <!-- Deskripsi -->
-      <div>
-        <label for="deskripsi" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
-        <textarea id="service-description" rows="5" placeholder="Deskripsi Jasa Layanan"
-          class="w-full px-4 py-2 border border-gray-300 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-          required></textarea>
-      </div>
-
-      <!-- Harga -->
-      <div>
-        <label for="harga" class="block text-sm font-medium text-gray-700 mb-1">Harga</label>
-        <input type="number" id="service-price" placeholder="Harga Jasa"
-          class="w-full px-4 py-2 border border-gray-300 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-          required />
-      </div>
-
-      <!-- Upload Gambar -->
-      <div>
-        <label for="gambar" class="block text-sm font-medium text-gray-700 mb-1">Gambar Jasa</label>
-        <input type="file" id="service-image" accept="image/*"
-          class="w-full px-4 py-2 border border-gray-300 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" />
-      </div>
-
-      <!-- Tombol Submit -->
-      <div class="pt-4">
-        <button type="submit"
-          class="w-full bg-teal-600 text-white py-2 rounded-lg font-semibold hover:bg-teal-700 transition">
-          Tambah Jasa Layanan
-        </button>
-      </div>
-    </form>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-white border-t mt-12">
-    <div class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm text-gray-600">
-      <!-- Logo dan Deskripsi -->
-      <div>
-        <div class="flex items-center space-x-2 mb-4">
-          <div class="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center">
-            <span class="text-white font-bold text-sm">F</span>
-          </div>
-          <span class="text-xl font-bold text-gray-800">FindUS</span>
+        <div>
+          <h5 class="font-medium mb-2 text-gray-400">Category</h5>
+          <ul class="space-y-1">
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Peralatan Mandi</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Alat Masak</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Elektronik</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Dekorasi Kamar</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Alat Makan</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Jasa Layanan</a
+              >
+            </li>
+          </ul>
         </div>
-        <p class="text-gray-600 mb-4">
-          Platform online untuk mahasiswa yang kos! Belanja kebutuhan harian,
-          perlengkapan kamar, serta pesan layanan seperti jasa layanan,
-          bersih-bersih, dan lainnya dengan mudah.
-        </p>
-        <div class="flex space-x-4 mt-2 text-gray-500">
-          <a href="#" class="hover:text-teal-500"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="hover:text-teal-500"><i class="fab fa-twitter"></i></a>
-          <a href="#" class="hover:text-teal-500"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="hover:text-teal-500"><i class="fab fa-youtube"></i></a>
+
+        <div>
+          <h5 class="font-medium mb-2 text-gray-400">Support</h5>
+          <ul class="space-y-1">
+            <li><a href="#" class="hover:underline">Cara Pemesanan</a></li>
+            <li><a href="#" class="hover:underline">Syarat & Ketentuan</a></li>
+            <li><a href="#" class="hover:underline">Kebijakan Privasi</a></li>
+            <li><a href="#" class="hover:underline">Hubungi Kami</a></li>
+          </ul>
         </div>
       </div>
 
-      <!-- Kategori -->
-      <div>
-        <h4 class="font-semibold mb-4 text-gray-700">Category</h4>
-        <ul class="space-y-2">
-          <li><a href="#" class="hover:text-teal-600">Peralatan Mandi</a></li>
-          <li><a href="#" class="hover:text-teal-600">Alat Masak</a></li>
-          <li><a href="#" class="hover:text-teal-600">Elektronik</a></li>
-          <li>
-            <a href="#" class="text-teal-600 font-medium">Dekorasi Kamar</a>
-          </li>
-          <li><a href="#" class="hover:text-teal-600">Alat Makan</a></li>
-          <li><a href="#" class="hover:text-teal-600">Jasa Layanan</a></li>
-        </ul>
+      <div
+        class="mt-8 border-t border-gray-200 pt-4 text-center text-xs text-gray-500"
+      >
+        &copy; 2025 - FindUS • Designed & Developed by epaarito
       </div>
+    </footer>
 
-      <!-- Support -->
-      <div>
-        <h4 class="font-semibold mb-4 text-gray-700">Support</h4>
-        <ul class="space-y-2">
-          <li><a href="#" class="hover:text-teal-600">Cara Pemesanan</a></li>
-          <li>
-            <a href="#" class="hover:text-teal-600">Syarat & Ketentuan</a>
-          </li>
-          <li>
-            <a href="#" class="hover:text-teal-600">Kebijakan Privasi</a>
-          </li>
-          <li><a href="#" class="hover:text-teal-600">Hubungi Kami</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Copyright -->
-    <div class="p-5 flex justify-between border-t text-center text-xs text-gray-500 py-4">
-      <div>
-        © 2025 - Blogy - Designed & Develop by
-        <a href="#" class="text-teal-600 font-semibold">egaalfrb</a>
-      </div>
-      <!-- Metode Pembayaran -->
-      <div class="flex items-end justify-start md:justify-end">
-        <img src="/public/images/payments-logo.png" alt="Banner" class="h-5 opacity-70" />
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    // Fungsi untuk format harga
-    function formatPrice(price) {
-      return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0,
-      }).format(price);
-    }
-
-    // Fungsi untuk memuat data pengguna
-    async function loadUserInfo() {
-      try {
-        const response = await fetch("/api/auth/me");
-        const data = await response.json();
-
-        if (!data.user || data.user.role !== "PROVIDER") {
-          alert("Akses ditolak atau bukan role PENYEDIA");
-          window.location = "/login";
-          return;
-        }
-
-        document.getElementById(
-          "user-info"
-        ).textContent = `Halo, ${data.user.name}`;
-      } catch (error) {
-        console.error("Error loading user info:", error);
-        alert("Gagal memuat informasi pengguna");
-      }
-    }
-
-    // Event listener untuk form submit
-    document
-      .getElementById("add-service-form")
-      .addEventListener("submit", async function (e) {
-        e.preventDefault();
-
-        const price = parseInt(
-          document.getElementById("service-price").value
-        );
-
-        const serviceData = {
-          name: document.getElementById("service-name").value,
-          description: document.getElementById("service-description").value,
-          price: price,
-          image_url: document.getElementById("service-image").value,
-        };
-
-        try {
-          const response = await fetch("/api/services", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(serviceData),
-          });
-
-          const data = await response.json();
-
-          if (data.success) {
-            alert("Jasa berhasil ditambahkan!");
-            window.location.href = "/dashboard-provider";
+    <script>
+      // Load user authentication
+      fetch("/api/auth/me")
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data.user || data.user.role !== "PROVIDER") {
+            alert("Akses ditolak. Silakan login sebagai PROVIDER.");
+            window.location.href = "/login";
           } else {
-            alert(data.error || "Gagal menyimpan jasa");
+            const profileLink = document.getElementById("profile-link");
+            if (profileLink) {
+              profileLink.innerHTML = `
+              <div class="relative cursor-pointer select-none" id="profile-dropdown-parent">
+                <span class="flex items-center gap-1" id="profile-dropdown-toggle">
+                  <span class="material-symbols-outlined !text-lg">person</span>
+                  ${data.user.name}
+                  <span class="material-symbols-outlined !text-lg">expand_more</span>
+                </span>
+                <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded shadow-lg z-50 shadow-md text-gray-700">
+                  <a href="/profile" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+                  <a href="/api/auth/logout" class="block px-4 py-2 hover:bg-gray-100">Logout</a>
+                </div>
+              </div>
+            `;
+              profileLink.href = "javascript:void(0)";
+
+              const toggle = document.getElementById("profile-dropdown-toggle");
+              const menu = document.getElementById("profile-dropdown-menu");
+              document.addEventListener("click", function (e) {
+                if (toggle && menu) {
+                  if (toggle.contains(e.target)) {
+                    menu.classList.toggle("hidden");
+                  } else if (!menu.contains(e.target)) {
+                    menu.classList.add("hidden");
+                  }
+                }
+              });
+            }
           }
-        } catch (error) {
-          console.error("Error saving service:", error);
-          alert("Gagal menyimpan jasa");
+        })
+        .catch((err) => {
+          console.error("Gagal memuat data user:", err);
+          window.location.href = "/login";
+        });
+
+      // Image preview functionality
+      const imageInput = document.getElementById("service-image");
+      const imagePreview = document.getElementById("image-preview");
+      const previewImg = document.getElementById("preview-img");
+      const removeImageBtn = document.getElementById("remove-image");
+
+      imageInput.addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith("image/")) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            previewImg.src = e.target.result;
+            imagePreview.classList.remove("hidden");
+          };
+          reader.readAsDataURL(file);
         }
       });
 
-    // Load user info when page loads
-    document.addEventListener("DOMContentLoaded", loadUserInfo);
-  </script>
-</body>
+      removeImageBtn.addEventListener("click", function () {
+        imageInput.value = "";
+        imagePreview.classList.add("hidden");
+        previewImg.src = "";
+      });
 
+      // Form submission
+      document
+        .getElementById("add-service-form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const submitBtn = document.getElementById("submit-btn");
+          const originalText = submitBtn.innerHTML;
+
+          // Show loading state
+          submitBtn.innerHTML = `
+          <span class="material-symbols-outlined animate-spin">refresh</span>
+          Menyimpan...
+        `;
+          submitBtn.disabled = true;
+
+          const price = parseInt(
+            document.getElementById("service-price").value
+          );
+
+          const serviceData = {
+            name: document.getElementById("service-name").value,
+            description: document.getElementById("service-description").value,
+            price: price,
+            image_url: document.getElementById("service-image").value,
+          };
+
+          try {
+            const response = await fetch("/api/services", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(serviceData),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+              // Show success message
+              submitBtn.innerHTML = `
+              <span class="material-symbols-outlined">check</span>
+              Berhasil!
+            `;
+              submitBtn.classList.remove("bg-[#029FAE]", "hover:bg-[#027f8a]");
+              submitBtn.classList.add("bg-green-500");
+
+              setTimeout(() => {
+                window.location.href = "/dashboard-provider";
+              }, 1500);
+            } else {
+              throw new Error(data.error || "Gagal menyimpan jasa");
+            }
+          } catch (error) {
+            console.error("Error saving service:", error);
+
+            // Show error state
+            submitBtn.innerHTML = `
+            <span class="material-symbols-outlined">error</span>
+            Gagal menyimpan
+          `;
+            submitBtn.classList.remove("bg-[#029FAE]", "hover:bg-[#027f8a]");
+            submitBtn.classList.add("bg-red-500");
+
+            // Reset button after 3 seconds
+            setTimeout(() => {
+              submitBtn.innerHTML = originalText;
+              submitBtn.disabled = false;
+              submitBtn.classList.remove("bg-red-500");
+              submitBtn.classList.add("bg-[#029FAE]", "hover:bg-[#027f8a]");
+            }, 3000);
+
+            alert(error.message);
+          }
+        });
+
+      // Format price input
+      document
+        .getElementById("service-price")
+        .addEventListener("input", function (e) {
+          // Remove any non-digit characters except for backspace/delete
+          let value = e.target.value.replace(/[^\d]/g, "");
+          e.target.value = value;
+        });
+    </script>
+  </body>
 </html>
