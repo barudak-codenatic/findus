@@ -18,7 +18,7 @@ module.exports = (sequelize) => {
       email: {
         type: DataTypes.STRING(100),
         allowNull: false,
-        unique: true,
+        // unique: true,
       },
       password: {
         type: DataTypes.STRING(255),
@@ -42,6 +42,13 @@ module.exports = (sequelize) => {
     {
       tableName: "users",
       timestamps: false,
+      indexes: [
+        {
+          unique: true,
+          fields: ["email"],
+          name: "email_unique_index", // beri nama yang konsisten
+        },
+      ],
     }
   );
 

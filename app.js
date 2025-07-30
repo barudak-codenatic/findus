@@ -87,7 +87,8 @@ app.get("/user/chat", isAuthenticated, chatController.isUser, (req, res) => {
   res.sendFile(path.join(__dirname, "./views/user/chat.html"));
 });
 
-app.get("/provider/chat",
+app.get(
+  "/provider/chat",
   isAuthenticated,
   chatController.isProvider,
   (req, res) => {

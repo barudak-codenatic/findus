@@ -125,7 +125,7 @@
         </div>
 
         <!-- Form -->
-        <form id="add-service-form" class="space-y-6 bg-white">
+        <form id="add-service-form" class="space-y-6 bg-white" enctype="multipart/form-data">
           <!-- Nama Jasa -->
           <div>
             <label
@@ -419,24 +419,22 @@
         `;
           submitBtn.disabled = true;
 
-          const price = parseInt(
-            document.getElementById("service-price").value
-          );
-
-          const serviceData = {
-            name: document.getElementById("service-name").value,
-            description: document.getElementById("service-description").value,
-            price: price,
-            image_url: document.getElementById("service-image").value,
-          };
-
           try {
+            // Gunakan FormData untuk menangani upload file
+            const formData = new FormData();
+            formData.append("name", document.getElementById("service-name").value);
+            formData.append("description", document.getElementById("service-description").value);
+            formData.append("price", document.getElementById("service-price").value);
+            
+            // Tambahkan file gambar jika ada
+            const imageInput = document.getElementById("service-image");
+            if (imageInput.files && imageInput.files[0]) {
+              formData.append("image", imageInput.files[0]);
+            }
+
             const response = await fetch("/api/services", {
               method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(serviceData),
+              body: formData, // Tidak perlu set Content-Type, browser akan otomatis set dengan boundary
             });
 
             const data = await response.json();

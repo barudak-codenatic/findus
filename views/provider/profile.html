@@ -1,382 +1,515 @@
 <!DOCTYPE html>
 <html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profil Penyedia Jasa - FindUS</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200,0,0"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD"
+      crossorigin="anonymous"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profil Penyedia Jasa - FindUS</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-
-<body class="bg-gray-50 text-gray-800">
-  <!-- Top Bar -->
-  <div class="bg-slate-800 text-white text-sm py-2">
-    <div class="max-w-7xl mx-auto px-4 flex justify-center space-x-4">
-      <a href="#" class="hover:text-teal-300">Eng</a>
-      <span>|</span>
-      <a href="#" class="hover:text-teal-300">Faqs</a>
-      <span>|</span>
-      <a href="#" class="hover:text-teal-300">Need help</a>
-    </div>
-  </div>
-
-  <!-- Navigation -->
-  <nav class="bg-white shadow-sm border-b">
-    <div class="w-full px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <!-- Logo -->
-        <div class="flex items-center">
-          <a href="/dashboard-provider" class="flex items-center space-x-2">
-            <div class="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center">
-              <span class="text-white font-bold text-sm">F</span>
-            </div>
-            <span class="text-xl font-bold text-gray-800">FindUS</span>
+  <body class="font-sans bg-gray-50 text-gray-800">
+    <!-- Header -->
+    <header class="header">
+      <div
+        class="flex justify-center items-center w-full bg-[#272343] text-white p-2"
+      >
+        <nav class="flex space-x-4 items-center text-xs font-light">
+          <a href="" class="flex items-center gap-1">
+            <span class="material-symbols-outlined !text-lg">
+              expand_more
+            </span>
+            Eng
           </a>
+          <a href="">Faqs</a>
+          <a href="" class="flex items-center gap-1">
+            <span class="material-symbols-outlined !text-lg"> error </span>
+            Need Help
+          </a>
+        </nav>
+      </div>
+      <div class="bg-gray-100">
+        <div
+          class="container mx-auto flex justify-between items-center w-full px-28 py-4"
+        >
+          <a class="brand" href="/dashboard-provider"
+            ><img src="/public/images/Logo.svg" alt=""
+          /></a>
+          <input
+            type="text"
+            placeholder="Search here..."
+            class="w-full md:w-1/3 px-4 py-2 text-sm bg-white rounded focus:outline-none"
+          />
+          <nav class="flex space-x-4 items-center text-xs">
+            <a
+              class="bg-white rounded px-4 py-1 flex items-center gap-1"
+              href="/provider/services"
+            >
+              <span class="material-symbols-outlined !text-lg">
+                inventory
+              </span>
+              Layanan Saya
+            </a>
+            <a
+              class="bg-white rounded px-4 py-1 flex items-center gap-1"
+              href="/provider/orders"
+            >
+              <span class="material-symbols-outlined !text-lg">
+                receipt_long
+              </span>
+              Pesanan
+            </a>
+            <a
+              class="bg-white rounded px-4 py-1 flex items-center gap-1"
+              href="/provider/chat"
+            >
+              <span class="material-symbols-outlined !text-lg"> chat </span>
+              Chat
+            </a>
+            <a
+              class="bg-white rounded px-4 py-1 flex items-center gap-1"
+              href=""
+              id="profile-link"
+            >
+              <span class="material-symbols-outlined !text-lg"> person </span>
+            </a>
+          </nav>
         </div>
-
-        <!-- Search Bar -->
-        <div class="flex-1 max-w-md mx-8">
-          <div class="relative">
-            <input type="text" placeholder="Search here..."
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" />
-            <button class="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Profile Icon -->
-        <div class="flex items-center">
-          <div id="user-info" class="mr-4 text-sm font-medium">Memuat...</div>
-          <div class="relative" id="profile-dropdown">
-            <button class="p-2 text-gray-600 hover:text-gray-900" id="profile-button">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-              </svg>
-            </button>
-            <div id="profile-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-              <a href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profil</a>
-              <a href="/api/auth/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
-            </div>
+      </div>
+      <div class="border-b-1 border-gray-300">
+        <div
+          class="container mx-auto flex justify-between items-center w-full px-28 py-4 text-xs"
+        >
+          <nav
+            class="flex items-center space-x-2 text-gray-600"
+            aria-label="Breadcrumb"
+          >
+            <a href="/" class="hover:underline flex items-center gap-1">
+              <span class="material-symbols-outlined !text-base align-middle"
+                >home</span
+              >
+              Home
+            </a>
+            <span class="mx-1 text-gray-400">/</span>
+            <a href="/dashboard-provider" class="hover:underline"
+              >Provider Dashboard</a
+            >
+            <span class="mx-1 text-gray-400">/</span>
+            <span class="text-gray-500">Profile</span>
+          </nav>
+          <div class="contact flex gap-2">
+            <span class="text-gray-500">Contact:</span>(0812) 1284-8626
           </div>
         </div>
       </div>
+    </header>
 
-      <!-- Secondary Navigation -->
-      <div class="border-t py-3">
-        <div class="flex justify-between items-center">
-          <div class="flex items-center space-x-6">
-            <button class="flex items-center space-x-1 text-gray-700 hover:text-teal-600">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
-                </path>
-              </svg>
-              <span>Semua Kategori</span>
-            </button>
-            <div class="flex space-x-6">
-              <a href="/dashboard-provider" class="text-gray-600 hover:text-teal-600 transition-colors">Home</a>
-              <a href="/provider/add-service" class="text-gray-600 hover:text-teal-600 transition-colors">Tambah Jasa</a>
-              <a href="/provider/chat" class="text-gray-600 hover:text-teal-600 transition-colors">Chat</a>
-            </div>
-          </div>
-          <div class="text-right">
-            <span class="text-sm text-gray-600">Contact: </span>
-            <span class="text-sm font-semibold text-gray-800">(0812) 1334-5678</span>
-          </div>
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8 mb-24">
+      <div
+        class="bg-white rounded-lg shadow-md overflow-hidden max-w-4xl mx-auto"
+      >
+        <!-- Header Profil -->
+        <div class="p-6 border-b border-gray-200">
+          <h1 class="text-2xl font-semibold text-gray-800">
+            Profil Penyedia Jasa
+          </h1>
         </div>
-      </div>
-    </div>
-  </nav>
 
-  <!-- Main Content -->
-  <main class="max-w-4xl mx-auto py-8 px-4">
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-      <!-- Header Profil -->
-      <div class="p-6 border-b border-gray-200">
-        <h1 class="text-2xl font-semibold text-gray-800">Profil Penyedia Jasa</h1>
-      </div>
-
-      <!-- Konten Profil -->
-      <div class="p-6">
-        <div class="flex flex-col md:flex-row gap-8">
-          <!-- Foto Profil -->
-          <div class="w-full md:w-1/3 flex flex-col items-center">
-            <div class="relative">
-              <div class="w-32 h-32 bg-gray-200 rounded-full overflow-hidden mb-4">
-                <img id="profile-image" src="/public/images/profiles/default.jpg" alt="Foto Profil"
-                  class="w-full h-full object-cover" onerror="this.src='/public/images/profiles/default.jpg'">
+        <!-- Konten Profil -->
+        <div class="p-6">
+          <div class="flex flex-col md:flex-row gap-8">
+            <!-- Foto Profil -->
+            <div class="w-full md:w-1/3 flex flex-col items-center">
+              <div class="relative">
+                <div
+                  class="w-32 h-32 bg-gray-200 rounded-full overflow-hidden mb-4"
+                >
+                  <img
+                    id="profile-image"
+                    src="/public/images/profiles/default.jpg"
+                    alt="Foto Profil"
+                    class="w-full h-full object-cover"
+                    onerror="this.src='/public/images/profiles/default.jpg'"
+                  />
+                </div>
+                <label
+                  for="photo-upload"
+                  class="absolute bottom-4 right-0 bg-[#029FAE] text-white rounded-full p-2 cursor-pointer hover:bg-[#027f8a] transition"
+                >
+                  <span class="material-symbols-outlined !text-base">edit</span>
+                </label>
+                <input
+                  type="file"
+                  id="photo-upload"
+                  class="hidden"
+                  accept="image/*"
+                />
               </div>
-              <label for="photo-upload"
-                class="absolute bottom-4 right-0 bg-teal-500 text-white rounded-full p-2 cursor-pointer hover:bg-teal-600 transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
-                  </path>
-                </svg>
-              </label>
-              <input type="file" id="photo-upload" class="hidden" accept="image/*">
+              <h2
+                id="profile-name"
+                class="text-xl font-semibold text-center mt-2"
+              >
+                Memuat...
+              </h2>
+              <p id="profile-role" class="text-gray-500 text-center">
+                Memuat...
+              </p>
             </div>
-            <h2 id="profile-name" class="text-xl font-semibold text-center mt-2">Memuat...</h2>
-            <p id="profile-role" class="text-gray-500 text-center">Memuat...</p>
-          </div>
 
-          <!-- Form Profil -->
-          <div class="w-full md:w-2/3">
-            <form id="profile-form" class="space-y-4">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label for="full_name" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
-                  <input type="text" id="full_name" name="full_name" placeholder="Masukkan nama lengkap"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500">
-                </div>
-                <div>
-                  <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                  <input type="email" id="email" name="email" placeholder="Masukkan email"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
-                    readonly>
-                </div>
-                <div>
-                  <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon</label>
-                  <input type="tel" id="phone" name="phone" placeholder="Masukkan nomor telepon"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500">
-                </div>
-              </div>
-
-              <div class="mt-6">
-                <h3 class="text-lg font-medium text-gray-800 mb-3">Ubah Password</h3>
+            <!-- Form Profil -->
+            <div class="w-full md:w-2/3">
+              <form id="profile-form" class="space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label for="current_password" class="block text-sm font-medium text-gray-700 mb-1">Password Saat Ini</label>
-                    <input type="password" id="current_password" name="current_password" placeholder="Masukkan password saat ini"
-                      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500">
+                    <label
+                      for="full_name"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >Nama Lengkap</label
+                    >
+                    <input
+                      type="text"
+                      id="full_name"
+                      name="full_name"
+                      placeholder="Masukkan nama lengkap"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#029FAE]"
+                    />
                   </div>
                   <div>
-                    <label for="new_password" class="block text-sm font-medium text-gray-700 mb-1">Password Baru</label>
-                    <input type="password" id="new_password" name="new_password" placeholder="Masukkan password baru"
-                      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500">
+                    <label
+                      for="email"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >Email</label
+                    >
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      placeholder="Masukkan email"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#029FAE]"
+                      readonly
+                    />
+                  </div>
+                  <div>
+                    <label
+                      for="phone"
+                      class="block text-sm font-medium text-gray-700 mb-1"
+                      >Nomor Telepon</label
+                    >
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      placeholder="Masukkan nomor telepon"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#029FAE]"
+                    />
                   </div>
                 </div>
-              </div>
 
-              <div class="flex justify-end mt-6">
-                <button type="submit"
-                  class="px-6 py-2 bg-teal-500 text-white rounded-md hover:bg-teal-600 transition">Simpan
-                  Perubahan</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
+                <div class="mt-6">
+                  <h3 class="text-lg font-medium text-gray-800 mb-3">
+                    Ubah Password
+                  </h3>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label
+                        for="current_password"
+                        class="block text-sm font-medium text-gray-700 mb-1"
+                        >Password Saat Ini</label
+                      >
+                      <input
+                        type="password"
+                        id="current_password"
+                        name="current_password"
+                        placeholder="Masukkan password saat ini"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#029FAE]"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        for="new_password"
+                        class="block text-sm font-medium text-gray-700 mb-1"
+                        >Password Baru</label
+                      >
+                      <input
+                        type="password"
+                        id="new_password"
+                        name="new_password"
+                        placeholder="Masukkan password baru"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#029FAE]"
+                      />
+                    </div>
+                  </div>
+                </div>
 
-  <!-- Footer -->
-  <footer class="bg-white mt-12 border-t border-gray-200">
-    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div class="col-span-1">
-          <div class="flex items-center space-x-2 mb-4">
-            <div class="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center">
-              <span class="text-white font-bold text-sm">F</span>
+                <div class="flex justify-end mt-6">
+                  <button
+                    type="submit"
+                    class="px-6 py-2 bg-[#029FAE] text-white rounded-md hover:bg-[#027f8a] transition"
+                  >
+                    Simpan Perubahan
+                  </button>
+                </div>
+              </form>
             </div>
-            <span class="text-xl font-bold text-gray-800">FindUS</span>
           </div>
-          <p class="text-sm text-gray-600 mb-4">Solusi terbaik untuk kebutuhan jasa Anda. Temukan penyedia jasa
-            terpercaya dengan mudah.</p>
-          <div class="flex space-x-4">
-            <a href="#" class="text-gray-400 hover:text-gray-500">
-              <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                <path fill-rule="evenodd"
-                  d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
-                  clip-rule="evenodd" />
-              </svg>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-gray-500">
-              <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                <path
-                  d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-              </svg>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-gray-500">
-              <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                <path fill-rule="evenodd"
-                  d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
-                  clip-rule="evenodd" />
-              </svg>
-            </a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 py-10 text-sm text-gray-700">
+      <div
+        class="container mx-auto flex justify-start w-full px-28 py-4 gap-24"
+      >
+        <div class="w-1/4 flex flex-col gap-4">
+          <a class="brand" href=""
+            ><img src="/public/images/Logo.svg" alt=""
+          /></a>
+          <p>
+            Platform online untuk mahasiswa yang kos! Belanja kebutuhan harian,
+            perlengkapan kamar, serta pesan layanan seperti jasa layanan,
+            bersih-bersih, dan lainnya dengan mudah.
+          </p>
+          <div class="flex gap-3">
+            <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"
+              ><i class="bi bi-facebook"></i
+            ></a>
+            <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"
+              ><i class="bi bi-instagram"></i
+            ></a>
+            <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"
+              ><i class="bi bi-twitter"></i
+            ></a>
           </div>
         </div>
 
         <div>
-          <h5 class="font-medium mb-4 text-gray-500">Kategori</h5>
-          <ul class="space-y-2">
-            <li><a href="#" class="text-gray-600 hover:text-teal-500">Jasa Rumah Tangga</a></li>
-            <li><a href="#" class="text-gray-600 hover:text-teal-500">Jasa Profesional</a></li>
-            <li><a href="#" class="text-gray-600 hover:text-teal-500">Jasa Pendidikan</a></li>
-            <li><a href="#" class="text-gray-600 hover:text-teal-500">Jasa Layanan</a></li>
+          <h5 class="font-medium mb-2 text-gray-400">Category</h5>
+          <ul class="space-y-1">
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Peralatan Mandi</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Alat Masak</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Elektronik</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Dekorasi Kamar</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Alat Makan</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Jasa Layanan</a
+              >
+            </li>
           </ul>
         </div>
 
         <div>
-          <h5 class="font-medium mb-4 text-gray-500">Support</h5>
-          <ul class="space-y-2">
-            <li><a href="#" class="text-gray-600 hover:text-teal-500">Cara Pemesanan</a></li>
-            <li><a href="#" class="text-gray-600 hover:text-teal-500">Syarat & Ketentuan</a></li>
-            <li><a href="#" class="text-gray-600 hover:text-teal-500">Kebijakan Privasi</a></li>
-            <li><a href="#" class="text-gray-600 hover:text-teal-500">Hubungi Kami</a></li>
+          <h5 class="font-medium mb-2 text-gray-400">Support</h5>
+          <ul class="space-y-1">
+            <li><a href="#" class="hover:underline">Cara Pemesanan</a></li>
+            <li><a href="#" class="hover:underline">Syarat & Ketentuan</a></li>
+            <li><a href="#" class="hover:underline">Kebijakan Privasi</a></li>
+            <li><a href="#" class="hover:underline">Hubungi Kami</a></li>
           </ul>
         </div>
       </div>
 
-      <div class="border-t border-gray-200 py-4">
-        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
-          &copy; 2025 FindUS. All rights reserved.
-        </div>
+      <div
+        class="mt-8 border-t border-gray-200 pt-4 text-center text-xs text-gray-500"
+      >
+        &copy; 2025 - FindUS • Designed & Developed by epaarito
       </div>
-    </div>
-  </footer>
+    </footer>
 
-  <script>
-    // Cek apakah pengguna sudah login
-    async function fetchUserProfile() {
-      try {
-        const response = await fetch('/api/auth/me');
-        const data = await response.json();
+    <script>
+      // Load user authentication and setup profile dropdown
+      fetch("/api/auth/me")
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data.user || data.user.role !== "PROVIDER") {
+            alert("Akses ditolak. Silakan login sebagai PROVIDER.");
+            window.location.href = "/login";
+          } else {
+            const profileLink = document.getElementById("profile-link");
+            if (profileLink) {
+              profileLink.innerHTML = `
+            <div class="relative cursor-pointer select-none" id="profile-dropdown-parent">
+              <span class="flex items-center gap-1" id="profile-dropdown-toggle">
+                <span class="material-symbols-outlined !text-lg">person</span>
+                ${data.user.name}
+                <span class="material-symbols-outlined !text-lg">expand_more</span>
+              </span>
+              <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded shadow-lg z-50 shadow-md text-gray-700">
+                <a href="/profile" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+                <a href="/api/auth/logout" class="block px-4 py-2 hover:bg-gray-100">Logout</a>
+              </div>
+            </div>
+          `;
+              profileLink.href = "javascript:void(0)";
 
-        if (!data.user || data.user.role !== 'PROVIDER') {
-          alert('Akses ditolak. Silakan login sebagai PROVIDER.');
-          window.location.href = '/login';
-          return;
-        }
+              const toggle = document.getElementById("profile-dropdown-toggle");
+              const menu = document.getElementById("profile-dropdown-menu");
+              document.addEventListener("click", function (e) {
+                if (toggle && menu) {
+                  if (toggle.contains(e.target)) {
+                    menu.classList.toggle("hidden");
+                  } else if (!menu.contains(e.target)) {
+                    menu.classList.add("hidden");
+                  }
+                }
+              });
+            }
+            fetchUserProfile();
+          }
+        })
+        .catch((err) => {
+          console.error("Gagal memuat data user:", err);
+          window.location.href = "/login";
+        });
 
-        // Ambil data lengkap user
-        const userResponse = await fetch(`/api/users/${data.user.id}`);
-        const userData = await userResponse.json();
+      // Cek apakah pengguna sudah login dan ambil profil
+      async function fetchUserProfile() {
+        try {
+          const response = await fetch("/api/auth/me");
+          const data = await response.json();
 
-        if (userData.user) {
-          // Isi form dengan data user
-          document.getElementById('profile-name').textContent = userData.user.full_name;
-          document.getElementById('profile-role').textContent = userData.user.role === 'PROVIDER' ? 'Penyedia Jasa' : 'Pengguna';
-          document.getElementById('full_name').value = userData.user.full_name;
-          document.getElementById('email').value = userData.user.email;
-          document.getElementById('phone').value = userData.user.phone || '';
-
-          // Tampilkan foto profil jika ada
-          if (userData.user.photo_url) {
-            document.getElementById('profile-image').src = userData.user.photo_url;
+          if (!data.user || data.user.role !== "PROVIDER") {
+            alert("Akses ditolak. Silakan login sebagai PROVIDER.");
+            window.location.href = "/login";
+            return;
           }
 
-          // Update nama di header
-          document.getElementById('user-info').textContent = userData.user.full_name;
-        }
+          // Ambil data lengkap user
+          const userResponse = await fetch(`/api/users/${data.user.id}`);
+          const userData = await userResponse.json();
 
-        // Setup dropdown profil
-        setupProfileDropdown();
-      } catch (error) {
-        console.error('Error fetching user profile:', error);
-        alert('Gagal memuat profil. Silakan coba lagi.');
+          if (userData.user) {
+            // Isi form dengan data user
+            document.getElementById("profile-name").textContent =
+              userData.user.full_name;
+            document.getElementById("profile-role").textContent =
+              userData.user.role === "PROVIDER" ? "Penyedia Jasa" : "Pengguna";
+            document.getElementById("full_name").value =
+              userData.user.full_name;
+            document.getElementById("email").value = userData.user.email;
+            document.getElementById("phone").value = userData.user.phone || "";
+
+            // Tampilkan foto profil jika ada
+            if (userData.user.photo_url) {
+              document.getElementById("profile-image").src =
+                userData.user.photo_url;
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
+          alert("Gagal memuat profil. Silakan coba lagi.");
+        }
       }
-    }
 
-    // Setup dropdown profil
-    function setupProfileDropdown() {
-      const profileButton = document.getElementById('profile-button');
-      const profileMenu = document.getElementById('profile-menu');
+      // Upload foto profil
+      document
+        .getElementById("photo-upload")
+        .addEventListener("change", async function (e) {
+          const file = e.target.files[0];
+          if (!file) return;
 
-      profileButton.addEventListener('click', () => {
-        profileMenu.classList.toggle('hidden');
-      });
+          const formData = new FormData();
+          formData.append("photo", file);
 
-      document.addEventListener('click', (e) => {
-        if (
-          !profileButton.contains(e.target) &&
-          !profileMenu.contains(e.target)
-        ) {
-          profileMenu.classList.add('hidden');
-        }
-      });
-    }
+          try {
+            const response = await fetch("/api/users/update-photo", {
+              method: "POST",
+              body: formData,
+            });
 
-    // Upload foto profil
-    document.getElementById('photo-upload').addEventListener('change', async function (e) {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const formData = new FormData();
-      formData.append('photo', file);
-
-      try {
-        const response = await fetch('/api/users/update-photo', {
-          method: 'POST',
-          body: formData
+            const result = await response.json();
+            if (result.success) {
+              // Update tampilan foto
+              document.getElementById("profile-image").src =
+                result.photo_url + "?t=" + new Date().getTime();
+              alert("Foto profil berhasil diperbarui");
+            } else {
+              alert(result.error || "Gagal mengupload foto");
+            }
+          } catch (error) {
+            console.error("Error uploading photo:", error);
+            alert("Terjadi kesalahan saat mengupload foto");
+          }
         });
 
-        const result = await response.json();
-        if (result.success) {
-          // Update tampilan foto
-          document.getElementById('profile-image').src = result.photo_url + '?t=' + new Date().getTime();
-          alert('Foto profil berhasil diperbarui');
-        } else {
-          alert(result.error || 'Gagal mengupload foto');
-        }
-      } catch (error) {
-        console.error('Error uploading photo:', error);
-        alert('Terjadi kesalahan saat mengupload foto');
-      }
-    });
+      // Submit form update profil
+      document
+        .getElementById("profile-form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
 
-    // Submit form update profil
-    document.getElementById('profile-form').addEventListener('submit', async function (e) {
-      e.preventDefault();
+          const formData = {
+            full_name: document.getElementById("full_name").value,
+            phone: document.getElementById("phone").value,
+          };
 
-      const formData = {
-        full_name: document.getElementById('full_name').value,
-        phone: document.getElementById('phone').value
-      };
+          // Tambahkan password jika diisi
+          const currentPassword =
+            document.getElementById("current_password").value;
+          const newPassword = document.getElementById("new_password").value;
 
-      // Tambahkan password jika diisi
-      const currentPassword = document.getElementById('current_password').value;
-      const newPassword = document.getElementById('new_password').value;
+          if (currentPassword && newPassword) {
+            formData.current_password = currentPassword;
+            formData.new_password = newPassword;
+          }
 
-      if (currentPassword && newPassword) {
-        formData.current_password = currentPassword;
-        formData.new_password = newPassword;
-      }
+          try {
+            const response = await fetch("/api/users/update-profile", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(formData),
+            });
 
-      try {
-        const response = await fetch('/api/users/update-profile', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formData)
+            const result = await response.json();
+            if (result.success) {
+              alert("Profil berhasil diperbarui");
+              // Reset form password
+              document.getElementById("current_password").value = "";
+              document.getElementById("new_password").value = "";
+              // Update nama di header
+              document.getElementById("profile-name").textContent =
+                formData.full_name;
+            } else {
+              alert(result.error || "Gagal memperbarui profil");
+            }
+          } catch (error) {
+            console.error("Error updating profile:", error);
+            alert("Terjadi kesalahan saat memperbarui profil");
+          }
         });
-
-        const result = await response.json();
-        if (result.success) {
-          alert('Profil berhasil diperbarui');
-          // Reset form password
-          document.getElementById('current_password').value = '';
-          document.getElementById('new_password').value = '';
-          // Update nama di header
-          document.getElementById('profile-name').textContent = formData.full_name;
-          document.getElementById('user-info').textContent = formData.full_name;
-        } else {
-          alert(result.error || 'Gagal memperbarui profil');
-        }
-      } catch (error) {
-        console.error('Error updating profile:', error);
-        alert('Terjadi kesalahan saat memperbarui profil');
-      }
-    });
-
-    // Load user profile on page load
-    document.addEventListener('DOMContentLoaded', fetchUserProfile);
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

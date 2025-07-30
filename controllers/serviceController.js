@@ -43,7 +43,18 @@ exports.getMyServices = async (req, res) => {
 
 exports.addService = async (req, res) => {
   try {
-    const { name, description, price, image_url } = req.body;
+    const { name, description, price } = req.body;
+    
+    // Validasi input
+    if (!name || !price) {
+      return res.status(400).json({ error: "Nama dan harga harus diisi" });
+    }
+
+    // Proses file gambar jika ada
+    let image_url = null;
+    if (req.file) {
+      image_url = `/public/images/services/${req.file.filename}`;
+    }
 
     await Service.create({
       provider_id: req.session.user.id,
@@ -62,7 +73,12 @@ exports.addService = async (req, res) => {
 
 exports.updateService = async (req, res) => {
   try {
-    const { id, name, description, price, image_url } = req.body;
+    const { id, name, description, price } = req.body;
+
+    // Validasi input
+    if (!id || !name || !price) {
+      return res.status(400).json({ error: "ID, nama, dan harga harus diisi" });
+    }
 
     const service = await Service.findOne({
       where: {
@@ -73,6 +89,26 @@ exports.updateService = async (req, res) => {
 
     if (!service) {
       return res.status(404).json({ error: "Layanan tidak ditemukan" });
+    }
+
+    // Proses file gambar jika ada
+    let image_url = service.image_url; // Gunakan gambar yang sudah ada jika tidak ada upload baru
+    
+    if (req.file) {
+      // Hapus gambar lama jika ada
+      if (service.image_url) {
+        const oldImagePath = path.join(
+          __dirname,
+          "../public",
+          service.image_url.replace("/public/", "")
+        );
+        if (fs.existsSync(oldImagePath)) {
+          fs.unlinkSync(oldImagePath);
+        }
+      }
+      
+      // Set URL gambar baru
+      image_url = `/public/images/services/${req.file.filename}`;
     }
 
     await service.update({

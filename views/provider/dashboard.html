@@ -305,10 +305,10 @@
               "service bg-white rounded shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer";
             card.innerHTML = `
               <img
-                src="${service.image_url || "/public/images/jasa1.jpg"}"
+                src="${service.image_url || "/public/images/services/default.svg"}"
                 alt="${service.name}"
-                class="w-full h-44 rounded-t object-cover mb-2"
-                onerror="this.src='https://placehold.co/300x200?text=Jasa'"
+                class="w-full h-40 object-cover rounded-t"
+                onerror="this.src='/public/images/services/default.svg'"
               />
               <div class="p-4">
                 <h3 class="text-lg font-semibold mb-2">${service.name}</h3>
