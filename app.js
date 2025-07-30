@@ -7,6 +7,7 @@ const mysql = require("mysql2/promise");
 const { isProvider } = require("./controllers/serviceController");
 const chatController = require("./controllers/chatController");
 const { isAuthenticated } = require("./controllers/authController");
+const userController = require("./controllers/userController");
 
 const app = express();
 
@@ -29,12 +30,14 @@ const serviceRoutes = require("./routes/service");
 const cartRoutes = require("./routes/cart");
 const orderRoutes = require("./routes/order");
 const chatRoutes = require("./routes/chat");
+const userRoutes = require("./routes/user");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/", chatRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/order", orderRoutes);
+app.use("/api/users", userRoutes);
 
 app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "./views/login.html"));
@@ -96,6 +99,17 @@ app.get(
     res.sendFile(path.join(__dirname, "./views/provider/chat.html"));
   }
 );
+
+// Rute untuk halaman profil pengguna
+app.get("/profile", isAuthenticated, (req, res) => {
+  if (req.session.user.role === "USER") {
+    res.sendFile(path.join(__dirname, "./views/user/profile.html"));
+  } else if (req.session.user.role === "PROVIDER") {
+    res.sendFile(path.join(__dirname, "./views/provider/profile.html"));
+  } else {
+    res.status(403).send("Role tidak valid");
+  }
+});
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/public", express.static(path.join(__dirname, "public")));

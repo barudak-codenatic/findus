@@ -1,16 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const serviceController = require("../controllers/serviceController");
-const { isProvider } = require("../controllers/serviceController");
+const userController = require("../controllers/userController");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
 
-// Konfigurasi penyimpanan untuk upload foto jasa
-const serviceStorage = multer.diskStorage({
+// Konfigurasi penyimpanan untuk upload foto profil
+const profileStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const dir = path.join(__dirname, "../public/images/services");
+    const dir = path.join(__dirname, "../public/images/profiles");
     // Buat direktori jika belum ada
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
@@ -35,16 +34,22 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({
-  storage: serviceStorage,
+  storage: profileStorage,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
   fileFilter: fileFilter,
 });
 
-router.get("/my", isProvider, serviceController.getMyServices);
-router.post("/", isProvider, upload.single("image"), serviceController.addService);
-router.put("/", isProvider, upload.single("image"), serviceController.updateService);
-router.delete("/:id", isProvider, serviceController.deleteService);
-router.get("/", serviceController.getAllServices);
-router.get("/:id", serviceController.getService);
+// Rute untuk mendapatkan profil pengguna
+router.get("/:id", userController.getUserProfile);
+
+// Rute untuk update profil
+router.post("/update-profile", userController.updateProfile);
+
+// Rute untuk upload foto profil
+router.post(
+  "/update-photo",
+  upload.single("photo"),
+  userController.updatePhoto
+);
 
 module.exports = router;

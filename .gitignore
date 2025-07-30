@@ -6,6 +6,10 @@ npm-debug.log
 .vscode/
 .idea/
 
+/public/images/profiles/*
+!.gitkeep
+
+
 # Build/Generated
 dist/
 build/

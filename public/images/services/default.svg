@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#f0f0f0" />
+  <text x="200" y="150" font-family="Arial" font-size="24" text-anchor="middle" fill="#888888">Gambar Jasa</text>
+  <path d="M200 100 C 180 80, 160 80, 140 100 C 120 120, 120 140, 140 160 C 160 180, 180 180, 200 160 C 220 140, 220 120, 200 100 Z" fill="#cccccc" />
+</svg>

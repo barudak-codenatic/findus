@@ -81,8 +81,8 @@
         <div class="flex flex-col md:flex-row gap-10 mt-24 items-start">
             <!-- Gambar -->
             <div class="w-full md:w-1/3">
-                <img src="https://placehold.co/400x400.png?text=Inside+%26+Outdoor+Cleaning" alt="Cleaning Service"
-                    class="rounded-lg shadow-md w-full h-auto">
+                <img src="/public/images/services/default.svg" alt="Service Image" id="service-image"
+                    class="rounded-lg shadow-md w-full h-auto object-cover">
             </div>
 
             <!-- Informasi & Status Sukses -->
@@ -233,6 +233,17 @@
                     .then(res => res.json())
                     .then(data => {
                         if (data.order && data.order.Service) {
+                            // Update service image
+                            const serviceImage = document.getElementById("service-image");
+                            if (data.order.Service.image_url) {
+                                serviceImage.src = data.order.Service.image_url;
+                            } else {
+                                serviceImage.src = "/public/images/services/default.svg";
+                            }
+                            serviceImage.onerror = function() {
+                                this.src = "/public/images/services/default.svg";
+                            };
+                            
                             // Isi detail service ke halaman
                             document.querySelector("h2.text-2xl").textContent = data.order.Service.name;
                             document.querySelector("p.text-gray-600").textContent = data.order.Service.description || "";
