@@ -129,11 +129,8 @@ app.use("/public", express.static(path.join(__dirname, "public")));
     );
     console.log("✅ Database otomatis dibuat (jika belum ada)");
 
-    // Sync model setelah database dipastikan ada
-    await db.sequelize.sync({ alter: true });
-
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => console.log(`🚀 Server: http://localhost:${PORT}`));
+    // Database sudah dibuat, sync akan dilakukan di bawah
+    console.log("✅ Database siap untuk sinkronisasi");
   } catch (err) {
     console.error("❌ Gagal membuat database atau sync:", err);
   }
