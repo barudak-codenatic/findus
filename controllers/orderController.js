@@ -98,12 +98,38 @@ exports.getOrdersHistory = async (req, res) => {
     const orders = await Order.findAll({
       where: { user_id },
       include: [{ model: Service }, { model: User, attributes: ["full_name"] }],
-      order: [["createdAt", "DESC"]],
+      order: [["created_at", "DESC"]],
     });
 
     res.json({ orders });
   } catch (err) {
     console.error("Error fetching orders history:", err);
     res.status(500).json({ error: "Gagal mengambil riwayat order" });
+  }
+};
+
+//get orders for provider
+exports.getProviderOrders = async (req, res) => {
+  try {
+    if (!req.session.user)
+      return res.status(401).json({ error: "Unauthorized" });
+    
+    if (req.session.user.role !== "PROVIDER")
+      return res.status(403).json({ error: "Forbidden. Only provider can access this resource" });
+
+    const provider_id = req.session.user.id;
+    const orders = await Order.findAll({
+      where: { provider_id },
+      include: [
+        { model: Service },
+        { model: User, as: "Customer", attributes: ["full_name", "phone", "email"] }
+      ],
+      order: [["created_at", "DESC"]],
+    });
+
+    res.json({ orders });
+  } catch (err) {
+    console.error("Error fetching provider orders:", err);
+    res.status(500).json({ error: "Gagal mengambil daftar pesanan" });
   }
 };

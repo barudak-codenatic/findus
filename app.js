@@ -63,6 +63,10 @@ app.get("/provider/services", isProvider, (req, res) => {
   res.sendFile(path.join(__dirname, "./views/provider/services.html"));
 });
 
+app.get("/provider/orders", isProvider, (req, res) => {
+  res.sendFile(path.join(__dirname, "./views/provider/orders.html"));
+});
+
 app.get("/dashboard-user", (req, res) => {
   res.sendFile(path.join(__dirname, "./views/user/dashboard.html"));
 });

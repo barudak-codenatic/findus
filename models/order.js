@@ -36,7 +36,13 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       status: {
-        type: DataTypes.ENUM("PENDING", "DITERIMA", "SELESAI", "DIBATALKAN"),
+        type: DataTypes.ENUM(
+          "PENDING",
+          "DITERIMA",
+          "DIPROSES",
+          "SELESAI",
+          "DIBATALKAN"
+        ),
         defaultValue: "PENDING",
       },
       created_at: {
