@@ -43,8 +43,18 @@ exports.getMyServices = async (req, res) => {
 
 exports.addService = async (req, res) => {
   try {
-    const { name, description, price } = req.body;
-    
+    const {
+      name,
+      description,
+      price,
+      province_id,
+      province_name,
+      regency_id,
+      regency_name,
+      district_id,
+      district_name,
+    } = req.body;
+
     // Validasi input
     if (!name || !price) {
       return res.status(400).json({ error: "Nama dan harga harus diisi" });
@@ -62,6 +72,12 @@ exports.addService = async (req, res) => {
       description,
       price,
       image_url,
+      province_id,
+      province_name,
+      regency_id,
+      regency_name,
+      district_id,
+      district_name,
     });
 
     res.json({ success: true, message: "Layanan berhasil ditambahkan" });
@@ -73,7 +89,18 @@ exports.addService = async (req, res) => {
 
 exports.updateService = async (req, res) => {
   try {
-    const { id, name, description, price } = req.body;
+    const {
+      id,
+      name,
+      description,
+      price,
+      province_id,
+      province_name,
+      regency_id,
+      regency_name,
+      district_id,
+      district_name,
+    } = req.body;
 
     // Validasi input
     if (!id || !name || !price) {
@@ -93,7 +120,7 @@ exports.updateService = async (req, res) => {
 
     // Proses file gambar jika ada
     let image_url = service.image_url; // Gunakan gambar yang sudah ada jika tidak ada upload baru
-    
+
     if (req.file) {
       // Hapus gambar lama jika ada
       if (service.image_url) {
@@ -106,7 +133,7 @@ exports.updateService = async (req, res) => {
           fs.unlinkSync(oldImagePath);
         }
       }
-      
+
       // Set URL gambar baru
       image_url = `/public/images/services/${req.file.filename}`;
     }
@@ -116,6 +143,12 @@ exports.updateService = async (req, res) => {
       description,
       price,
       image_url,
+      province_id,
+      province_name,
+      regency_id,
+      regency_name,
+      district_id,
+      district_name,
     });
 
     res.json({ success: true, message: "Layanan berhasil diperbarui" });
