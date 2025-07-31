@@ -9,6 +9,9 @@ npm-debug.log
 /public/images/profiles/*
 !.gitkeep
 
+/public/images/services/*
+!.gitkeep
+
 
 # Build/Generated
 dist/
