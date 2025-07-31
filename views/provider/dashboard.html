@@ -305,7 +305,9 @@
               "service bg-white rounded shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer";
             card.innerHTML = `
               <img
-                src="${service.image_url || "/public/images/services/default.svg"}"
+                src="${
+                  service.image_url || "/public/images/services/default.svg"
+                }"
                 alt="${service.name}"
                 class="w-full h-40 object-cover rounded-t"
                 onerror="this.src='/public/images/services/default.svg'"
