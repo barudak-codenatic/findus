@@ -216,11 +216,11 @@
                     `;
                         } else if (order.status === "DIBAYAR") {
                             actionButtons = `
-                        <a href="/user/chat?provider_id=${order.Provider?.id || order.provider_id}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800 transition">Chat Penyedia Jasa</a>
+                        <a href="/user/chat?provider_id=${order.Provider?.id || order.provider_id}" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100 transition mr-2">Chat Penyedia Jasa</a>
                     `;
                         } else if (order.status === "DIPROSES") {
                             actionButtons = `
-                        <a href="/user/chat?provider_id=${order.Provider?.id || order.provider_id}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800 transition mr-2">Chat Penyedia Jasa</a>
+                        <a href="/user/chat?provider_id=${order.Provider?.id || order.provider_id}" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100 transition mr-2">Chat Penyedia Jasa</a>
                         <button onclick="confirmDone('${order.id}')" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-800 transition">Konfirmasi Selesai</button>
                     `;
                         } else if (order.status === "SELESAI") {
@@ -231,7 +231,7 @@
                     `;
                         } else if (order.status === "DIBATALKAN") {
                             actionButtons = `
-                        <a href="/order?service_id=${order.Service?.id || order.service_id}" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition">Pesan Lagi</a>
+                        <a href="/order?service_id=${order.Service?.id || order.service_id}" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100 transition mr-2">Pesan Lagi</a>
                     `;
                         }
 

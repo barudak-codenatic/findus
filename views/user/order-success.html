@@ -225,7 +225,7 @@
                 fetch("/api/order/update-status", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ order_id: orderId, status: "SELESAI" })
+                    body: JSON.stringify({ order_id: orderId, status: "DIBAYAR" })
                 });
             }
 
