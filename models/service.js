@@ -25,6 +25,10 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       image_url: DataTypes.STRING(255),
+      category: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+      },
       province_id: {
         type: DataTypes.STRING(2),
         allowNull: true,
