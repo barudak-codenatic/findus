@@ -8,10 +8,21 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200,0,0" />
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-cy1Tjg98WhSTG4vs"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
         integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
 </head>
+<style>
+    .rating-stars label {
+        color: #d1d5db;
+        transition: color 0.2s;
+        cursor: pointer;
+    }
+
+    .rating-stars label.selected,
+    .rating-stars label.hovered {
+        color: #fbbf24;
+    }
+</style>
 
 <body class="font-sans">
     <header class="header">
@@ -79,30 +90,53 @@
         </div>
     </header>
     <main class="container mx-auto px-6 py-2 mb-24">
-        <section class="hero my-6 rounded-md w-full"><img src="/public/images/Hero.svg" alt="">
-        </section>
         <div class="flex flex-col md:flex-row gap-10 mt-24 items-start">
-            <!-- Gambar -->
+            <!-- Gambar Service Dinamis -->
             <div class="w-full md:w-1/3">
-                <img src="/public/images/services/default.svg" alt="Service Image" id="service-image"
-                    class="rounded-lg shadow-md w-full h-auto object-cover">
+                <img id="service-image" src="https://placehold.co/400x400.png?text=Loading..." alt="Service"
+                    class="rounded-lg w-full h-auto" />
             </div>
 
-            <!-- Informasi & Pembayaran -->
             <div class="w-full md:w-2/3 space-y-4">
-                <h2 class="text-2xl font-semibold text-gray-900"></h2>
-                <p class="text-gray-600"></p>
-                <div class="text-gray-600 text-sm space-y-1">
-                    <p><strong>Nama:</strong> <span class="detail-name"></span></p>
-                    <p><strong>Waktu:</strong> <span class="detail-schedule"></span></p>
-                    <p><strong>Alamat:</strong> <span class="detail-address"></span></p>
-                </div>
-                <p class="text-xl font-bold text-gray-900 mt-4"></p>
-                <button class="w-full mt-6 bg-black text-white py-2 rounded hover:bg-gray-800 transition bayar-btn">
-                    BAYAR
-                </button>
+                <!-- Detail Order akan diinject di sini -->
+                <div id="order-detail"></div>
+                <h2 class="text-xl font-semibold text-gray-800">Beri Ulasan:</h2>
+                <!-- Form Ulasan -->
+                <form id="review-form" enctype="multipart/form-data">
+                    <!-- Ganti bagian rating pada form review -->
+                    <div>
+                        <label class="block mb-1">Rating</label>
+                        <div class="flex rating-stars gap-1 text-2xl">
+                            <input type="radio" id="star1" name="rating" value="1" class="hidden" />
+                            <label for="star1" title="1 star">&#9733;</label>
+                            <input type="radio" id="star2" name="rating" value="2" class="hidden" />
+                            <label for="star2" title="2 stars">&#9733;</label>
+                            <input type="radio" id="star3" name="rating" value="3" class="hidden" />
+                            <label for="star3" title="3 stars">&#9733;</label>
+                            <input type="radio" id="star4" name="rating" value="4" class="hidden" />
+                            <label for="star4" title="4 stars">&#9733;</label>
+                            <input type="radio" id="star5" name="rating" value="5" class="hidden" />
+                            <label for="star5" title="5 stars">&#9733;</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block mb-1">Komentar</label>
+                        <textarea name="comment" rows="5"
+                            class="w-full px-4 py-3 rounded bg-gray-100 text-sm text-gray-700 resize-none"
+                            placeholder="Bagaimana hasil dari jasa ini?"></textarea>
+                    </div>
+                    <div>
+                        <label class="block mb-1">Gambar (Opsional)</label>
+                        <input type="file" name="image" accept="image/*"
+                            class="w-full px-4 py-2 rounded bg-gray-100 text-sm text-gray-600" />
+                    </div>
+                    <button type="submit"
+                        class="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition duration-300 ease-in-out text-xs tracking-wide">
+                        KIRIM ULASAN
+                    </button>
+                </form>
+                <div id="review-success" class="hidden text-green-600 mt-2"></div>
             </div>
-
         </div>
     </main>
     <footer class="border-t border-gray-200 py-10 text-sm text-gray-700">
@@ -189,74 +223,114 @@
                 window.location.href = "/login";
             });
 
-        document.addEventListener("DOMContentLoaded", function () {
-            // Ambil data dari query string
-            const params = new URLSearchParams(window.location.search);
-            const serviceId = params.get('service_id');
-            const name = params.get('name');
-            const schedule = params.get('schedule');
-            const address = params.get('address');
-            const note = params.get('note');
+        // Ambil order_id dari URL
+        function getOrderIdFromUrl() {
+            // Ambil dari path, misal /review-service/12345
+            const match = window.location.pathname.match(/\/review-service\/([^\/]+)/);
+            return match ? match[1] : null;
+        }
 
-            // Tampilkan detail di halaman
-            fetch(`/api/services/${serviceId}`)
+        document.addEventListener("DOMContentLoaded", function () {
+            const orderId = getOrderIdFromUrl();
+            if (!orderId) {
+                document.getElementById("order-detail").innerHTML = "<p class='text-red-500'>Order ID tidak ditemukan.</p>";
+                return;
+            }
+
+            fetch(`/api/order/${orderId}`)
                 .then(res => res.json())
                 .then(data => {
-                    if (data.service) {
-                        // Update service image
-                        const serviceImage = document.getElementById("service-image");
-                        if (data.service.image_url) {
-                            serviceImage.src = data.service.image_url;
-                        } else {
-                            serviceImage.src = "/public/images/services/default.svg";
-                        }
-                        serviceImage.onerror = function () {
-                            this.src = "/public/images/services/default.svg";
-                        };
-
-                        // Update service details
-                        document.querySelector("h2.text-2xl").textContent = data.service.name;
-                        document.querySelector("p.text-gray-600").textContent = data.service.description || "";
-                        document.querySelector(".text-xl.font-bold").textContent = "Rp" + (data.service.price ? data.service.price.toLocaleString('id-ID') : "-");
+                    if (!data.order) {
+                        document.getElementById("order-detail").innerHTML = "<p class='text-red-500'>Order tidak ditemukan.</p>";
+                        return;
                     }
+                    const order = data.order;
+                    // Update gambar service
+                    const serviceImg = document.getElementById("service-image");
+                    if (serviceImg) {
+                        serviceImg.src = order.Service?.image_url || 'https://placehold.co/400x400.png?text=Service';
+                        serviceImg.alt = order.Service?.name || 'Service';
+                    }
+                    // Inject detail order ke dalam kolom kanan
+                    document.getElementById("order-detail").innerHTML = `
+                <div class="bg-white rounded-lg shadow p-4 mb-4">
+                    <h3 class="text-lg font-semibold mb-2">Detail Pesanan</h3>
+                    <div>
+                        <p><strong>Jasa:</strong> ${order.Service?.name || '-'}</p>
+                        <p><strong>Penyedia:</strong> ${order.Provider?.full_name || '-'}</p>
+                        <p><strong>Alamat:</strong> ${order.address || '-'}</p>
+                        <p><strong>Jadwal:</strong> ${order.schedule || '-'}</p>
+                        <p><strong>Status:</strong> ${order.status || '-'}</p>
+                        <p><strong>Total:</strong> Rp${order.Service?.price ? order.Service.price.toLocaleString('id-ID') : '-'}</p>
+                    </div>
+                </div>
+            `;
+                })
+                .catch(() => {
+                    document.getElementById("order-detail").innerHTML = "<p class='text-red-500'>Gagal memuat detail pesanan.</p>";
                 });
 
-            document.querySelector('.detail-name').textContent = name;
-            document.querySelector('.detail-schedule').textContent = schedule;
-            document.querySelector('.detail-address').textContent = address;
+            const reviewForm = document.getElementById("review-form");
+            reviewForm.addEventListener("submit", function (e) {
+                e.preventDefault();
+                const orderId = getOrderIdFromUrl();
+                const formData = new FormData(reviewForm);
+                formData.append("order_id", orderId);
 
-            // Tombol BAYAR
-            const bayarBtn = document.querySelector("button.bayar-btn");
-            bayarBtn.addEventListener("click", function () {
-                fetch("/api/order", {
+                fetch("/api/reviews", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        service_id: serviceId,
-                        address,
-                        schedule,
-                        note
-                    })
+                    body: formData
                 })
                     .then(res => res.json())
                     .then(data => {
-                        if (data.snapToken) {
-                            window.snap.pay(data.snapToken, {
-                                onSuccess: function (result) {
-                                    window.location.href = `/order-success?order_id=${result.order_id}&transaction_status=${result.transaction_status}`;
-                                },
-                                onPending: function (result) {
-                                    window.location.href = `/order-success?order_id=${result.order_id}&transaction_status=${result.transaction_status}`;
-                                },
-                                onError: function (result) {
-                                    alert("Pembayaran gagal!");
-                                },
-                            });
+                        if (data.success) {
+                            document.getElementById("review-success").textContent = "Ulasan berhasil dikirim!";
+                            document.getElementById("review-success").classList.remove("hidden");
+                            reviewForm.reset();
                         } else {
-                            alert(data.error || "Gagal membuat order");
+                            alert(data.error || "Gagal mengirim ulasan");
                         }
-                    });
+                    })
+                    .catch(() => alert("Gagal mengirim ulasan"));
             });
+        });
+
+        const starLabels = document.querySelectorAll('.rating-stars label');
+        const starInputs = document.querySelectorAll('.rating-stars input');
+
+        function updateStars(selectedIdx) {
+            starLabels.forEach((label, idx) => {
+                if (idx <= selectedIdx) {
+                    label.classList.add('selected');
+                } else {
+                    label.classList.remove('selected');
+                }
+            });
+        }
+
+        // Saat klik (pilih rating)
+        starInputs.forEach((input, idx) => {
+            input.addEventListener('change', function () {
+                updateStars(idx);
+            });
+        });
+
+        // Saat hover
+        starLabels.forEach((label, idx) => {
+            label.addEventListener('mouseenter', function () {
+                starLabels.forEach((l, i) => {
+                    if (i <= idx) l.classList.add('hovered');
+                    else l.classList.remove('hovered');
+                });
+            });
+            label.addEventListener('mouseleave', function () {
+                starLabels.forEach(l => l.classList.remove('hovered'));
+            });
+        });
+
+        // Reset bintang saat form direset
+        document.getElementById('review-form').addEventListener('reset', function () {
+            starLabels.forEach(label => label.classList.remove('selected', 'hovered'));
         });
     </script>
 </body>

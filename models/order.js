@@ -37,13 +37,13 @@ module.exports = (sequelize) => {
       },
       status: {
         type: DataTypes.ENUM(
-          "PENDING",
-          "DITERIMA",
+          "BELUM BAYAR",
+          "DIBAYAR",
           "DIPROSES",
           "SELESAI",
           "DIBATALKAN"
         ),
-        defaultValue: "PENDING",
+        defaultValue: "BELUM BAYAR",
       },
       created_at: {
         type: DataTypes.DATE,

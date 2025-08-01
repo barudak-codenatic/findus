@@ -22,7 +22,7 @@ exports.createOrder = async (req, res) => {
       address,
       schedule,
       total_price: service.price,
-      status: "PENDING",
+      status: "BELUM BAYAR",
     });
 
     // Midtrans Snap
@@ -94,10 +94,19 @@ exports.getOrdersHistory = async (req, res) => {
     if (!req.session.user)
       return res.status(401).json({ error: "Unauthorized" });
 
+    // Hanya user dengan role USER yang boleh akses
+    if (req.session.user.role !== "USER")
+      return res
+        .status(403)
+        .json({ error: "Forbidden. Only customer can access this resource" });
+
     const user_id = req.session.user.id;
     const orders = await Order.findAll({
       where: { user_id },
-      include: [{ model: Service }, { model: User, attributes: ["full_name"] }],
+      include: [
+        { model: Service },
+        { model: User, as: "Customer", attributes: ["full_name"] },
+      ],
       order: [["created_at", "DESC"]],
     });
 
@@ -113,16 +122,22 @@ exports.getProviderOrders = async (req, res) => {
   try {
     if (!req.session.user)
       return res.status(401).json({ error: "Unauthorized" });
-    
+
     if (req.session.user.role !== "PROVIDER")
-      return res.status(403).json({ error: "Forbidden. Only provider can access this resource" });
+      return res
+        .status(403)
+        .json({ error: "Forbidden. Only provider can access this resource" });
 
     const provider_id = req.session.user.id;
     const orders = await Order.findAll({
       where: { provider_id },
       include: [
         { model: Service },
-        { model: User, as: "Customer", attributes: ["full_name", "phone", "email"] }
+        {
+          model: User,
+          as: "Customer",
+          attributes: ["full_name", "phone", "email"],
+        },
       ],
       order: [["created_at", "DESC"]],
     });

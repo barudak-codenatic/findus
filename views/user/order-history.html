@@ -8,6 +8,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200,0,0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
 </head>
 
 <body class="font-sans">
@@ -105,9 +107,9 @@
                 <p>Platform online untuk mahasiswa yang kos! Belanja kebutuhan harian, perlengkapan kamar, serta pesan
                     layanan seperti jasa layanan, bersih-bersih, dan lainnya dengan mudah.</p>
                 <div class="flex gap-3">
-                    <a href="#"><img src="icon-fb.svg" alt="FB" class="w-5"></a>
-                    <a href="#"><img src="icon-ig.svg" alt="IG" class="w-5"></a>
-                    <a href="#"><img src="icon-tw.svg" alt="TW" class="w-5"></a>
+                    <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"><i class="bi bi-twitter"></i></a>
                 </div>
             </div>
 
@@ -181,6 +183,101 @@
                 console.error("Gagal memuat data user:", err);
                 window.location.href = "/login";
             });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("/api/order/history")
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.querySelector(".pt-6");
+                    container.innerHTML = ""; // Kosongkan dulu
+
+                    if (!data.orders || data.orders.length === 0) {
+                        container.innerHTML = "<p class='text-center py-10'>Belum ada riwayat pesanan.</p>";
+                        return;
+                    }
+
+                    data.orders.forEach(order => {
+                        let statusLabel = "";
+                        switch (order.status) {
+                            case "BELUM BAYAR": statusLabel = '<span class="text-xs px-2 py-0.5 rounded bg-yellow-400 text-white">Belum Bayar</span>'; break;
+                            case "DIBAYAR": statusLabel = '<span class="text-xs px-2 py-0.5 rounded bg-green-400 text-white">Dibayar</span>'; break;
+                            case "DIPROSES": statusLabel = '<span class="text-xs px-2 py-0.5 rounded bg-blue-400 text-white">Diproses</span>'; break;
+                            case "SELESAI": statusLabel = '<span class="text-xs px-2 py-0.5 rounded bg-[#029FAE] text-white">Selesai</span>'; break;
+                            case "DIBATALKAN": statusLabel = '<span class="text-xs px-2 py-0.5 rounded bg-red-400 text-white">Dibatalkan</span>'; break;
+                            default: statusLabel = order.status;
+                        }
+
+                        // Tombol dinamis sesuai status
+                        let actionButtons = "";
+                        if (order.status === "BELUM BAYAR") {
+                            actionButtons = `
+                        <a href="/payment?order_id=${order.id}" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition mr-2">Bayar</a>
+                        <button onclick="cancelOrder('${order.id}')" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-800 transition">Batalkan</button>
+                    `;
+                        } else if (order.status === "DIBAYAR") {
+                            actionButtons = `
+                        <a href="/user/chat?provider_id=${order.Provider?.id || order.provider_id}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800 transition">Chat Penyedia Jasa</a>
+                    `;
+                        } else if (order.status === "DIPROSES") {
+                            actionButtons = `
+                        <a href="/user/chat?provider_id=${order.Provider?.id || order.provider_id}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-800 transition mr-2">Chat Penyedia Jasa</a>
+                        <button onclick="confirmDone('${order.id}')" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-800 transition">Konfirmasi Selesai</button>
+                    `;
+                        } else if (order.status === "SELESAI") {
+                            actionButtons = `
+                        <a href="/user/chat?provider_id=${order.Provider?.id || order.provider_id}" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100 transition mr-2">Chat Penyedia Jasa</a>
+                        <a href="/order?service_id=${order.Service?.id || order.service_id}" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100 transition mr-2">Pesan Lagi</a>
+                        <a href="/review-service/${order.id}" class="bg-[#029FAE] text-white px-4 py-2 rounded hover:opacity-80 transition">Beri Ulasan</a>
+                    `;
+                        } else if (order.status === "DIBATALKAN") {
+                            actionButtons = `
+                        <a href="/order?service_id=${order.Service?.id || order.service_id}" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition">Pesan Lagi</a>
+                    `;
+                        }
+
+                        container.innerHTML += `
+                        <div class="flex gap-4 bg-white rounded shadow-sm mb-2 px-3 py-2 text-sm">
+                            <img src="${order.Service?.image_url || 'https://placehold.co/150x120?text=Service'}" alt="${order.Service?.name || '-'}"
+                                class="w-36 h-24 rounded object-cover" />
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="text-xs text-gray-400 font-mono">#${order.id}</span>
+                                    ${statusLabel}
+                                </div>
+                                <div class="font-semibold truncate">${order.Service?.name || '-'}</div>
+                                <div class="text-gray-500 truncate">${order.address || '-'}</div>
+                                <div class="text-xs text-gray-400 mt-1">Rp${order.Service?.price ? order.Service.price.toLocaleString('id-ID') : '-'}</div>
+                            </div>
+                            <div class="flex flex-col gap-2 items-end">
+                                <div class="flex flex-row gap-1 items-end">
+                                    ${actionButtons}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    });
+                });
+        });
+
+        // Fungsi batalkan order
+        function cancelOrder(orderId) {
+            if (!confirm("Yakin ingin membatalkan pesanan ini?")) return;
+            fetch("/api/order/update-status", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ order_id: orderId, status: "DIBATALKAN" })
+            }).then(() => location.reload());
+        }
+
+        // Fungsi konfirmasi selesai
+        function confirmDone(orderId) {
+            if (!confirm("Konfirmasi pesanan sudah selesai?")) return;
+            fetch("/api/order/update-status", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ order_id: orderId, status: "SELESAI" })
+            }).then(() => location.reload());
+        }
     </script>
 </body>
 

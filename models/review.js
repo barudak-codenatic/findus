@@ -31,6 +31,10 @@ module.exports = (sequelize) => {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
       },
+      image_url: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       tableName: "reviews",

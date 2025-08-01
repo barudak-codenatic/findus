@@ -12,8 +12,21 @@ const isProvider = (req, res, next) => {
 
 exports.getAllServices = async (req, res) => {
   try {
+    const { province_id, regency_id, sort } = req.query;
+    const where = {};
+    if (province_id) where.province_id = province_id;
+    if (regency_id) where.regency_id = regency_id;
+
+    // Gunakan 'created_at' sesuai field di model
+    let order = [["created_at", "DESC"]];
+    if (sort === "terbaru") order = [["created_at", "DESC"]];
+    if (sort === "terlama") order = [["created_at", "ASC"]];
+    if (sort === "harga-tertinggi") order = [["price", "DESC"]];
+    if (sort === "harga-terendah") order = [["price", "ASC"]];
+
     const services = await Service.findAll({
-      order: [["created_at", "DESC"]],
+      where,
+      order,
       include: [
         {
           model: User,
@@ -22,9 +35,9 @@ exports.getAllServices = async (req, res) => {
       ],
     });
     res.json({ services });
-  } catch (error) {
-    console.error("Error fetching all services:", error);
-    res.status(500).json({ error: "Gagal mengambil semua layanan" });
+  } catch (err) {
+    console.error("Error getAllServices:", err); // Tambahkan log error
+    res.status(500).json({ error: "Gagal mengambil data layanan" });
   }
 };
 

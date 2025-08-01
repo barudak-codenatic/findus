@@ -31,6 +31,7 @@ const cartRoutes = require("./routes/cart");
 const orderRoutes = require("./routes/order");
 const chatRoutes = require("./routes/chat");
 const userRoutes = require("./routes/user");
+const reviewRoutes = require("./routes/review");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/services", serviceRoutes);
@@ -38,6 +39,7 @@ app.use("/", chatRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/order", orderRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/reviews", reviewRoutes);
 
 app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "./views/login.html"));
@@ -74,6 +76,15 @@ app.get("/dashboard-user", (req, res) => {
 app.get("/service-detail/:id", (req, res) => {
   res.sendFile(path.join(__dirname, "./views/user/service-detail.html"));
 });
+
+app.get(
+  "/review-service/:id",
+  isAuthenticated,
+  chatController.isUser,
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "./views/user/review.html"));
+  }
+);
 
 app.get("/cart", (req, res) => {
   res.sendFile(path.join(__dirname, "./views/user/cart.html"));
