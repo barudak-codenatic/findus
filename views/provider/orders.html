@@ -1,284 +1,373 @@
 <!DOCTYPE html>
 <html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FindUs - Daftar Pesanan</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200,0,0"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD"
+      crossorigin="anonymous"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FindUs - Daftar Pesanan</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200,0,0" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-    integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-    integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
-</head>
-
-<body class="font-sans">
-  <header class="header">
-    <div class="flex justify-center items-center w-full bg-[#272343] text-white p-2">
-      <nav class="flex space-x-4 items-center text-xs font-light">
-        <a href="" class="flex items-center gap-1">
-          <span class="material-symbols-outlined !text-lg">
-            expand_more
-          </span>
-          Eng
-        </a>
-        <a href="">Faqs</a>
-        <a href="" class="flex items-center gap-1">
-          <span class="material-symbols-outlined !text-lg"> error </span>
-          Need Help
-        </a>
-      </nav>
-    </div>
-    <div class="bg-gray-100">
-      <div class="container mx-auto flex justify-between items-center w-full px-28 py-4">
-        <a class="brand" href="/dashboard-provider"><img src="/public/images/Logo.svg" alt="" /></a>
-        <input type="text" placeholder="Search here..."
-          class="w-full md:w-1/3 px-4 py-2 text-sm bg-white rounded focus:outline-none" />
-        <nav class="flex space-x-4 items-center text-xs">
-          <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="/provider/services">
+  <body class="font-sans">
+    <header class="header">
+      <div
+        class="flex justify-center items-center w-full bg-[#272343] text-white p-2"
+      >
+        <nav class="flex space-x-4 items-center text-xs font-light">
+          <a href="" class="flex items-center gap-1">
             <span class="material-symbols-outlined !text-lg">
-              inventory
+              expand_more
             </span>
-            Layanan Saya
+            Eng
           </a>
-          <a class="bg-[#029FAE] text-white rounded px-4 py-1 flex items-center gap-1" href="/provider/orders">
-            <span class="material-symbols-outlined !text-lg">
-              receipt_long
-            </span>
-            Pesanan
-          </a>
-          <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="/provider/chat">
-            <span class="material-symbols-outlined !text-lg"> chat </span>
-            Chat
-          </a>
-          <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="" id="profile-link">
-            <span class="material-symbols-outlined !text-lg"> person </span>
+          <a href="">Faqs</a>
+          <a href="" class="flex items-center gap-1">
+            <span class="material-symbols-outlined !text-lg"> error </span>
+            Need Help
           </a>
         </nav>
       </div>
-    </div>
-    <div class="border-b-1 border-gray-300">
-      <div class="container mx-auto flex justify-between items-center w-full px-28 py-4 text-xs">
-        <nav class="flex items-center space-x-2 text-gray-600" aria-label="Breadcrumb">
-          <a href="/" class="hover:underline flex items-center gap-1">
-            <span class="material-symbols-outlined !text-base align-middle">home</span>
-            Home
-          </a>
-          <span class="mx-1 text-gray-400">/</span>
-          <a href="/dashboard-provider" class="hover:underline">Provider Dashboard</a>
-          <span class="mx-1 text-gray-400">/</span>
-          <span class="text-gray-500">Daftar Pesanan</span>
-        </nav>
-        <div class="contact flex gap-2">
-          <span class="text-gray-500">Contact:</span>(0812) 1284-8626
+      <div class="bg-gray-100">
+        <div
+          class="container mx-auto flex justify-between items-center w-full px-28 py-4"
+        >
+          <a class="brand" href="/dashboard-provider"
+            ><img src="/public/images/Logo.svg" alt=""
+          /></a>
+          <input
+            type="text"
+            placeholder="Search here..."
+            class="w-full md:w-1/3 px-4 py-2 text-sm bg-white rounded focus:outline-none"
+          />
+          <nav class="flex space-x-4 items-center text-xs">
+            <a
+              class="bg-white rounded px-4 py-1 flex items-center gap-1"
+              href="/provider/services"
+            >
+              <span class="material-symbols-outlined !text-lg">
+                inventory
+              </span>
+              Layanan Saya
+            </a>
+            <a
+              class="bg-[#029FAE] text-white rounded px-4 py-1 flex items-center gap-1"
+              href="/provider/orders"
+            >
+              <span class="material-symbols-outlined !text-lg">
+                receipt_long
+              </span>
+              Pesanan
+            </a>
+            <a
+              class="bg-white rounded px-4 py-1 flex items-center gap-1"
+              href="/provider/chat"
+            >
+              <span class="material-symbols-outlined !text-lg"> chat </span>
+              Chat
+            </a>
+            <a
+              class="bg-white rounded px-4 py-1 flex items-center gap-1"
+              href=""
+              id="profile-link"
+            >
+              <span class="material-symbols-outlined !text-lg"> person </span>
+            </a>
+          </nav>
         </div>
       </div>
-    </div>
-  </header>
-
-  <!-- Section: Daftar Pesanan -->
-  <main class="container mx-auto px-6 py-8 mb-24">
-    <section class="max-w-7xl mx-auto">
-      <!-- Header Section -->
-      <div class="mb-8">
-        <h2 class="text-2xl font-bold text-gray-800 mb-2">Daftar Pesanan</h2>
-        <p class="text-gray-600">
-          Kelola semua pesanan jasa yang Anda terima
-        </p>
-      </div>
-
-      <!-- Tab Navigation -->
-      <div class="border-b border-gray-200 mb-6">
-        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-          <button id="tab-pending"
-            class="border-[#029FAE] text-[#029FAE] whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-            aria-current="page">
-            Belum Diproses
-          </button>
-          <button id="tab-processed"
-            class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-            Sudah Diproses
-          </button>
-        </nav>
-      </div>
-
-      <!-- Orders List -->
-      <div id="orders-container" class="space-y-6">
-        <!-- Orders will be loaded here -->
-        <div class="flex justify-center items-center h-64">
-          <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#029FAE]"></div>
+      <div class="border-b-1 border-gray-300">
+        <div
+          class="container mx-auto flex justify-between items-center w-full px-28 py-4 text-xs"
+        >
+          <nav
+            class="flex items-center space-x-2 text-gray-600"
+            aria-label="Breadcrumb"
+          >
+            <a href="/" class="hover:underline flex items-center gap-1">
+              <span class="material-symbols-outlined !text-base align-middle"
+                >home</span
+              >
+              Home
+            </a>
+            <span class="mx-1 text-gray-400">/</span>
+            <a href="/dashboard-provider" class="hover:underline"
+              >Provider Dashboard</a
+            >
+            <span class="mx-1 text-gray-400">/</span>
+            <span class="text-gray-500">Daftar Pesanan</span>
+          </nav>
+          <div class="contact flex gap-2">
+            <span class="text-gray-500">Contact:</span>(0812) 1284-8626
+          </div>
         </div>
       </div>
+    </header>
 
-      <!-- Empty State -->
-      <div id="empty-state" class="hidden text-center py-16">
-        <div class="flex flex-col items-center justify-center">
-          <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">receipt_long</span>
-          <h3 class="text-xl font-medium text-gray-700 mb-2">
-            Belum Ada Pesanan
-          </h3>
-          <p class="text-gray-500 mb-6">
-            Anda belum memiliki pesanan dalam kategori ini
+    <!-- Section: Daftar Pesanan -->
+    <main class="container mx-auto px-6 py-8 mb-24">
+      <section class="max-w-7xl mx-auto">
+        <!-- Header Section -->
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">Daftar Pesanan</h2>
+          <p class="text-gray-600">
+            Kelola semua pesanan jasa yang Anda terima
           </p>
         </div>
-      </div>
-    </section>
-  </main>
 
-  <footer class="border-t border-gray-200 py-10 text-sm text-gray-700">
-    <div class="container mx-auto flex justify-start w-full px-28 py-4 gap-24">
-      <div class="w-1/4 flex flex-col gap-4">
-        <a class="brand" href=""><img src="/public/images/Logo.svg" alt="" /></a>
-        <p>
-          Platform online untuk mahasiswa yang kos! Belanja kebutuhan harian,
-          perlengkapan kamar, serta pesan layanan seperti jasa layanan,
-          bersih-bersih, dan lainnya dengan mudah.
-        </p>
-        <div class="flex gap-3">
-          <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"><i class="bi bi-facebook"></i></a>
-          <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"><i class="bi bi-instagram"></i></a>
-          <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"><i class="bi bi-twitter"></i></a>
+        <!-- Tab Navigation -->
+        <div class="border-b border-gray-200 mb-6">
+          <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+            <button
+              id="tab-pending"
+              class="border-[#029FAE] text-[#029FAE] whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+              aria-current="page"
+            >
+              Belum Diproses
+            </button>
+            <button
+              id="tab-processed"
+              class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+            >
+              Sudah Diproses
+            </button>
+          </nav>
         </div>
-      </div>
 
-      <div>
-        <h5 class="font-medium mb-2 text-gray-400">Category</h5>
-        <ul class="space-y-1">
-          <li>
-            <a href="#" class="hover:underline hover:text-[#029FAE]">Peralatan Mandi</a>
-          </li>
-          <li>
-            <a href="#" class="hover:underline hover:text-[#029FAE]">Alat Masak</a>
-          </li>
-          <li>
-            <a href="#" class="hover:underline hover:text-[#029FAE]">Elektronik</a>
-          </li>
-          <li>
-            <a href="#" class="hover:underline hover:text-[#029FAE]">Dekorasi Kamar</a>
-          </li>
-          <li>
-            <a href="#" class="hover:underline hover:text-[#029FAE]">Alat Makan</a>
-          </li>
-          <li>
-            <a href="#" class="hover:underline hover:text-[#029FAE]">Jasa Layanan</a>
-          </li>
-        </ul>
-      </div>
+        <!-- Orders List -->
+        <div id="orders-container" class="space-y-6">
+          <!-- Orders will be loaded here -->
+          <div class="flex justify-center items-center h-64">
+            <div
+              class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#029FAE]"
+            ></div>
+          </div>
+        </div>
 
-      <div>
-        <h5 class="font-medium mb-2 text-gray-400">Support</h5>
-        <ul class="space-y-1">
-          <li><a href="#" class="hover:underline">Cara Pemesanan</a></li>
-          <li><a href="#" class="hover:underline">Syarat & Ketentuan</a></li>
-          <li><a href="#" class="hover:underline">Kebijakan Privasi</a></li>
-          <li><a href="#" class="hover:underline">Hubungi Kami</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="mt-8 border-t border-gray-200 pt-4 text-center text-xs text-gray-500">
-      &copy; 2025 - FindUS • Designed & Developed by epaarito
-    </div>
-  </footer>
-
-  <!-- Order Card Template -->
-  <template id="order-card-template">
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-      <div class="p-6">
-        <div class="flex justify-between items-start mb-4">
-          <div>
-            <h3 class="font-medium text-lg mb-1 order-id">Order #12345</h3>
-            <p class="text-sm text-gray-500 order-date">
-              12 Juni 2023, 14:30
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden text-center py-16">
+          <div class="flex flex-col items-center justify-center">
+            <span class="material-symbols-outlined text-6xl text-gray-300 mb-4"
+              >receipt_long</span
+            >
+            <h3 class="text-xl font-medium text-gray-700 mb-2">
+              Belum Ada Pesanan
+            </h3>
+            <p class="text-gray-500 mb-6">
+              Anda belum memiliki pesanan dalam kategori ini
             </p>
           </div>
-          <div class="order-status px-3 py-1 rounded-full text-xs font-medium"></div>
         </div>
+      </section>
+    </main>
 
-        <div class="flex items-center mb-4">
-          <div class="h-16 w-16 bg-gray-200 rounded-md overflow-hidden mr-4">
-            <img src="/public/images/services/default.svg" alt="Service Image"
-              class="w-full h-full object-cover service-image"
-              onerror="this.src='/public/images/services/default.svg'" />
-          </div>
-          <div>
-            <h4 class="font-medium service-name">Nama Jasa</h4>
-            <p class="text-[#029FAE] font-bold service-price">Rp 0</p>
-          </div>
-        </div>
-
-        <div class="border-t border-gray-100 pt-4">
-          <h5 class="font-medium text-sm mb-2">Informasi Pelanggan:</h5>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-            <div>
-              <span class="text-gray-500">Nama:</span>
-              <span class="customer-name ml-1">John Doe</span>
-            </div>
-            <div>
-              <span class="text-gray-500">Telepon:</span>
-              <span class="customer-phone ml-1">08123456789</span>
-            </div>
-            <div class="md:col-span-2">
-              <span class="text-gray-500">Alamat:</span>
-              <span class="customer-address ml-1">Jl. Contoh No. 123, Jakarta</span>
-            </div>
-            <div>
-              <span class="text-gray-500">Jadwal:</span>
-              <span class="order-schedule ml-1">13 Juni 2023</span>
-            </div>
+    <footer class="border-t border-gray-200 py-10 text-sm text-gray-700">
+      <div
+        class="container mx-auto flex justify-start w-full px-28 py-4 gap-24"
+      >
+        <div class="w-1/4 flex flex-col gap-4">
+          <a class="brand" href=""
+            ><img src="/public/images/Logo.svg" alt=""
+          /></a>
+          <p>
+            Platform online untuk mahasiswa yang kos! Belanja kebutuhan harian,
+            perlengkapan kamar, serta pesan layanan seperti jasa layanan,
+            bersih-bersih, dan lainnya dengan mudah.
+          </p>
+          <div class="flex gap-3">
+            <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"
+              ><i class="bi bi-facebook"></i
+            ></a>
+            <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"
+              ><i class="bi bi-instagram"></i
+            ></a>
+            <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"
+              ><i class="bi bi-twitter"></i
+            ></a>
           </div>
         </div>
 
-        <div class="mt-4 flex justify-end space-x-3 process-actions">
+        <div>
+          <h5 class="font-medium mb-2 text-gray-400">Category</h5>
+          <ul class="space-y-1">
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Peralatan Mandi</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Alat Masak</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Elektronik</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Dekorasi Kamar</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Alat Makan</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:underline hover:text-[#029FAE]"
+                >Jasa Layanan</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h5 class="font-medium mb-2 text-gray-400">Support</h5>
+          <ul class="space-y-1">
+            <li><a href="#" class="hover:underline">Cara Pemesanan</a></li>
+            <li><a href="#" class="hover:underline">Syarat & Ketentuan</a></li>
+            <li><a href="#" class="hover:underline">Kebijakan Privasi</a></li>
+            <li><a href="#" class="hover:underline">Hubungi Kami</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div
+        class="mt-8 border-t border-gray-200 pt-4 text-center text-xs text-gray-500"
+      >
+        &copy; 2025 - FindUS • Designed & Developed by epaarito
+      </div>
+    </footer>
+
+    <!-- Order Card Template -->
+    <template id="order-card-template">
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <div class="p-6">
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <h3 class="font-medium text-lg mb-1 order-id">Order #12345</h3>
+              <p class="text-sm text-gray-500 order-date">
+                12 Juni 2023, 14:30
+              </p>
+            </div>
+            <div
+              class="order-status px-3 py-1 rounded-full text-xs font-medium"
+            ></div>
+          </div>
+
+          <div class="flex items-center mb-4">
+            <div class="h-16 w-16 bg-gray-200 rounded-md overflow-hidden mr-4">
+              <img
+                src="/public/images/services/default.svg"
+                alt="Service Image"
+                class="w-full h-full object-cover service-image"
+                onerror="this.src='/public/images/services/default.svg'"
+              />
+            </div>
+            <div>
+              <h4 class="font-medium service-name">Nama Jasa</h4>
+              <p class="text-[#029FAE] font-bold service-price">Rp 0</p>
+            </div>
+          </div>
+
+          <div class="border-t border-gray-100 pt-4">
+            <h5 class="font-medium text-sm mb-2">Informasi Pelanggan:</h5>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+              <div>
+                <span class="text-gray-500">Nama:</span>
+                <span class="customer-name ml-1">John Doe</span>
+              </div>
+              <div>
+                <span class="text-gray-500">Telepon:</span>
+                <span class="customer-phone ml-1">08123456789</span>
+              </div>
+              <div class="md:col-span-2">
+                <span class="text-gray-500">Alamat:</span>
+                <span class="customer-address ml-1"
+                  >Jl. Contoh No. 123, Jakarta</span
+                >
+              </div>
+              <div>
+                <span class="text-gray-500">Jadwal:</span>
+                <span class="order-schedule ml-1">13 Juni 2023</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 flex justify-end space-x-3 process-actions">
+            <button
+              class="process-order px-4 py-2 bg-[#029FAE] text-white rounded-lg hover:bg-[#027f8a] transition-colors"
+            >
+              Proses Pesanan
+            </button>
+            <a
+              href="#"
+              class="chat-customer px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-1"
+            >
+              <span class="material-symbols-outlined !text-base">chat</span>
+              Chat Pelanggan
+            </a>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <!-- Process Confirmation Modal -->
+    <div
+      id="process-modal"
+      class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden"
+    >
+      <div class="bg-white rounded-lg p-6 w-full max-w-md">
+        <h3 class="text-xl font-bold mb-4">Konfirmasi Proses Pesanan</h3>
+        <p class="mb-6">
+          Apakah Anda yakin ingin memproses pesanan
+          <span id="process-order-id" class="font-semibold"></span>?
+        </p>
+        <div class="flex justify-end space-x-3">
           <button
-            class="process-order px-4 py-2 bg-[#029FAE] text-white rounded-lg hover:bg-[#027f8a] transition-colors">
-            Proses Pesanan
+            id="cancel-process"
+            class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            Batal
           </button>
-          <a href="#"
-            class="chat-customer px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-1">
-            <span class="material-symbols-outlined !text-base">chat</span>
-            Chat Pelanggan
-          </a>
+          <button
+            id="confirm-process"
+            class="px-4 py-2 bg-[#029FAE] text-white rounded-lg hover:bg-[#027f8a] transition-colors"
+          >
+            Proses
+          </button>
         </div>
       </div>
     </div>
-  </template>
 
-  <!-- Process Confirmation Modal -->
-  <div id="process-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg p-6 w-full max-w-md">
-      <h3 class="text-xl font-bold mb-4">Konfirmasi Proses Pesanan</h3>
-      <p class="mb-6">
-        Apakah Anda yakin ingin memproses pesanan
-        <span id="process-order-id" class="font-semibold"></span>?
-      </p>
-      <div class="flex justify-end space-x-3">
-        <button id="cancel-process"
-          class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">
-          Batal
-        </button>
-        <button id="confirm-process"
-          class="px-4 py-2 bg-[#029FAE] text-white rounded-lg hover:bg-[#027f8a] transition-colors">
-          Proses
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Load user authentication
-    fetch("/api/auth/me")
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.user || data.user.role !== "PROVIDER") {
-          alert("Akses ditolak. Silakan login sebagai PROVIDER.");
-          window.location.href = "/login";
-        } else {
-          const profileLink = document.getElementById("profile-link");
-          if (profileLink) {
-            profileLink.innerHTML = `
+    <script>
+      // Load user authentication
+      fetch("/api/auth/me")
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data.user || data.user.role !== "PROVIDER") {
+            alert("Akses ditolak. Silakan login sebagai PROVIDER.");
+            window.location.href = "/login";
+          } else {
+            const profileLink = document.getElementById("profile-link");
+            if (profileLink) {
+              profileLink.innerHTML = `
               <div class="relative cursor-pointer select-none" id="profile-dropdown-parent">
                 <span class="flex items-center gap-1" id="profile-dropdown-toggle">
                   <span class="material-symbols-outlined !text-lg">person</span>
@@ -291,293 +380,335 @@
                 </div>
               </div>
             `;
-            profileLink.href = "javascript:void(0)";
+              profileLink.href = "javascript:void(0)";
 
-            const toggle = document.getElementById("profile-dropdown-toggle");
-            const menu = document.getElementById("profile-dropdown-menu");
-            document.addEventListener("click", function (e) {
-              if (toggle && menu) {
-                if (toggle.contains(e.target)) {
-                  menu.classList.toggle("hidden");
-                } else if (!menu.contains(e.target)) {
-                  menu.classList.add("hidden");
+              const toggle = document.getElementById("profile-dropdown-toggle");
+              const menu = document.getElementById("profile-dropdown-menu");
+              document.addEventListener("click", function (e) {
+                if (toggle && menu) {
+                  if (toggle.contains(e.target)) {
+                    menu.classList.toggle("hidden");
+                  } else if (!menu.contains(e.target)) {
+                    menu.classList.add("hidden");
+                  }
                 }
-              }
-            });
-          }
+              });
+            }
 
-          // Load orders after authentication
+            // Load orders after authentication
+            loadOrders();
+          }
+        })
+        .catch((err) => {
+          console.error("Gagal memuat data user:", err);
+          window.location.href = "/login";
+        });
+
+      // Format price to Indonesian Rupiah
+      function formatRupiah(price) {
+        return new Intl.NumberFormat("id-ID", {
+          style: "currency",
+          currency: "IDR",
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        }).format(price);
+      }
+
+      // Format date
+      function formatDate(dateString) {
+        const options = {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        };
+        return new Date(dateString).toLocaleDateString("id-ID", options);
+      }
+
+      // Tab switching
+      const tabPending = document.getElementById("tab-pending");
+      const tabProcessed = document.getElementById("tab-processed");
+      let currentTab = "pending";
+
+      tabPending.addEventListener("click", () => {
+        if (currentTab !== "pending") {
+          currentTab = "pending";
+          updateTabStyles();
           loadOrders();
         }
-      })
-      .catch((err) => {
-        console.error("Gagal memuat data user:", err);
-        window.location.href = "/login";
       });
 
-    // Format price to Indonesian Rupiah
-    function formatRupiah(price) {
-      return new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      }).format(price);
-    }
-
-    // Format date
-    function formatDate(dateString) {
-      const options = {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      };
-      return new Date(dateString).toLocaleDateString("id-ID", options);
-    }
-
-    // Tab switching
-    const tabPending = document.getElementById("tab-pending");
-    const tabProcessed = document.getElementById("tab-processed");
-    let currentTab = "pending";
-
-    tabPending.addEventListener("click", () => {
-      if (currentTab !== "pending") {
-        currentTab = "pending";
-        updateTabStyles();
-        loadOrders();
-      }
-    });
-
-    tabProcessed.addEventListener("click", () => {
-      if (currentTab !== "processed") {
-        currentTab = "processed";
-        updateTabStyles();
-        loadOrders();
-      }
-    });
-
-    function updateTabStyles() {
-      if (currentTab === "pending") {
-        tabPending.classList.add("border-[#029FAE]", "text-[#029FAE]");
-        tabPending.classList.remove("border-transparent", "text-gray-500");
-        tabProcessed.classList.add("border-transparent", "text-gray-500");
-        tabProcessed.classList.remove("border-[#029FAE]", "text-[#029FAE]");
-      } else {
-        tabProcessed.classList.add("border-[#029FAE]", "text-[#029FAE]");
-        tabProcessed.classList.remove("border-transparent", "text-gray-500");
-        tabPending.classList.add("border-transparent", "text-gray-500");
-        tabPending.classList.remove("border-[#029FAE]", "text-[#029FAE]");
-      }
-    }
-
-    // Load orders from API
-    async function loadOrders() {
-      try {
-        const response = await fetch("/api/order/provider");
-        const data = await response.json();
-
-        const ordersContainer = document.getElementById("orders-container");
-        const emptyState = document.getElementById("empty-state");
-
-        // Clear loading spinner
-        ordersContainer.innerHTML = "";
-
-        if (data.orders && data.orders.length > 0) {
-          // Filter orders based on current tab
-          const filteredOrders = data.orders.filter((order) => {
-            if (currentTab === "pending") {
-              return (
-                order.status === "PENDING" || order.status === "DITERIMA"
-              );
-            } else {
-              return (
-                order.status === "DIPROSES" ||
-                order.status === "SELESAI" ||
-                order.status === "DIBATALKAN"
-              );
-            }
-          });
-
-          if (filteredOrders.length > 0) {
-            // Hide empty state
-            emptyState.classList.add("hidden");
-
-            // Show orders
-            filteredOrders.forEach((order) => {
-              const template = document.getElementById("order-card-template");
-              const clone = document.importNode(template.content, true);
-
-              // Set order data
-              clone.querySelector(
-                ".order-id"
-              ).textContent = `Order #${order.id}`;
-              clone.querySelector(".order-date").textContent = formatDate(
-                order.created_at
-              );
-
-              // Set status with appropriate color
-              const statusElement = clone.querySelector(".order-status");
-              statusElement.textContent = getStatusText(order.status);
-              getStatusColorClass(order.status)
-                .split(" ")
-                .forEach((cls) => statusElement.classList.add(cls));
-
-              // Set service data
-              const serviceImg = clone.querySelector(".service-image");
-              if (order.Service && order.Service.image_url) {
-                serviceImg.src = order.Service.image_url;
-              }
-
-              clone.querySelector(".service-name").textContent = order.Service
-                ? order.Service.name
-                : "Layanan tidak tersedia";
-              clone.querySelector(".service-price").textContent =
-                formatRupiah(order.total_price);
-
-              // Set customer data
-              clone.querySelector(".customer-name").textContent =
-                order.Customer ? order.Customer.full_name : "Pelanggan";
-              clone.querySelector(".customer-phone").textContent =
-                order.Customer ? order.Customer.phone : "-";
-              clone.querySelector(".customer-address").textContent =
-                order.address || "-";
-              clone.querySelector(".order-schedule").textContent = formatDate(
-                order.schedule
-              );
-
-              // Set chat link
-              const chatLink = clone.querySelector(".chat-customer");
-              if (order.Customer) {
-                chatLink.href = `/provider/chat?user=${order.user_id}`;
-              }
-
-              // Handle process actions
-              const processActions = clone.querySelector(".process-actions");
-              const processButton = clone.querySelector(".process-order");
-
-              if (
-                currentTab === "pending" &&
-                (order.status === "PENDING" || order.status === "DITERIMA")
-              ) {
-                processButton.addEventListener("click", () =>
-                  showProcessModal(order)
-                );
-              } else {
-                processActions.innerHTML = "";
-                if (currentTab === "processed") {
-                  const statusInfo = document.createElement("div");
-                  statusInfo.className = "text-sm text-gray-500";
-                  statusInfo.textContent = `Status: ${getStatusText(
-                    order.status
-                  )}`;
-                  processActions.appendChild(statusInfo);
-                  processActions.appendChild(chatLink);
-                }
-              }
-
-              ordersContainer.appendChild(clone);
-            });
-          } else {
-            // Show empty state
-            emptyState.classList.remove("hidden");
-          }
-        } else {
-          // Show empty state
-          emptyState.classList.remove("hidden");
+      tabProcessed.addEventListener("click", () => {
+        if (currentTab !== "processed") {
+          currentTab = "processed";
+          updateTabStyles();
+          loadOrders();
         }
-      } catch (error) {
-        console.error("Error loading orders:", error);
-        alert("Gagal memuat data pesanan. Silakan coba lagi.");
-      }
-    }
-
-    // Get status text
-    function getStatusText(status) {
-      switch (status) {
-        case "PENDING":
-          return "Menunggu Konfirmasi";
-        case "DITERIMA":
-          return "Diterima";
-        case "DIPROSES":
-          return "Diproses";
-        case "SELESAI":
-          return "Selesai";
-        case "DIBATALKAN":
-          return "Dibatalkan";
-        default:
-          return status;
-      }
-    }
-
-    // Get status color class
-    function getStatusColorClass(status) {
-      switch (status) {
-        case "PENDING":
-          return "bg-yellow-100 text-yellow-800";
-        case "DITERIMA":
-          return "bg-blue-100 text-blue-800";
-        case "DIPROSES":
-          return "bg-purple-100 text-purple-800";
-        case "SELESAI":
-          return "bg-green-100 text-green-800";
-        case "DIBATALKAN":
-          return "bg-red-100 text-red-800";
-        default:
-          return "bg-gray-100 text-gray-800";
-      }
-    }
-
-    // Process order functionality
-    let orderToProcess = null;
-
-    function showProcessModal(order) {
-      orderToProcess = order;
-      document.getElementById(
-        "process-order-id"
-      ).textContent = `#${order.id}`;
-      document.getElementById("process-modal").classList.remove("hidden");
-    }
-
-    document
-      .getElementById("cancel-process")
-      .addEventListener("click", () => {
-        document.getElementById("process-modal").classList.add("hidden");
-        orderToProcess = null;
       });
 
-    document
-      .getElementById("confirm-process")
-      .addEventListener("click", async () => {
-        if (!orderToProcess) return;
+      function updateTabStyles() {
+        if (currentTab === "pending") {
+          tabPending.classList.add("border-[#029FAE]", "text-[#029FAE]");
+          tabPending.classList.remove("border-transparent", "text-gray-500");
+          tabProcessed.classList.add("border-transparent", "text-gray-500");
+          tabProcessed.classList.remove("border-[#029FAE]", "text-[#029FAE]");
+        } else {
+          tabProcessed.classList.add("border-[#029FAE]", "text-[#029FAE]");
+          tabProcessed.classList.remove("border-transparent", "text-gray-500");
+          tabPending.classList.add("border-transparent", "text-gray-500");
+          tabPending.classList.remove("border-[#029FAE]", "text-[#029FAE]");
+        }
+      }
 
+      // Fungsi untuk membuka chat langsung dengan pelanggan
+      async function openChatWithCustomer(customerId, orderId) {
         try {
-          const response = await fetch("/api/order/update-status", {
+          // Tampilkan loading
+          const chatButton = event.target;
+          const originalText = chatButton.innerHTML;
+          chatButton.innerHTML =
+            '<span class="material-symbols-outlined !text-base">hourglass_empty</span> Loading...';
+          chatButton.disabled = true;
+
+          // Cari atau buat chat dengan pelanggan berdasarkan order
+          const response = await fetch("/api/chats/find-or-create", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              order_id: orderToProcess.id,
-              status: "DIPROSES",
+              customerId: customerId,
+              orderId: orderId,
             }),
           });
 
           const data = await response.json();
 
           if (data.success) {
-            document.getElementById("process-modal").classList.add("hidden");
-            loadOrders(); // Reload orders
+            // Redirect ke halaman chat dengan chat ID yang spesifik
+            window.location.href = `/provider/chat?chatId=${data.chatId}`;
           } else {
-            throw new Error(data.error || "Gagal memproses pesanan");
+            throw new Error(data.error || "Gagal membuka chat");
           }
         } catch (error) {
-          console.error("Error processing order:", error);
-          alert("Gagal memproses pesanan. Silakan coba lagi.");
-        }
-      });
-  </script>
-</body>
+          console.error("Error opening chat:", error);
+          alert("Gagal membuka chat. Silakan coba lagi.");
 
+          // Restore button
+          chatButton.innerHTML = originalText;
+          chatButton.disabled = false;
+        }
+      }
+
+      // Load orders from API
+      async function loadOrders() {
+        try {
+          const response = await fetch("/api/order/provider");
+          const data = await response.json();
+
+          const ordersContainer = document.getElementById("orders-container");
+          const emptyState = document.getElementById("empty-state");
+
+          // Clear loading spinner
+          ordersContainer.innerHTML = "";
+
+          if (data.orders && data.orders.length > 0) {
+            // Filter orders based on current tab
+            const filteredOrders = data.orders.filter((order) => {
+              if (currentTab === "pending") {
+                // Tampilkan pesanan yang belum diproses
+                return (
+                  order.status === "BELUM BAYAR" || order.status === "DIBAYAR"
+                );
+              } else {
+                // Tampilkan pesanan yang sudah diproses, selesai, atau dibatalkan
+                return (
+                  order.status === "DIPROSES" ||
+                  order.status === "SELESAI" ||
+                  order.status === "DIBATALKAN"
+                );
+              }
+            });
+
+            if (filteredOrders.length > 0) {
+              // Hide empty state
+              emptyState.classList.add("hidden");
+
+              // Show orders
+              filteredOrders.forEach((order) => {
+                const template = document.getElementById("order-card-template");
+                const clone = document.importNode(template.content, true);
+
+                // Set order data
+                clone.querySelector(
+                  ".order-id"
+                ).textContent = `Order #${order.id}`;
+                clone.querySelector(".order-date").textContent = formatDate(
+                  order.created_at
+                );
+
+                // Set status with appropriate color
+                const statusElement = clone.querySelector(".order-status");
+                statusElement.textContent = getStatusText(order.status);
+                getStatusColorClass(order.status)
+                  .split(" ")
+                  .forEach((cls) => statusElement.classList.add(cls));
+
+                // Set service data
+                const serviceImg = clone.querySelector(".service-image");
+                if (order.Service && order.Service.image_url) {
+                  serviceImg.src = order.Service.image_url;
+                }
+
+                clone.querySelector(".service-name").textContent = order.Service
+                  ? order.Service.name
+                  : "Layanan tidak tersedia";
+                clone.querySelector(".service-price").textContent =
+                  formatRupiah(order.total_price);
+
+                // Set customer data
+                clone.querySelector(".customer-name").textContent =
+                  order.Customer ? order.Customer.full_name : "Pelanggan";
+                clone.querySelector(".customer-phone").textContent =
+                  order.Customer ? order.Customer.phone : "-";
+                clone.querySelector(".customer-address").textContent =
+                  order.address || "-";
+                clone.querySelector(".order-schedule").textContent = formatDate(
+                  order.schedule
+                );
+
+                // Set chat link
+                const chatLink = clone.querySelector(".chat-customer");
+                if (order.Customer) {
+                  chatLink.href = "javascript:void(0)";
+                  chatLink.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    openChatWithCustomer(order.user_id, order.id);
+                  });
+                }
+
+                // Handle process actions
+                const processActions = clone.querySelector(".process-actions");
+                const processButton = clone.querySelector(".process-order");
+
+                if (currentTab === "pending" && order.status === "DIBAYAR") {
+                  processButton.addEventListener("click", () =>
+                    showProcessModal(order)
+                  );
+                } else {
+                  processActions.innerHTML = "";
+                  if (currentTab === "processed") {
+                    const statusInfo = document.createElement("div");
+                    statusInfo.className = "text-sm text-gray-500";
+                    statusInfo.textContent = `Status: ${getStatusText(
+                      order.status
+                    )}`;
+                    processActions.appendChild(statusInfo);
+                    processActions.appendChild(chatLink);
+                  }
+                }
+
+                ordersContainer.appendChild(clone);
+              });
+            } else {
+              // Show empty state
+              emptyState.classList.remove("hidden");
+            }
+          } else {
+            // Show empty state
+            emptyState.classList.remove("hidden");
+          }
+        } catch (error) {
+          console.error("Error loading orders:", error);
+          alert("Gagal memuat data pesanan. Silakan coba lagi.");
+        }
+      }
+
+      // Get status text
+      function getStatusText(status) {
+        switch (status) {
+          case "BELUM BAYAR":
+            return "Belum Bayar";
+          case "DIBAYAR":
+            return "Dibayar";
+          case "DIPROSES":
+            return "Diproses";
+          case "SELESAI":
+            return "Selesai";
+          case "DIBATALKAN":
+            return "Dibatalkan";
+          default:
+            return status;
+        }
+      }
+
+      // Get status color class
+      function getStatusColorClass(status) {
+        switch (status) {
+          case "BELUM BAYAR":
+            return "bg-yellow-100 text-yellow-800";
+          case "DIBAYAR":
+            return "bg-blue-100 text-blue-800";
+          case "DIPROSES":
+            return "bg-purple-100 text-purple-800";
+          case "SELESAI":
+            return "bg-green-100 text-green-800";
+          case "DIBATALKAN":
+            return "bg-red-100 text-red-800";
+          default:
+            return "bg-gray-100 text-gray-800";
+        }
+      }
+
+      // Process order functionality
+      let orderToProcess = null;
+
+      function showProcessModal(order) {
+        orderToProcess = order;
+        document.getElementById(
+          "process-order-id"
+        ).textContent = `#${order.id}`;
+        document.getElementById("process-modal").classList.remove("hidden");
+      }
+
+      document
+        .getElementById("cancel-process")
+        .addEventListener("click", () => {
+          document.getElementById("process-modal").classList.add("hidden");
+          orderToProcess = null;
+        });
+
+      document
+        .getElementById("confirm-process")
+        .addEventListener("click", async () => {
+          if (!orderToProcess) return;
+
+          try {
+            const response = await fetch("/api/order/update-status", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                order_id: orderToProcess.id,
+                status: "DIPROSES",
+              }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+              document.getElementById("process-modal").classList.add("hidden");
+              loadOrders(); // Reload orders
+            } else {
+              throw new Error(data.error || "Gagal memproses pesanan");
+            }
+          } catch (error) {
+            console.error("Error processing order:", error);
+            alert("Gagal memproses pesanan. Silakan coba lagi.");
+          }
+        });
+    </script>
+  </body>
 </html>

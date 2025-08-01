@@ -13,5 +13,9 @@ router.get(
   isAuthenticated,
   chatController.getUnreadCount
 );
+router.post(
+  "/api/chats/find-or-create",
+  chatController.findOrCreateChatFromOrder
+);
 
 module.exports = router;

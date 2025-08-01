@@ -335,43 +335,41 @@
                     : "";
 
                 chatListHTML += `
-                              <div class="chat-item p-4 border-b border-gray-200 hover:bg-gray-50 cursor-pointer ${
-                                activeChatId === chat.id ? "bg-gray-100" : ""
-                              }" 
-                                   data-chat-id="${chat.id}" data-user-id="${
+                        <div class="chat-item p-4 border-b border-gray-200 hover:bg-gray-50 cursor-pointer ${
+                          activeChatId === chat.id ? "bg-gray-100" : ""
+                        }" 
+                             data-chat-id="${chat.id}" data-user-id="${
                   chat.user_id
                 }">
-                                  <div class="flex items-center">
-                                      <div class="w-10 h-10 rounded-full bg-gray-300 flex-shrink-0 overflow-hidden">
-                                          <img src="${
-                                            chat.User.photo_url ||
-                                            "https://via.placeholder.com/40"
-                                          }" alt="" class="w-full h-full object-cover">
-                                      </div>
-                                      <div class="ml-3 flex-1">
-                                          <p class="font-medium ${unreadClass}">${
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-gray-300 flex-shrink-0 overflow-hidden">
+                                    <img src="${
+                                      chat.User.photo_url ||
+                                      "https://via.placeholder.com/40"
+                                    }" alt="" class="w-full h-full object-cover">
+                                </div>
+                                <div class="ml-3 flex-1">
+                                    <p class="font-medium ${unreadClass}">${
                   chat.User.full_name
                 }</p>
-                                          <p class="text-sm text-gray-500 truncate ${unreadClass}">
-                                              ${
-                                                lastMessage
-                                                  ? lastMessage.content
-                                                  : "Belum ada pesan"
-                                              }
-                                          </p>
-                                      </div>
-                                      <div class="text-xs text-gray-400">
-                                          ${
-                                            lastMessage
-                                              ? formatDate(
-                                                  lastMessage.created_at
-                                                )
-                                              : ""
-                                          }
-                                      </div>
-                                  </div>
-                              </div>
-                              `;
+                                    <p class="text-sm text-gray-500 truncate ${unreadClass}">
+                                        ${
+                                          lastMessage
+                                            ? lastMessage.content
+                                            : "Belum ada pesan"
+                                        }
+                                    </p>
+                                </div>
+                                <div class="text-xs text-gray-400">
+                                    ${
+                                      lastMessage
+                                        ? formatDate(lastMessage.created_at)
+                                        : ""
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        `;
               });
               chatListElement.innerHTML = chatListHTML;
 
@@ -387,25 +385,45 @@
                     el.classList.remove("bg-gray-100");
                   });
                   this.classList.add("bg-gray-100");
+
+                  // Update URL tanpa reload halaman
+                  const newUrl = new URL(window.location);
+                  newUrl.searchParams.set("chatId", chatId);
+                  window.history.pushState({}, "", newUrl);
                 });
               });
+
+              // Auto-load chat jika ada chatId di URL
+              const urlChatId = getUrlParameter("chatId");
+              if (urlChatId) {
+                const targetChatItem = document.querySelector(
+                  `[data-chat-id="${urlChatId}"]`
+                );
+                if (targetChatItem) {
+                  targetChatItem.click();
+                } else {
+                  // Jika chat tidak ditemukan di list, coba load langsung
+                  activeChatId = urlChatId;
+                  loadChatDetail(urlChatId);
+                }
+              }
             } else {
               chatListElement.innerHTML = `
-                          <div class="flex flex-col justify-center items-center h-full text-gray-500 p-4">
-                              <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">chat</span>
-                              <p class="mb-2">Belum ada percakapan</p>
-                              <p class="text-sm">Tunggu pengguna menghubungi Anda</p>
-                          </div>
-                          `;
+                    <div class="flex flex-col justify-center items-center h-full text-gray-500 p-4">
+                        <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">chat</span>
+                        <p class="mb-2">Belum ada percakapan</p>
+                        <p class="text-sm">Tunggu pengguna menghubungi Anda</p>
+                    </div>
+                    `;
             }
           })
           .catch((error) => {
             console.error("Error loading chat list:", error);
             document.getElementById("chat-list").innerHTML = `
-                      <div class="flex justify-center items-center h-full text-red-500">
-                          <p>Gagal memuat daftar chat</p>
-                      </div>
-                      `;
+                <div class="flex justify-center items-center h-full text-red-500">
+                    <p>Gagal memuat daftar chat</p>
+                </div>
+                `;
           });
       }
 
@@ -485,6 +503,16 @@
                       </div>
                       `;
           });
+      }
+
+      // Fungsi untuk mendapatkan parameter URL
+      function getUrlParameter(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+        var results = regex.exec(location.search);
+        return results === null
+          ? ""
+          : decodeURIComponent(results[1].replace(/\+/g, " "));
       }
 
       // Fungsi untuk setup form pesan

@@ -261,3 +261,66 @@ exports.isUser = (req, res, next) => {
   }
   next();
 };
+
+// Fungsi untuk mencari atau membuat chat berdasarkan order
+exports.findOrCreateChatFromOrder = async (req, res) => {
+  try {
+    const { customerId, orderId } = req.body;
+    const providerId = req.session.user.id;
+
+    // Pastikan pengguna adalah provider
+    if (req.session.user.role !== "PROVIDER") {
+      return res
+        .status(403)
+        .json({ error: "Akses ditolak. Anda bukan provider." });
+    }
+
+    // Ambil data order untuk mendapatkan service_id
+    const { Order } = require("../models");
+    const order = await Order.findOne({
+      where: {
+        id: orderId,
+        provider_id: providerId, // Pastikan order ini milik provider
+      },
+      include: [
+        {
+          model: Service,
+          attributes: ["id", "name"],
+        },
+      ],
+    });
+
+    if (!order) {
+      return res
+        .status(404)
+        .json({ error: "Order tidak ditemukan atau bukan milik Anda." });
+    }
+
+    // Cari chat yang sudah ada
+    let chat = await Chat.findOne({
+      where: {
+        service_id: order.service_id,
+        user_id: customerId,
+        provider_id: providerId,
+      },
+    });
+
+    // Jika belum ada, buat chat baru
+    if (!chat) {
+      chat = await Chat.create({
+        service_id: order.service_id,
+        user_id: customerId,
+        provider_id: providerId,
+      });
+    }
+
+    res.json({
+      success: true,
+      chatId: chat.id,
+      message: "Chat berhasil dibuka",
+    });
+  } catch (error) {
+    console.error("Error finding or creating chat from order:", error);
+    res.status(500).json({ error: "Gagal membuka chat dengan pelanggan" });
+  }
+};

@@ -129,7 +129,11 @@
         </div>
 
         <!-- Form -->
-        <form id="edit-service-form" class="space-y-6 bg-white" enctype="multipart/form-data">
+        <form
+          id="edit-service-form"
+          class="space-y-6 bg-white"
+          enctype="multipart/form-data"
+        >
           <!-- Hidden Service ID -->
           <input type="hidden" id="service-id" />
 
@@ -148,6 +152,26 @@
               class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition"
               required
             />
+          </div>
+
+          <!-- Kategori Jasa -->
+          <div>
+            <label
+              for="service-category"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Kategori Jasa <span class="text-red-500">*</span>
+            </label>
+            <select
+              id="service-category"
+              class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition"
+              required
+            >
+              <option value="" disabled selected>Pilih Kategori</option>
+              <option value="Kebersihan">Kebersihan</option>
+              <option value="Angkut Barang">Angkut Barang</option>
+              <option value="Perbaikan">Perbaikan</option>
+            </select>
           </div>
 
           <!-- Deskripsi -->
@@ -245,8 +269,67 @@
               </div>
             </div>
             <p class="text-xs text-gray-500 mt-1">
-              Jika tidak mengunggah gambar baru, gambar yang sudah ada akan tetap digunakan
+              Jika tidak mengunggah gambar baru, gambar yang sudah ada akan
+              tetap digunakan
             </p>
+          </div>
+
+          <!-- Lokasi Jasa -->
+          <div class="space-y-4">
+            <h3 class="text-sm font-medium text-gray-700">Lokasi Jasa</h3>
+
+            <!-- Provinsi -->
+            <div>
+              <label
+                for="province"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Provinsi <span class="text-red-500">*</span>
+              </label>
+              <select
+                id="province"
+                class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition"
+                required
+              >
+                <option value="">Pilih Provinsi</option>
+              </select>
+            </div>
+
+            <!-- Kabupaten/Kota -->
+            <div>
+              <label
+                for="regency"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Kabupaten/Kota <span class="text-red-500">*</span>
+              </label>
+              <select
+                id="regency"
+                class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition"
+                required
+                disabled
+              >
+                <option value="">Pilih Kabupaten/Kota</option>
+              </select>
+            </div>
+
+            <!-- Kecamatan -->
+            <div>
+              <label
+                for="district"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Kecamatan <span class="text-red-500">*</span>
+              </label>
+              <select
+                id="district"
+                class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition"
+                required
+                disabled
+              >
+                <option value="">Pilih Kecamatan</option>
+              </select>
+            </div>
           </div>
 
           <!-- Submit Button -->
@@ -335,9 +418,14 @@
     <script>
       // Get service ID from URL
       const urlParams = new URLSearchParams(window.location.search);
-      const pathSegments = window.location.pathname.split('/');
+      const pathSegments = window.location.pathname.split("/");
       const serviceId = pathSegments[pathSegments.length - 1];
-      
+
+      // Location data management
+      const provinceSelect = document.getElementById("province");
+      const regencySelect = document.getElementById("regency");
+      const districtSelect = document.getElementById("district");
+
       // Load user authentication
       fetch("/api/auth/me")
         .then((res) => res.json())
@@ -427,27 +515,194 @@
           }
 
           const service = data.service;
-          
+
           // Set form values
           document.getElementById("service-id").value = service.id;
           document.getElementById("service-name").value = service.name;
-          document.getElementById("service-description").value = service.description || "";
+          document.getElementById("service-description").value =
+            service.description || "";
           document.getElementById("service-price").value = service.price;
+
+          // Set kategori jika ada
+          const categorySelect = document.getElementById("service-category");
+          if (service.category) {
+            // Cari opsi yang sesuai dengan kategori layanan
+            for (let i = 0; i < categorySelect.options.length; i++) {
+              if (categorySelect.options[i].value === service.category) {
+                categorySelect.selectedIndex = i;
+                break;
+              }
+            }
+          }
 
           // Show image preview if exists
           if (service.image_url) {
             previewImg.src = service.image_url;
-            previewImg.setAttribute('data-original', service.image_url);
+            previewImg.setAttribute("data-original", service.image_url);
             uploadTrigger.classList.add("hidden");
             imagePreview.classList.remove("hidden");
           }
 
+          // Set location data if exists
+          if (service.province_id) {
+            await loadProvinces(); // Load provinces first
+
+            // Set province
+            for (let i = 0; i < provinceSelect.options.length; i++) {
+              if (provinceSelect.options[i].value === service.province_id) {
+                provinceSelect.selectedIndex = i;
+                break;
+              }
+            }
+
+            // Load and set regency
+            if (service.regency_id) {
+              await loadRegencies(service.province_id);
+              for (let i = 0; i < regencySelect.options.length; i++) {
+                if (regencySelect.options[i].value === service.regency_id) {
+                  regencySelect.selectedIndex = i;
+                  break;
+                }
+              }
+
+              // Load and set district
+              if (service.district_id) {
+                await loadDistricts(service.regency_id);
+                for (let i = 0; i < districtSelect.options.length; i++) {
+                  if (districtSelect.options[i].value === service.district_id) {
+                    districtSelect.selectedIndex = i;
+                    break;
+                  }
+                }
+              }
+            }
+          } else {
+            // If no existing location data, just load provinces
+            await loadProvinces();
+          }
         } catch (error) {
           console.error("Error loading service data:", error);
           alert("Gagal memuat data layanan. Silakan coba lagi.");
           window.location.href = "/provider/services";
         }
       }
+
+      // Load provinces
+      async function loadProvinces() {
+        try {
+          const response = await fetch("/public/data/provinces.json");
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          const provinces = await response.json();
+
+          // Sort provinces by name
+          provinces.sort((a, b) => a.name.localeCompare(b.name));
+
+          // Add options to select
+          provinces.forEach((province) => {
+            const option = document.createElement("option");
+            option.value = province.id;
+            option.textContent = province.name;
+            provinceSelect.appendChild(option);
+          });
+        } catch (error) {
+          console.error("Error loading provinces:", error);
+          alert("Gagal memuat data provinsi. Silakan refresh halaman.");
+        }
+      }
+
+      // Load regencies based on selected province
+      async function loadRegencies(provinceId) {
+        try {
+          // Clear previous options
+          regencySelect.innerHTML =
+            '<option value="">Pilih Kabupaten/Kota</option>';
+          districtSelect.innerHTML =
+            '<option value="">Pilih Kecamatan</option>';
+
+          // Disable selects
+          districtSelect.disabled = true;
+
+          if (!provinceId) {
+            regencySelect.disabled = true;
+            return;
+          }
+
+          const response = await fetch("/public/data/regencies.json");
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          const regencies = await response.json();
+
+          // Filter regencies by province_id and sort by name
+          const filteredRegencies = regencies
+            .filter((regency) => regency.province_id === provinceId)
+            .sort((a, b) => a.name.localeCompare(b.name));
+
+          // Add options to select
+          filteredRegencies.forEach((regency) => {
+            const option = document.createElement("option");
+            option.value = regency.id;
+            option.textContent = regency.name;
+            regencySelect.appendChild(option);
+          });
+
+          // Enable select
+          regencySelect.disabled = false;
+        } catch (error) {
+          console.error("Error loading regencies:", error);
+          alert("Gagal memuat data kabupaten/kota. Silakan coba lagi.");
+        }
+      }
+
+      // Load districts based on selected regency
+      async function loadDistricts(regencyId) {
+        try {
+          // Clear previous options
+          districtSelect.innerHTML =
+            '<option value="">Pilih Kecamatan</option>';
+
+          if (!regencyId) {
+            districtSelect.disabled = true;
+            return;
+          }
+
+          const response = await fetch("/public/data/districts.json");
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          const districts = await response.json();
+
+          // Filter districts by regency_id and sort by name
+          const filteredDistricts = districts
+            .filter((district) => district.regency_id === regencyId)
+            .sort((a, b) => a.name.localeCompare(b.name));
+
+          // Add options to select
+          filteredDistricts.forEach((district) => {
+            const option = document.createElement("option");
+            option.value = district.id;
+            option.textContent = district.name;
+            districtSelect.appendChild(option);
+          });
+
+          // Enable select
+          districtSelect.disabled = false;
+        } catch (error) {
+          console.error("Error loading districts:", error);
+          alert("Gagal memuat data kecamatan. Silakan coba lagi.");
+        }
+      }
+
+      // Event listeners for select changes
+      provinceSelect.addEventListener("change", function () {
+        loadRegencies(this.value);
+      });
+
+      regencySelect.addEventListener("change", function () {
+        loadDistricts(this.value);
+      });
 
       // Form submission
       document
@@ -469,10 +724,54 @@
             // Gunakan FormData untuk menangani upload file
             const formData = new FormData();
             formData.append("id", document.getElementById("service-id").value);
-            formData.append("name", document.getElementById("service-name").value);
-            formData.append("description", document.getElementById("service-description").value);
-            formData.append("price", document.getElementById("service-price").value);
-            
+            formData.append(
+              "name",
+              document.getElementById("service-name").value
+            );
+            formData.append(
+              "description",
+              document.getElementById("service-description").value
+            );
+            formData.append(
+              "price",
+              document.getElementById("service-price").value
+            );
+
+            // Tambahkan kategori
+            formData.append(
+              "category",
+              document.getElementById("service-category").value
+            );
+
+            // Tambahkan data lokasi
+            const provinceSelect = document.getElementById("province");
+            const regencySelect = document.getElementById("regency");
+            const districtSelect = document.getElementById("district");
+
+            if (provinceSelect.value) {
+              formData.append("province_id", provinceSelect.value);
+              formData.append(
+                "province_name",
+                provinceSelect.options[provinceSelect.selectedIndex].text
+              );
+            }
+
+            if (regencySelect.value) {
+              formData.append("regency_id", regencySelect.value);
+              formData.append(
+                "regency_name",
+                regencySelect.options[regencySelect.selectedIndex].text
+              );
+            }
+
+            if (districtSelect.value) {
+              formData.append("district_id", districtSelect.value);
+              formData.append(
+                "district_name",
+                districtSelect.options[districtSelect.selectedIndex].text
+              );
+            }
+
             // Tambahkan file gambar jika ada
             const imageInput = document.getElementById("service-image");
             if (imageInput.files && imageInput.files[0]) {
