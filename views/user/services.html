@@ -39,7 +39,7 @@
                         class="px-4 py-2 text-sm bg-white rounded focus:outline-none w-full" autocomplete="off" />
                     <!-- Dropdown suggestion -->
                     <div id="service-search-suggestion"
-                        class="absolute left-0 right-0 mt-1 bg-white border rounded shadow z-50 hidden max-h-60 overflow-auto">
+                        class="absolute left-0 right-0 mt-1 bg-white border border-gray-300 rounded shadow z-50 hidden max-h-60 overflow-auto">
                     </div>
                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                         <span class="material-symbols-outlined text-base text-gray-400">search</span>
@@ -93,61 +93,71 @@
             <div class="mb-8">
                 <h2 class="text-2xl font-bold text-gray-800 mb-2">Semua Layanan</h2>
             </div>
+            <div class="flex justify-between items-center mb-6">
+                <div class="relative">
+                    <button id="filter-button"
+                        class="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-[#029FAE]">
+                        <span class="material-symbols-outlined text-base">filter_list</span>
+                        Filter & Urutkan
+                    </button>
 
-            <!-- Tambahkan sebelum <div id="services-container"> -->
-            <div class="mb-6 flex flex-wrap gap-4 items-end">
-                <div>
-                    <label class="block text-xs mb-1">Kategori</label>
-                    <div class="relative min-w-[180px]">
-                        <select id="filter-kategori"
-                            class="border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-[#029FAE] appearance-none w-full">
-                            <option value="">Semua Kategori</option>
-                            <option value="Kebersihan">Kebersihan</option>
-                            <option value="Angkut Barang">Angkut Barang</option>
-                            <option value="Perbaikan">Perbaikan</option>
-                        </select>
-                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                            <span class="material-symbols-outlined text-base text-gray-400">expand_more</span>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs mb-1">Provinsi</label>
-                    <div class="relative min-w-[180px]">
-                        <select id="filter-provinsi"
-                            class="border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-[#029FAE] appearance-none w-full">
-                            <option value="">Semua Provinsi</option>
-                        </select>
-                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                            <span class="material-symbols-outlined text-base text-gray-400">expand_more</span>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs mb-1">Kota/Kabupaten</label>
-                    <div class="relative min-w-[180px]">
-                        <select id="filter-kota"
-                            class="border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-[#029FAE] appearance-none w-full"
-                            disabled>
-                            <option value="">Semua Kota/Kabupaten</option>
-                        </select>
-                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                            <span class="material-symbols-outlined text-base text-gray-400">expand_more</span>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs mb-1">Urutkan</label>
-                    <div class="relative min-w-[150px]">
-                        <select id="filter-sort"
-                            class="border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-[#029FAE] appearance-none w-full">
-                            <option value="terbaru">Terbaru</option>
-                            <option value="terlama">Terlama</option>
-                            <option value="harga-tertinggi">Harga Tertinggi</option>
-                            <option value="harga-terendah">Harga Terendah</option>
-                        </select>
-                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                            <span class="material-symbols-outlined text-base text-gray-400">expand_more</span>
+                    <!-- Filter Dropdown -->
+                    <div id="filter-dropdown"
+                        class="hidden absolute left-0 mt-2 w-72 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                        <div class="p-4 space-y-4">
+                            <!-- Kategori -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
+                                <select id="filter-kategori"
+                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-[#029FAE]">
+                                    <option value="">Semua Kategori</option>
+                                    <option value="Kebersihan">Kebersihan</option>
+                                    <option value="Angkut Barang">Angkut Barang</option>
+                                    <option value="Perbaikan">Perbaikan</option>
+                                </select>
+                            </div>
+
+                            <!-- Provinsi -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Provinsi</label>
+                                <select id="filter-provinsi"
+                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-[#029FAE]">
+                                    <option value="">Semua Provinsi</option>
+                                </select>
+                            </div>
+
+                            <!-- Kota/Kabupaten -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Kota/Kabupaten</label>
+                                <select id="filter-kota"
+                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-[#029FAE]"
+                                    disabled>
+                                    <option value="">Semua Kota/Kabupaten</option>
+                                </select>
+                            </div>
+
+                            <!-- Urutkan -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Urutkan</label>
+                                <select id="filter-sort"
+                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-[#029FAE]">
+                                    <option value="terbaru">Terbaru</option>
+                                    <option value="terlama">Terlama</option>
+                                    <option value="harga-tertinggi">Harga Tertinggi</option>
+                                    <option value="harga-terendah">Harga Terendah</option>
+                                </select>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="flex justify-end gap-2 pt-2 border-t">
+                                <button id="reset-filter" class="px-4 py-2 text-sm text-gray-600 hover:text-gray-800">
+                                    Reset
+                                </button>
+                                <button id="apply-filter"
+                                    class="px-4 py-2 text-sm bg-[#029FAE] text-white rounded-lg hover:bg-[#027f8a] transition-colors">
+                                    Terapkan
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -160,12 +170,6 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
             </div>
 
-            <!-- Services List -->
-            <div id="services-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="flex justify-center items-center h-64">
-                    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#029FAE]"></div>
-                </div>
-            </div>
             <!-- Empty State -->
             <div id="empty-state" class="hidden text-center py-16">
                 <div class="flex flex-col items-center justify-center">
@@ -350,25 +354,35 @@
             const kategori = kategoriSelect.value;
             const searchKeyword = getSearchQuery().toLowerCase();
 
-            if (provId) url += `province_id=${encodeURIComponent(provId)}&`;
-            if (kotaId) url += `regency_id=${encodeURIComponent(kotaId)}&`;
+            // Ambil parameter dari URL untuk filter berdasarkan lokasi
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlProvId = urlParams.get("province_id");
+            const urlRegencyId = urlParams.get("regency_id");
+
+            // Prioritaskan parameter dari URL jika ada
+            const finalProvId = urlProvId || provId;
+            const finalKotaId = urlRegencyId || kotaId;
+
+            if (finalProvId) url += `province_id=${encodeURIComponent(finalProvId)}&`;
+            if (finalKotaId) url += `regency_id=${encodeURIComponent(finalKotaId)}&`;
             if (sort) url += `sort=${encodeURIComponent(sort)}&`;
 
             fetch(url)
                 .then(res => res.json())
                 .then(data => {
                     let services = data.services || [];
+
                     // Filter kategori
                     if (kategori) {
                         services = services.filter(s => s.category === kategori);
                     }
-                    // Filter search
-                    if (searchKeyword) {
+
+                    // Filter search (hanya untuk nama/deskripsi service jika bukan search lokasi)
+                    if (searchKeyword && !urlProvId && !urlRegencyId) {
                         services = services.filter(s =>
                             s.name.toLowerCase().includes(searchKeyword) ||
                             (s.description && s.description.toLowerCase().includes(searchKeyword))
                         );
-                        searchInput.value = getSearchQuery();
                     }
 
                     const productsGrid = document.querySelector('.products .grid');
@@ -393,9 +407,6 @@
                             productsGrid.appendChild(card);
                         });
                     }
-
-                    const spinnerContainer = document.querySelector('#services-container .animate-spin');
-                    if (spinnerContainer) spinnerContainer.parentElement.remove();
                 })
                 .catch(err => {
                     console.error("Gagal memuat layanan:", err);
@@ -414,13 +425,19 @@
         const searchSuggestion = document.getElementById("service-search-suggestion");
 
         let allServices = [];
+        let allProvinces = [];
+        let allRegencies = [];
 
-        // Ambil semua service untuk suggestion
-        fetch("/api/services")
-            .then(res => res.json())
-            .then(data => {
-                allServices = data.services || [];
-            });
+        // Ambil semua data untuk suggestion
+        Promise.all([
+            fetch("/api/services").then(res => res.json()),
+            fetch("/public/data/provinces.json").then(res => res.json()),
+            fetch("/public/data/regencies.json").then(res => res.json())
+        ]).then(([servicesData, provincesData, regenciesData]) => {
+            allServices = servicesData.services || [];
+            allProvinces = provincesData || [];
+            allRegencies = regenciesData || [];
+        });
 
         // Tampilkan suggestion saat mengetik
         searchInput.addEventListener("input", function () {
@@ -430,30 +447,82 @@
                 searchSuggestion.innerHTML = "";
                 return;
             }
-            // Filter service yang cocok
-            const filtered = allServices.filter(s =>
+
+            // Filter services berdasarkan nama/deskripsi
+            const filteredServices = allServices.filter(s =>
                 s.name.toLowerCase().includes(keyword) ||
                 (s.description && s.description.toLowerCase().includes(keyword))
-            );
-            if (filtered.length === 0) {
-                searchSuggestion.innerHTML = `<div class="px-4 py-2 text-gray-400">Tidak ditemukan</div>`;
-                searchSuggestion.classList.remove("hidden");
-                return;
+            ).slice(0, 5);
+
+            // Filter provinsi berdasarkan nama
+            const filteredProvinces = allProvinces.filter(p =>
+                p.name.toLowerCase().includes(keyword)
+            ).slice(0, 3);
+
+            // Filter kota/kabupaten berdasarkan nama
+            const filteredRegencies = allRegencies.filter(r =>
+                r.name.toLowerCase().includes(keyword)
+            ).slice(0, 3);
+
+            let suggestionHTML = "";
+
+            // Tambahkan suggestion services
+            if (filteredServices.length > 0) {
+                suggestionHTML += `<div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-50">LAYANAN</div>`;
+                filteredServices.forEach(s => {
+                    suggestionHTML += `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer flex items-center gap-1" data-type="service" data-id="${s.id}">
+        <span class="material-symbols-outlined text-sm">work</span>${s.name}
+      </div>`;
+                });
             }
-            searchSuggestion.innerHTML = filtered.slice(0, 8).map(s =>
-                `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer" data-id="${s.id}">
-      ${s.name}
-    </div>`
-            ).join("");
+
+            // Tambahkan suggestion provinsi
+            if (filteredProvinces.length > 0) {
+                suggestionHTML += `<div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-50">PROVINSI</div>`;
+                filteredProvinces.forEach(p => {
+                    suggestionHTML += `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer flex items-center gap-1" data-type="province" data-id="${p.id}" data-name="${p.name}">
+        <span class="material-symbols-outlined text-sm">location_on</span>${p.name}
+      </div>`;
+                });
+            }
+
+            // Tambahkan suggestion kota/kabupaten
+            if (filteredRegencies.length > 0) {
+                suggestionHTML += `<div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-50">KOTA/KABUPATEN</div>`;
+                filteredRegencies.forEach(r => {
+                    const province = allProvinces.find(p => p.id === r.province_id);
+                    suggestionHTML += `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer flex items-center gap-1" data-type="regency" data-id="${r.id}" data-name="${r.name}" data-province-id="${r.province_id}">
+        <span class="material-symbols-outlined text-sm">place</span>${r.name}, ${province?.name || ''}
+      </div>`;
+                });
+            }
+
+            if (suggestionHTML === "") {
+                searchSuggestion.innerHTML = `<div class="px-4 py-2 text-gray-400">Tidak ditemukan</div>`;
+            } else {
+                searchSuggestion.innerHTML = suggestionHTML;
+            }
+
             searchSuggestion.classList.remove("hidden");
         });
 
-        // Klik suggestion: redirect ke dashboard dengan query search
+        // Klik suggestion: redirect berdasarkan tipe
         searchSuggestion.addEventListener("click", function (e) {
-            const item = e.target.closest("[data-id]");
+            const item = e.target.closest("[data-type]");
             if (item) {
-                const serviceName = item.textContent.trim();
-                window.location.href = `/services?search=${encodeURIComponent(serviceName)}`;
+                const type = item.dataset.type;
+                const id = item.dataset.id;
+                const name = item.dataset.name;
+
+                if (type === "service") {
+                    const serviceName = item.textContent.trim().replace(/^work/, '');
+                    window.location.href = `/services?search=${encodeURIComponent(serviceName)}`;
+                } else if (type === "province") {
+                    window.location.href = `/services?province_id=${id}&search=${encodeURIComponent(name)}`;
+                } else if (type === "regency") {
+                    const provinceId = item.dataset.provinceId;
+                    window.location.href = `/services?province_id=${provinceId}&regency_id=${id}&search=${encodeURIComponent(name)}`;
+                }
             }
         });
 
@@ -464,17 +533,93 @@
             }
         });
 
-        // Submit search: tampilkan hasil di dashboard
+        // Submit search: cek apakah provinsi/kota atau layanan
         searchInput.addEventListener("keydown", function (e) {
             if (e.key === "Enter") {
                 e.preventDefault();
                 const keyword = this.value.trim();
-                if (keyword) {
-                    window.location.href = `/services?search=${encodeURIComponent(keyword)}`;
-                } else {
+                if (!keyword) {
                     window.location.href = "/services";
+                    return;
                 }
+
+                // Cek apakah keyword cocok dengan provinsi
+                const matchedProvince = allProvinces.find(p =>
+                    p.name.toLowerCase() === keyword.toLowerCase()
+                );
+                if (matchedProvince) {
+                    window.location.href = `/services?province_id=${matchedProvince.id}&search=${encodeURIComponent(matchedProvince.name)}`;
+                    return;
+                }
+
+                // Cek apakah keyword cocok dengan kota/kabupaten
+                const matchedRegency = allRegencies.find(r =>
+                    r.name.toLowerCase() === keyword.toLowerCase()
+                );
+                if (matchedRegency) {
+                    window.location.href = `/services?province_id=${matchedRegency.province_id}&regency_id=${matchedRegency.id}&search=${encodeURIComponent(matchedRegency.name)}`;
+                    return;
+                }
+
+                // Jika tidak cocok dengan lokasi, search sebagai layanan
+                window.location.href = `/services?search=${encodeURIComponent(keyword)}`;
             }
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const filterButton = document.getElementById("filter-button");
+            const filterDropdown = document.getElementById("filter-dropdown");
+            const applyFilter = document.getElementById("apply-filter");
+            const resetFilter = document.getElementById("reset-filter");
+
+            // Toggle dropdown
+            filterButton.addEventListener("click", () => {
+                filterDropdown.classList.toggle("hidden");
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener("click", (e) => {
+                if (!filterButton.contains(e.target) && !filterDropdown.contains(e.target)) {
+                    filterDropdown.classList.add("hidden");
+                }
+            });
+
+            // Apply filters
+            applyFilter.addEventListener("click", () => {
+                loadServices();
+                filterDropdown.classList.add("hidden");
+            });
+
+            // Reset filters
+            resetFilter.addEventListener("click", () => {
+                document.getElementById("filter-kategori").value = "";
+                document.getElementById("filter-provinsi").value = "";
+                document.getElementById("filter-kota").value = "";
+                document.getElementById("filter-sort").value = "terbaru";
+                loadServices();
+                filterDropdown.classList.add("hidden");
+                updateFilterCount();
+            });
+
+            // Show active filter count on button
+            function updateFilterCount() {
+                const hasActiveFilters = [
+                    document.getElementById("filter-kategori").value,
+                    document.getElementById("filter-provinsi").value,
+                    document.getElementById("filter-kota").value,
+                ].some(Boolean);
+
+                filterButton.innerHTML = `
+            <span class="material-symbols-outlined text-base">filter_list</span>
+            Filter & Urutkan
+            ${hasActiveFilters ? `<span class="ml-2 w-2 h-2 bg-[#029FAE] rounded-full inline-block"></span>` : ""}
+        `;
+            }
+
+            // Update filter count when selections change
+            ["filter-kategori", "filter-provinsi", "filter-kota"].forEach((id) => {
+                document.getElementById(id).addEventListener("change", updateFilterCount);
+            });
         });
     </script>
 </body>

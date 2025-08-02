@@ -37,7 +37,7 @@
                         class="px-4 py-2 text-sm bg-white rounded focus:outline-none w-full" autocomplete="off" />
                     <!-- Dropdown suggestion -->
                     <div id="service-search-suggestion"
-                        class="absolute left-0 right-0 mt-1 bg-white border rounded shadow z-50 hidden max-h-60 overflow-auto">
+                        class="absolute left-0 right-0 mt-1 bg-white border border-gray-300 rounded shadow z-50 hidden max-h-60 overflow-auto">
                     </div>
                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                         <span class="material-symbols-outlined text-base text-gray-400">search</span>
@@ -322,13 +322,19 @@
         const searchSuggestion = document.getElementById("service-search-suggestion");
 
         let allServices = [];
+        let allProvinces = [];
+        let allRegencies = [];
 
-        // Ambil semua service untuk suggestion
-        fetch("/api/services")
-            .then(res => res.json())
-            .then(data => {
-                allServices = data.services || [];
-            });
+        // Ambil semua data untuk suggestion
+        Promise.all([
+            fetch("/api/services").then(res => res.json()),
+            fetch("/public/data/provinces.json").then(res => res.json()),
+            fetch("/public/data/regencies.json").then(res => res.json())
+        ]).then(([servicesData, provincesData, regenciesData]) => {
+            allServices = servicesData.services || [];
+            allProvinces = provincesData || [];
+            allRegencies = regenciesData || [];
+        });
 
         // Tampilkan suggestion saat mengetik
         searchInput.addEventListener("input", function () {
@@ -338,30 +344,82 @@
                 searchSuggestion.innerHTML = "";
                 return;
             }
-            // Filter service yang cocok
-            const filtered = allServices.filter(s =>
+
+            // Filter services berdasarkan nama/deskripsi
+            const filteredServices = allServices.filter(s =>
                 s.name.toLowerCase().includes(keyword) ||
                 (s.description && s.description.toLowerCase().includes(keyword))
-            );
-            if (filtered.length === 0) {
-                searchSuggestion.innerHTML = `<div class="px-4 py-2 text-gray-400">Tidak ditemukan</div>`;
-                searchSuggestion.classList.remove("hidden");
-                return;
+            ).slice(0, 5);
+
+            // Filter provinsi berdasarkan nama
+            const filteredProvinces = allProvinces.filter(p =>
+                p.name.toLowerCase().includes(keyword)
+            ).slice(0, 3);
+
+            // Filter kota/kabupaten berdasarkan nama
+            const filteredRegencies = allRegencies.filter(r =>
+                r.name.toLowerCase().includes(keyword)
+            ).slice(0, 3);
+
+            let suggestionHTML = "";
+
+            // Tambahkan suggestion services
+            if (filteredServices.length > 0) {
+                suggestionHTML += `<div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-50">LAYANAN</div>`;
+                filteredServices.forEach(s => {
+                    suggestionHTML += `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer flex items-center gap-1" data-type="service" data-id="${s.id}">
+        <span class="material-symbols-outlined text-sm">work</span>${s.name}
+      </div>`;
+                });
             }
-            searchSuggestion.innerHTML = filtered.slice(0, 8).map(s =>
-                `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer" data-id="${s.id}">
-      ${s.name}
-    </div>`
-            ).join("");
+
+            // Tambahkan suggestion provinsi
+            if (filteredProvinces.length > 0) {
+                suggestionHTML += `<div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-50">PROVINSI</div>`;
+                filteredProvinces.forEach(p => {
+                    suggestionHTML += `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer flex items-center gap-1" data-type="province" data-id="${p.id}" data-name="${p.name}">
+        <span class="material-symbols-outlined text-sm">location_on</span>${p.name}
+      </div>`;
+                });
+            }
+
+            // Tambahkan suggestion kota/kabupaten
+            if (filteredRegencies.length > 0) {
+                suggestionHTML += `<div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-50">KOTA/KABUPATEN</div>`;
+                filteredRegencies.forEach(r => {
+                    const province = allProvinces.find(p => p.id === r.province_id);
+                    suggestionHTML += `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer flex items-center gap-1" data-type="regency" data-id="${r.id}" data-name="${r.name}" data-province-id="${r.province_id}">
+        <span class="material-symbols-outlined text-sm">place</span>${r.name}, ${province?.name || ''}
+      </div>`;
+                });
+            }
+
+            if (suggestionHTML === "") {
+                searchSuggestion.innerHTML = `<div class="px-4 py-2 text-gray-400">Tidak ditemukan</div>`;
+            } else {
+                searchSuggestion.innerHTML = suggestionHTML;
+            }
+
             searchSuggestion.classList.remove("hidden");
         });
 
-        // Klik suggestion: redirect ke dashboard dengan query search
+        // Klik suggestion: redirect berdasarkan tipe
         searchSuggestion.addEventListener("click", function (e) {
-            const item = e.target.closest("[data-id]");
+            const item = e.target.closest("[data-type]");
             if (item) {
-                const serviceName = item.textContent.trim();
-                window.location.href = `/services?search=${encodeURIComponent(serviceName)}`;
+                const type = item.dataset.type;
+                const id = item.dataset.id;
+                const name = item.dataset.name;
+
+                if (type === "service") {
+                    const serviceName = item.textContent.trim().replace(/^work/, '');
+                    window.location.href = `/services?search=${encodeURIComponent(serviceName)}`;
+                } else if (type === "province") {
+                    window.location.href = `/services?province_id=${id}&search=${encodeURIComponent(name)}`;
+                } else if (type === "regency") {
+                    const provinceId = item.dataset.provinceId;
+                    window.location.href = `/services?province_id=${provinceId}&regency_id=${id}&search=${encodeURIComponent(name)}`;
+                }
             }
         });
 
@@ -372,16 +430,36 @@
             }
         });
 
-        // Submit search: tampilkan hasil di dashboard
+        // Submit search: cek apakah provinsi/kota atau layanan
         searchInput.addEventListener("keydown", function (e) {
             if (e.key === "Enter") {
                 e.preventDefault();
                 const keyword = this.value.trim();
-                if (keyword) {
-                    window.location.href = `/services?search=${encodeURIComponent(keyword)}`;
-                } else {
+                if (!keyword) {
                     window.location.href = "/services";
+                    return;
                 }
+
+                // Cek apakah keyword cocok dengan provinsi
+                const matchedProvince = allProvinces.find(p =>
+                    p.name.toLowerCase() === keyword.toLowerCase()
+                );
+                if (matchedProvince) {
+                    window.location.href = `/services?province_id=${matchedProvince.id}&search=${encodeURIComponent(matchedProvince.name)}`;
+                    return;
+                }
+
+                // Cek apakah keyword cocok dengan kota/kabupaten
+                const matchedRegency = allRegencies.find(r =>
+                    r.name.toLowerCase() === keyword.toLowerCase()
+                );
+                if (matchedRegency) {
+                    window.location.href = `/services?province_id=${matchedRegency.province_id}&regency_id=${matchedRegency.id}&search=${encodeURIComponent(matchedRegency.name)}`;
+                    return;
+                }
+
+                // Jika tidak cocok dengan lokasi, search sebagai layanan
+                window.location.href = `/services?search=${encodeURIComponent(keyword)}`;
             }
         });
     </script>
