@@ -222,6 +222,33 @@
         &copy; 2025 - FindUS • Designed & Developed by epaarito
       </div>
     </footer>
+    <!-- Delete Confirmation Modal -->
+    <div
+      id="delete-modal"
+      class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden"
+    >
+      <div class="bg-white rounded-lg p-6 w-full max-w-md">
+        <h3 class="text-xl font-bold mb-4">Konfirmasi Hapus</h3>
+        <p class="mb-6">
+          Apakah Anda yakin ingin menghapus layanan
+          <span id="delete-service-name" class="font-semibold"></span>?
+        </p>
+        <div class="flex justify-end space-x-3">
+          <button
+            id="cancel-delete"
+            class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            Batal
+          </button>
+          <button
+            id="confirm-delete"
+            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+          >
+            Hapus
+          </button>
+        </div>
+      </div>
+    </div>
     <script>
       // Fungsi untuk format harga
       function formatPrice(price) {
@@ -299,10 +326,11 @@
 
           servicesContainer.innerHTML = "";
 
+          // Update the service card template inside the loadServices function
           data.services.forEach((service) => {
             const card = document.createElement("div");
             card.className =
-              "service bg-white rounded shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer";
+              "service bg-white rounded shadow-sm border border-gray-200 hover:shadow-md transition-shadow";
             card.innerHTML = `
               <img
                 src="${
@@ -314,18 +342,26 @@
               />
               <div class="p-4">
                 <h3 class="text-lg font-semibold mb-2">${service.name}</h3>
-                <p class="text-gray-500 font-medium text-sm mb-2 line-clamp-2">${
-                  service.description || ""
-                }</p>
-                <p class="font-medium text-[#029FAE]">Rp.${
-                  service.price ? service.price.toLocaleString("id-ID") : "-"
-                }</p>
+                <p class="text-gray-500 font-medium text-sm mb-2 line-clamp-2">
+                  ${service.description || ""}
+                </p>
+                <p class="font-medium text-[#029FAE]">
+                  ${formatPrice(service.price)}
+                </p>
                 <div class="mt-3 flex gap-2">
-                  <button class="flex-1 bg-[#029FAE] text-white px-3 py-1 rounded text-xs hover:bg-[#027f8a] transition">
+                  <a 
+                    href="/provider/edit-service/${service.id}" 
+                    class="flex-1 bg-[#029FAE] text-white px-3 py-1 rounded text-xs hover:bg-[#027f8a] transition text-center"
+                  >
                     Edit
-                  </button>
-                  <button class="flex-1 bg-gray-100 text-gray-600 px-3 py-1 rounded text-xs hover:bg-gray-200 transition">
-                    Kelola
+                  </a>
+                  <button 
+                    onclick="showDeleteModal('${service.id}', '${
+              service.name
+            }')"
+                    class="flex-1 bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600 transition"
+                  >
+                    Hapus
                   </button>
                 </div>
               </div>
@@ -346,6 +382,67 @@
           `;
         }
       }
+
+      // Ganti fungsi deleteService yang lama dengan yang baru
+
+      let serviceToDelete = null;
+
+      function showDeleteModal(id, name) {
+        serviceToDelete = { id, name };
+        document.getElementById("delete-service-name").textContent = name;
+        document.getElementById("delete-modal").classList.remove("hidden");
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // Cancel button
+        document
+          .getElementById("cancel-delete")
+          .addEventListener("click", () => {
+            document.getElementById("delete-modal").classList.add("hidden");
+            serviceToDelete = null;
+          });
+
+        // Confirm delete button
+        document
+          .getElementById("confirm-delete")
+          .addEventListener("click", async () => {
+            if (!serviceToDelete) return;
+
+            try {
+              const response = await fetch(
+                `/api/services/${serviceToDelete.id}`,
+                {
+                  method: "DELETE",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
+
+              if (!response.ok) {
+                throw new Error("Gagal menghapus layanan");
+              }
+
+              await response.json();
+              document.getElementById("delete-modal").classList.add("hidden");
+              serviceToDelete = null;
+              loadServices(); // Reload services list
+            } catch (error) {
+              console.error("Error:", error);
+              alert("Gagal menghapus layanan. Silakan coba lagi.");
+            }
+          });
+
+        // Close modal when clicking outside
+        document
+          .getElementById("delete-modal")
+          .addEventListener("click", (e) => {
+            if (e.target.id === "delete-modal") {
+              document.getElementById("delete-modal").classList.add("hidden");
+              serviceToDelete = null;
+            }
+          });
+      });
     </script>
   </body>
 </html>
