@@ -312,6 +312,26 @@
             </div>
           </div>
 
+          <!-- Detail Alamat -->
+          <div>
+            <label
+              for="service-address"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Detail Alamat <span class="text-red-500">*</span>
+            </label>
+            <textarea
+              id="service-address"
+              rows="3"
+              placeholder="Masukkan detail alamat lengkap (nama jalan, nomor, RT/RW, kode pos)..."
+              class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition resize-none"
+              required
+            ></textarea>
+            <p class="text-xs text-gray-500 mt-1">
+              Tuliskan alamat lengkap agar customer dapat menemukan lokasi Anda dengan mudah
+            </p>
+          </div>
+
           <!-- Tombol Submit -->
           <div class="pt-6 border-t border-gray-200">
             <div class="flex gap-4">
@@ -551,6 +571,12 @@
                 districtSelect.options[districtSelect.selectedIndex].text
               );
             }
+
+            // Tambahkan detail alamat
+            formData.append(
+              "address",
+              document.getElementById("service-address").value
+            );
 
             // Tambahkan file gambar jika ada
             const imageInput = document.getElementById("service-image");

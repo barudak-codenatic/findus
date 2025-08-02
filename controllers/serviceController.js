@@ -67,11 +67,12 @@ exports.addService = async (req, res) => {
       regency_name,
       district_id,
       district_name,
+      address, // Tambahkan field address
     } = req.body;
 
     // Validasi input
-    if (!name || !price) {
-      return res.status(400).json({ error: "Nama dan harga harus diisi" });
+    if (!name || !price || !address) {
+      return res.status(400).json({ error: "Nama, harga, dan alamat harus diisi" });
     }
 
     // Proses file gambar jika ada
@@ -93,6 +94,7 @@ exports.addService = async (req, res) => {
       regency_name,
       district_id,
       district_name,
+      address, // Tambahkan field address
     });
 
     res.json({ success: true, message: "Layanan berhasil ditambahkan" });
@@ -116,11 +118,12 @@ exports.updateService = async (req, res) => {
       regency_name,
       district_id,
       district_name,
+      address, // Tambahkan field address
     } = req.body;
 
     // Validasi input
-    if (!id || !name || !price) {
-      return res.status(400).json({ error: "ID, nama, dan harga harus diisi" });
+    if (!id || !name || !price || !address) {
+      return res.status(400).json({ error: "ID, nama, harga, dan alamat harus diisi" });
     }
 
     const service = await Service.findOne({
@@ -166,6 +169,7 @@ exports.updateService = async (req, res) => {
       regency_name,
       district_id,
       district_name,
+      address, // Tambahkan field address
     });
 
     res.json({ success: true, message: "Layanan berhasil diperbarui" });
