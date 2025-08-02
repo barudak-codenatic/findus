@@ -34,8 +34,17 @@
         <div class="bg-gray-100">
             <div class="container mx-auto flex justify-between items-center w-full px-28 py-4">
                 <a class="brand" href="/dashboard-user"><img src="/public/images/Logo.svg" alt=""></a>
-                <input type="text" placeholder="Search here..."
-                    class="w-full md:w-1/3 px-4 py-2 text-sm bg-white rounded focus:outline-none" />
+                <div class="relative w-full md:w-1/3">
+                    <input type="text" id="service-search-input" placeholder="Cari layanan..."
+                        class="px-4 py-2 text-sm bg-white rounded focus:outline-none w-full" autocomplete="off" />
+                    <!-- Dropdown suggestion -->
+                    <div id="service-search-suggestion"
+                        class="absolute left-0 right-0 mt-1 bg-white border rounded shadow z-50 hidden max-h-60 overflow-auto">
+                    </div>
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        <span class="material-symbols-outlined text-base text-gray-400">search</span>
+                    </div>
+                </div>
                 <nav class="flex space-x-4 items-center text-xs">
                     <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="/order-history">
                         <span class="material-symbols-outlined !text-lg">
@@ -79,24 +88,46 @@
     </header>
     <main class="container mx-auto px-6 py-2 mb-24">
         <h1 class="text-2xl font-semibold mt-6 mb-4">Riwayat Pemesanan</h1>
-        <div class="pt-6">
-            <div class="flex flex-col md:flex-row items-start gap-6 md:gap-10 bg-white rounded-lg">
-                <!-- Gambar Jasa -->
-                <img src="https://placehold.co/200x150.png?text=Inside+%26+Outdoor+Cleaning" alt="Jasa Cleaning Service"
-                    class="w-48 h-auto rounded-md object-cover">
-
-                <!-- Detail Jasa -->
-                <div class="flex-1">
-                    <h2 class="text-xl font-bold text-gray-900">Jasa Cleaning Service</h2>
-                    <p class="text-gray-500 mt-1">Alamat : Jalan Cisaranten Kidul No.14, Kota Bandung.</p>
-                    <p class="text-lg text-black mt-2">Rp.100.000-200.000</p>
-                </div>
-
-                <!-- Tombol Pesan -->
-                <div class="mt-4 md:mt-0">
-                    <button class="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition">Beri
-                        Ulasan</button>
-                </div>
+        <div class="border-b border-gray-200 mb-6">
+            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                <button id="tab-all"
+                    class="border-[#029FAE] text-[#029FAE] whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                    aria-current="page">
+                    Semua
+                </button>
+                <button id="tab-unpaid"
+                    class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Belum Bayar
+                </button>
+                <button id="tab-paid"
+                    class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Belum Diproses
+                </button>
+                <button id="tab-processed"
+                    class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Diproses
+                </button>
+                <button id="tab-completed"
+                    class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Selesai
+                </button>
+                <button id="tab-cancelled"
+                    class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Dibatalkan
+                </button>
+            </nav>
+        </div>
+        <div id="orders-container" class="space-y-6">
+            <!-- Orders will be loaded here -->
+            <div class="flex justify-center items-center h-64">
+                <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#029FAE]"></div>
+            </div>
+        </div>
+        <div id="empty-state" class="hidden text-center py-16">
+            <div class="flex flex-col items-center justify-center">
+                <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">receipt_long</span>
+                <h3 class="text-xl font-medium text-gray-700 mb-2">Belum Ada Pesanan</h3>
+                <p class="text-gray-500 mb-6">Anda belum memiliki pesanan dalam kategori ini</p>
             </div>
         </div>
     </main>
@@ -137,7 +168,48 @@
             &copy; 2025 - FindUS • Designed & Developed by epaarito
         </div>
     </footer>
+
+    <template id="order-card-template">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="p-6">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="font-medium text-lg mb-1 order-id">Order #12345</h3>
+                        <p class="text-sm text-gray-500 order-date">12 Juni 2023, 14:30</p>
+                    </div>
+                    <div class="order-status px-3 py-1 rounded-full text-xs font-medium"></div>
+                </div>
+                <div class="flex items-center mb-4">
+                    <div class="h-16 w-16 bg-gray-200 rounded-md overflow-hidden mr-4">
+                        <img src="/public/images/services/default.svg" alt="Service Image"
+                            class="w-full h-full object-cover service-image"
+                            onerror="this.src='/public/images/services/default.svg'" />
+                    </div>
+                    <div>
+                        <h4 class="font-medium service-name">Nama Jasa</h4>
+                        <p class="text-[#029FAE] font-bold service-price">Rp 0</p>
+                    </div>
+                </div>
+                <div class="border-t border-gray-100 pt-4">
+                    <h5 class="font-medium text-sm mb-2">Informasi Order:</h5>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                        <div>
+                            <span class="text-gray-500">Alamat:</span>
+                            <span class="order-address ml-1">Jl. Contoh No. 123, Jakarta</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Jadwal:</span>
+                            <span class="order-schedule ml-1">13 Juni 2023</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 flex justify-end space-x-3 process-actions"></div>
+            </div>
+        </div>
+    </template>
+
     <script>
+        // --- AUTH USER ---
         fetch("/api/auth/me")
             .then((res) => res.json())
             .then((data) => {
@@ -148,18 +220,18 @@
                     const profileLink = document.getElementById("profile-link");
                     if (profileLink) {
                         profileLink.innerHTML = `
-                        <div class="relative cursor-pointer select-none" id="profile-dropdown-parent">
-                            <span class="flex items-center gap-1" id="profile-dropdown-toggle">
-                            <span class="material-symbols-outlined !text-lg">person</span>
-                            ${data.user.name}
-                            <span class="material-symbols-outlined !text-lg">expand_more</span>
-                            </span>
-                            <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded shadow-lg z-50 shadow-md text-gray-700">
-                            <a href="/profile" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-                            <a href="/api/auth/logout" class="block px-4 py-2 hover:bg-gray-100">Logout</a>
-                            </div>
+                    <div class="relative cursor-pointer select-none" id="profile-dropdown-parent">
+                        <span class="flex items-center gap-1" id="profile-dropdown-toggle">
+                        <span class="material-symbols-outlined !text-lg">person</span>
+                        ${data.user.name}
+                        <span class="material-symbols-outlined !text-lg">expand_more</span>
+                        </span>
+                        <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded shadow-lg z-50 shadow-md text-gray-700">
+                        <a href="/profile" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+                        <a href="/api/auth/logout" class="block px-4 py-2 hover:bg-gray-100">Logout</a>
                         </div>
-                        `;
+                    </div>
+                `;
                         profileLink.href = "javascript:void(0)";
 
                         const toggle = document.getElementById("profile-dropdown-toggle");
@@ -181,101 +253,187 @@
                 window.location.href = "/login";
             });
 
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("/api/order/history")
-                .then(res => res.json())
-                .then(data => {
-                    const container = document.querySelector(".pt-6");
-                    container.innerHTML = ""; // Kosongkan dulu
+        // --- TAB FILTER STATUS ---
+        const tabAll = document.getElementById("tab-all");
+        const tabUnpaid = document.getElementById("tab-unpaid");
+        const tabPaid = document.getElementById("tab-paid");
+        const tabProcessed = document.getElementById("tab-processed");
+        const tabCompleted = document.getElementById("tab-completed");
+        const tabCancelled = document.getElementById("tab-cancelled");
+        let currentTab = "all";
 
-                    if (!data.orders || data.orders.length === 0) {
-                        container.innerHTML = "<p class='text-center py-10'>Belum ada riwayat pesanan.</p>";
-                        return;
-                    }
+        tabAll.addEventListener("click", () => { setTab("all"); });
+        tabUnpaid.addEventListener("click", () => { setTab("unpaid"); });
+        tabPaid.addEventListener("click", () => { setTab("paid"); });
+        tabProcessed.addEventListener("click", () => { setTab("processed"); });
+        tabCompleted.addEventListener("click", () => { setTab("completed"); });
+        tabCancelled.addEventListener("click", () => { setTab("cancelled"); });
 
-                    data.orders.forEach(order => {
-                        let statusLabel = "";
-                        switch (order.status) {
-                            case "BELUM BAYAR": statusLabel = '<span class="text-xs px-2 py-0.5 rounded bg-yellow-400 text-white">Belum Bayar</span>'; break;
-                            case "DIBAYAR": statusLabel = '<span class="text-xs px-2 py-0.5 rounded bg-green-400 text-white">Dibayar</span>'; break;
-                            case "DIPROSES": statusLabel = '<span class="text-xs px-2 py-0.5 rounded bg-blue-400 text-white">Diproses</span>'; break;
-                            case "SELESAI": statusLabel = '<span class="text-xs px-2 py-0.5 rounded bg-[#029FAE] text-white">Selesai</span>'; break;
-                            case "DIBATALKAN": statusLabel = '<span class="text-xs px-2 py-0.5 rounded bg-red-400 text-white">Dibatalkan</span>'; break;
-                            default: statusLabel = order.status;
-                        }
+        function setTab(tab) {
+            currentTab = tab;
+            updateTabStyles();
+            loadOrders();
+        }
 
-                        // Tombol dinamis sesuai status
-                        let actionButtons = "";
-                        if (order.status === "BELUM BAYAR") {
-                            actionButtons = `
-                        <a href="/payment?order_id=${order.id}" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition mr-2">Bayar</a>
-                        <button onclick="cancelOrder('${order.id}')" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-800 transition">Batalkan</button>
-                    `;
-                        } else if (order.status === "DIBAYAR") {
-                            actionButtons = `
-                        <a href="/user/chat?provider_id=${order.Provider?.id || order.provider_id}" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100 transition mr-2">Chat Penyedia Jasa</a>
-                    `;
-                        } else if (order.status === "DIPROSES") {
-                            actionButtons = `
-                        <a href="/user/chat?provider_id=${order.Provider?.id || order.provider_id}" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100 transition mr-2">Chat Penyedia Jasa</a>
-                        <button onclick="confirmDone('${order.id}')" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-800 transition">Konfirmasi Selesai</button>
-                    `;
-                        } else if (order.status === "SELESAI") {
-                            actionButtons = `
-                        <a href="/user/chat?provider_id=${order.Provider?.id || order.provider_id}" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100 transition mr-2">Chat Penyedia Jasa</a>
-                        <a href="/order?service_id=${order.Service?.id || order.service_id}" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100 transition mr-2">Pesan Lagi</a>
-                        <a href="/review-service/${order.id}" class="bg-[#029FAE] text-white px-4 py-2 rounded hover:opacity-80 transition">Beri Ulasan</a>
-                    `;
-                        } else if (order.status === "DIBATALKAN") {
-                            actionButtons = `
-                        <a href="/order?service_id=${order.Service?.id || order.service_id}" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100 transition mr-2">Pesan Lagi</a>
-                    `;
-                        }
+        function updateTabStyles() {
+            const tabs = [tabAll, tabUnpaid, tabPaid, tabProcessed, tabCompleted, tabCancelled];
+            tabs.forEach(tab => {
+                tab.classList.remove("border-[#029FAE]", "text-[#029FAE]", "font-semibold");
+                tab.classList.add("border-transparent", "text-gray-500", "font-medium");
+            });
+            let activeTab;
+            switch (currentTab) {
+                case "all": activeTab = tabAll; break;
+                case "unpaid": activeTab = tabUnpaid; break;
+                case "paid": activeTab = tabPaid; break;
+                case "processed": activeTab = tabProcessed; break;
+                case "completed": activeTab = tabCompleted; break;
+                case "cancelled": activeTab = tabCancelled; break;
+            }
+            if (activeTab) {
+                activeTab.classList.remove("border-transparent", "text-gray-500");
+                activeTab.classList.add("border-[#029FAE]", "text-[#029FAE]", "font-semibold");
+            }
+        }
 
-                        container.innerHTML += `
-                        <div class="flex gap-4 bg-white rounded shadow-sm mb-2 px-3 py-2 text-sm">
-                            <img src="${order.Service?.image_url || 'https://placehold.co/150x120?text=Service'}" alt="${order.Service?.name || '-'}"
-                                class="w-36 h-24 rounded object-cover" />
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center gap-2 mb-1">
-                                    <span class="text-xs text-gray-400 font-mono">#${order.id}</span>
-                                    ${statusLabel}
-                                </div>
-                                <div class="font-semibold truncate">${order.Service?.name || '-'}</div>
-                                <div class="text-gray-500 truncate">${order.address || '-'}</div>
-                                <div class="text-xs text-gray-400 mt-1">Rp${order.Service?.price ? order.Service.price.toLocaleString('id-ID') : '-'}</div>
-                            </div>
-                            <div class="flex flex-col gap-2 items-end">
-                                <div class="flex flex-row gap-1 items-end">
-                                    ${actionButtons}
-                                </div>
-                            </div>
-                        </div>
-                    `;
+        // --- FORMAT & STATUS UTILS ---
+        function formatRupiah(price) {
+            if (!price) return "Rp 0";
+            return "Rp" + Number(price).toLocaleString("id-ID");
+        }
+        function formatDate(dateStr) {
+            if (!dateStr) return "-";
+            const d = new Date(dateStr);
+            return d.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
+        }
+        function getStatusText(status) {
+            switch (status) {
+                case "BELUM BAYAR": return "Belum Bayar";
+                case "DIBAYAR": return "Dibayar";
+                case "DIPROSES": return "Diproses";
+                case "SELESAI": return "Selesai";
+                case "DIBATALKAN": return "Dibatalkan";
+                default: return status;
+            }
+        }
+        function getStatusColorClass(status) {
+            switch (status) {
+                case "BELUM BAYAR": return "bg-yellow-100 text-yellow-800";
+                case "DIBAYAR": return "bg-blue-100 text-blue-800";
+                case "DIPROSES": return "bg-purple-100 text-purple-800";
+                case "SELESAI": return "bg-green-100 text-green-800";
+                case "DIBATALKAN": return "bg-red-100 text-red-800";
+                default: return "bg-gray-100 text-gray-800";
+            }
+        }
+
+        // --- LOAD ORDERS ---
+        async function loadOrders() {
+            const ordersContainer = document.getElementById("orders-container");
+            const emptyState = document.getElementById("empty-state");
+            ordersContainer.innerHTML = `<div class="flex justify-center items-center h-64">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#029FAE]"></div>
+    </div>`;
+            emptyState.classList.add("hidden");
+
+            try {
+                const response = await fetch("/api/order/history");
+                const data = await response.json();
+
+                ordersContainer.innerHTML = "";
+
+                if (data.orders && data.orders.length > 0) {
+                    // Filter orders by tab
+                    const filteredOrders = data.orders.filter(order => {
+                        if (currentTab === "all") return true;
+                        if (currentTab === "unpaid") return order.status === "BELUM BAYAR";
+                        if (currentTab === "paid") return order.status === "DIBAYAR";
+                        if (currentTab === "processed") return order.status === "DIPROSES";
+                        if (currentTab === "completed") return order.status === "SELESAI";
+                        if (currentTab === "cancelled") return order.status === "DIBATALKAN";
+                        return true;
                     });
-                });
-        });
+
+                    if (filteredOrders.length > 0) {
+                        filteredOrders.forEach(order => {
+                            const template = document.getElementById("order-card-template");
+                            const clone = document.importNode(template.content, true);
+
+                            clone.querySelector(".order-id").textContent = `Order #${order.id}`;
+                            clone.querySelector(".order-date").textContent = formatDate(order.created_at);
+
+                            // Status
+                            const statusElement = clone.querySelector(".order-status");
+                            statusElement.textContent = getStatusText(order.status);
+                            getStatusColorClass(order.status).split(" ").forEach(cls => statusElement.classList.add(cls));
+
+                            // Service info
+                            const serviceImg = clone.querySelector(".service-image");
+                            if (order.Service && order.Service.image_url) serviceImg.src = order.Service.image_url;
+                            clone.querySelector(".service-name").textContent = order.Service ? order.Service.name : "Layanan tidak tersedia";
+                            clone.querySelector(".service-price").textContent = formatRupiah(order.total_price);
+
+                            // Order info
+                            clone.querySelector(".order-address").textContent = order.address || "-";
+                            clone.querySelector(".order-schedule").textContent = formatDate(order.schedule);
+
+                            // Action buttons
+                            const processActions = clone.querySelector(".process-actions");
+                            let actionButtons = "";
+                            if (order.status === "BELUM BAYAR") {
+                                actionButtons = `<a href="/payment?order_id=${order.id}" class="bg-[#029FAE] text-white px-4 py-2 rounded hover:opacity-85 hover:cursor-pointer transition mr-2">Bayar</a>
+                        <button onclick="cancelOrder('${order.id}')" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-400 hover:cursor-pointer transition">Batalkan</button>`;
+                            } else if (order.status === "DIBAYAR") {
+                                actionButtons = `<a href="/user/chat?provider_id=${order.Provider?.id || order.provider_id}" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100 transition mr-2">Chat Penyedia Jasa</a>`;
+                            } else if (order.status === "DIPROSES") {
+                                actionButtons = `<a href="/user/chat?provider_id=${order.Provider?.id || order.provider_id}" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100 transition mr-2">Chat Penyedia Jasa</a>
+                        <button onclick="confirmDone('${order.id}')" class="bg-[#029FAE] text-white px-4 py-2 rounded hover:opacity-85 hover:cursor-pointer transition">Konfirmasi Selesai</button>`;
+                            } else if (order.status === "SELESAI") {
+                                actionButtons = `<a href="/user/chat?provider_id=${order.Provider?.id || order.provider_id}" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100 transition mr-2">Chat Penyedia Jasa</a>
+                        <a href="/order?service_id=${order.Service?.id || order.service_id}" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100 transition mr-2">Pesan Lagi</a>
+                        <a href="/review-service/${order.id}" class="bg-[#029FAE] text-white px-4 py-2 rounded hover:opacity-80 transition">Beri Ulasan</a>`;
+                            } else if (order.status === "DIBATALKAN") {
+                                actionButtons = `<a href="/order?service_id=${order.Service?.id || order.service_id}" class="border border-gray-300 px-4 py-2 rounded hover:bg-gray-100 transition mr-2">Pesan Lagi</a>`;
+                            }
+                            processActions.innerHTML = actionButtons;
+
+                            ordersContainer.appendChild(clone);
+                        });
+                    } else {
+                        emptyState.classList.remove("hidden");
+                    }
+                } else {
+                    emptyState.classList.remove("hidden");
+                }
+            } catch (error) {
+                ordersContainer.innerHTML = "";
+                emptyState.classList.remove("hidden");
+                console.error("Error loading orders:", error);
+                alert("Gagal memuat data pesanan. Silakan coba lagi.");
+            }
+        }
 
         // Fungsi batalkan order
-        function cancelOrder(orderId) {
+        window.cancelOrder = function (orderId) {
             if (!confirm("Yakin ingin membatalkan pesanan ini?")) return;
             fetch("/api/order/update-status", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ order_id: orderId, status: "DIBATALKAN" })
-            }).then(() => location.reload());
+            }).then(() => loadOrders());
         }
 
         // Fungsi konfirmasi selesai
-        function confirmDone(orderId) {
+        window.confirmDone = function (orderId) {
             if (!confirm("Konfirmasi pesanan sudah selesai?")) return;
             fetch("/api/order/update-status", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ order_id: orderId, status: "SELESAI" })
-            }).then(() => location.reload());
+            }).then(() => loadOrders());
         }
 
+        // --- SEARCH SUGGESTION ---
         function getSearchQuery() {
             const params = new URLSearchParams(window.location.search);
             return params.get("search") || "";
@@ -286,14 +444,12 @@
 
         let allServices = [];
 
-        // Ambil semua service untuk suggestion
         fetch("/api/services")
             .then(res => res.json())
             .then(data => {
                 allServices = data.services || [];
             });
 
-        // Tampilkan suggestion saat mengetik
         searchInput.addEventListener("input", function () {
             const keyword = this.value.trim().toLowerCase();
             if (!keyword) {
@@ -301,7 +457,6 @@
                 searchSuggestion.innerHTML = "";
                 return;
             }
-            // Filter service yang cocok
             const filtered = allServices.filter(s =>
                 s.name.toLowerCase().includes(keyword) ||
                 (s.description && s.description.toLowerCase().includes(keyword))
@@ -319,7 +474,6 @@
             searchSuggestion.classList.remove("hidden");
         });
 
-        // Klik suggestion: redirect ke dashboard dengan query search
         searchSuggestion.addEventListener("click", function (e) {
             const item = e.target.closest("[data-id]");
             if (item) {
@@ -328,14 +482,12 @@
             }
         });
 
-        // Sembunyikan suggestion jika klik di luar
         document.addEventListener("click", function (e) {
             if (!searchInput.contains(e.target) && !searchSuggestion.contains(e.target)) {
                 searchSuggestion.classList.add("hidden");
             }
         });
 
-        // Submit search: tampilkan hasil di dashboard
         searchInput.addEventListener("keydown", function (e) {
             if (e.key === "Enter") {
                 e.preventDefault();
@@ -347,6 +499,10 @@
                 }
             }
         });
+
+        // --- INIT ---
+        updateTabStyles();
+        loadOrders();
     </script>
 </body>
 

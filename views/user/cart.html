@@ -89,7 +89,7 @@
     <main class="container mx-auto px-6 py-2 mb-24">
         <section class="hero my-6 rounded-md w-full"><img src="/public/images/Hero.svg" alt="">
         </section>
-        <h1 class="text-2xl font-semibold mb-6">Keranjang:</h1>
+        <h1 class="text-2xl font-semibold mb-8">Keranjang:</h1>
 
         <div class="border-t pt-6">
             <div class="flex flex-col md:flex-row items-start gap-6 md:gap-10 bg-white rounded-lg">
@@ -205,16 +205,18 @@
                 }
                 cart.forEach(item => {
                     container.innerHTML += `
-                    <div class="flex flex-col md:flex-row items-start gap-6 md:gap-10 bg-white rounded-lg mb-4">
-                    <img src="${item.Service?.image_url || '/public/images/services/default.svg'}" class="w-48 h-auto rounded-md object-cover" onerror="this.src='/public/images/services/default.svg'">
+                    <div class="flex flex-col md:flex-row items-start gap-6 md:gap-10 bg-white rounded-lg mb-6">
+                    <img src="${item.Service?.image_url || '/public/images/services/default.svg'}" class="w-42 h-32 rounded-md object-cover" onerror="this.src='/public/images/services/default.svg'">
                     <div class="flex-1">
                         <h2 class="text-xl font-bold text-gray-900">${item.Service?.name || '-'}</h2>
                         <p class="text-gray-500 mt-1">Penyedia: ${item.Service?.User?.full_name || '-'}</p>
-                        <p class="text-gray-500 mt-1">${item.Service?.description || '-'}</p>
+                        <p class="text-gray-500 mt-1 line-clamp-1">${item.Service?.description || '-'}</p>
+                        <p class="text-gray-500 mt-1 line-clamp-1 flex items-center gap-1"><span class="material-symbols-outlined">home_pin</span>${item.Service?.address || '-'}</p>
+                        <p class="font-medium text-[#029FAE] mt-1">Rp. ${item.Service?.price ? item.Service?.price.toLocaleString('id-ID') : '-'}</p>
                     </div>
                     <div class="mt-4 md:mt-0">
-                        <a href="/order?service_id=${item.Service?.id}" class="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 transition">Pesan</a>
-                        <button onclick="removeFromCart('${item.id}')" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-800 transition">Hapus</button>
+                        <a href="/order?service_id=${item.Service?.id}" class="bg-[#029FAE] text-white px-6 py-2 rounded hover:opacity-80 transition">Pesan</a>
+                        <button onclick="removeFromCart('${item.id}')" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-400 hover:cursor-pointer transition">Hapus</button>
                     </div>
                     </div>
                 `;
