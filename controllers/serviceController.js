@@ -43,9 +43,20 @@ exports.getAllServices = async (req, res) => {
 
 exports.getMyServices = async (req, res) => {
   try {
+    const { province_id, regency_id, sort } = req.query;
+    const where = { provider_id: req.session.user.id };
+    if (province_id) where.province_id = province_id;
+    if (regency_id) where.regency_id = regency_id;
+
+    let order = [["created_at", "DESC"]];
+    if (sort === "terbaru") order = [["created_at", "DESC"]];
+    if (sort === "terlama") order = [["created_at", "ASC"]];
+    if (sort === "harga-tertinggi") order = [["price", "DESC"]];
+    if (sort === "harga-terendah") order = [["price", "ASC"]];
+
     const services = await Service.findAll({
-      where: { provider_id: req.session.user.id },
-      order: [["created_at", "DESC"]],
+      where,
+      order,
     });
     res.json({ services });
   } catch (error) {
@@ -72,7 +83,9 @@ exports.addService = async (req, res) => {
 
     // Validasi input
     if (!name || !price || !address) {
-      return res.status(400).json({ error: "Nama, harga, dan alamat harus diisi" });
+      return res
+        .status(400)
+        .json({ error: "Nama, harga, dan alamat harus diisi" });
     }
 
     // Proses file gambar jika ada
@@ -123,7 +136,9 @@ exports.updateService = async (req, res) => {
 
     // Validasi input
     if (!id || !name || !price || !address) {
-      return res.status(400).json({ error: "ID, nama, harga, dan alamat harus diisi" });
+      return res
+        .status(400)
+        .json({ error: "ID, nama, harga, dan alamat harus diisi" });
     }
 
     const service = await Service.findOne({

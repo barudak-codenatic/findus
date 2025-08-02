@@ -68,10 +68,10 @@
                 <nav class="flex items-center space-x-2 text-gray-600" aria-label="Breadcrumb">
                     <a href="/" class="hover:underline flex items-center gap-1">
                         <span class="material-symbols-outlined !text-base align-middle">home</span>
-                        Home
+                        Beranda
                     </a>
                     <span class="mx-1 text-gray-400">/</span>
-                    <a href="/service" class="hover:underline">Service</a>
+                    <a href="/order-history" class="hover:underline">Riwayat Pemesanan</a>
                 </nav>
                 <div class="contact flex gap-2"><span class="text-gray-500">Contact:</span>(0812) 1284-8626</div>
             </div>
@@ -116,12 +116,9 @@
             <div>
                 <h5 class="font-medium mb-2 text-gray-400">Category</h5>
                 <ul class="space-y-1">
-                    <li><a href="#" class="hover:underline hover:text-[#029FAE]">Peralatan Mandi</a></li>
-                    <li><a href="#" class="hover:underline hover:text-[#029FAE]">Alat Masak</a></li>
-                    <li><a href="#" class="hover:underline hover:text-[#029FAE]">Elektronik</a></li>
-                    <li><a href="#" class="hover:underline hover:text-[#029FAE]">Dekorasi Kamar</a></li>
-                    <li><a href="#" class="hover:underline hover:text-[#029FAE]">Alat Makan</a></li>
-                    <li><a href="#" class="hover:underline hover:text-[#029FAE]">Jasa Layanan</a></li>
+                    <li><a href="#" class="hover:underline hover:text-[#029FAE]">Kebersihan</a></li>
+                    <li><a href="#" class="hover:underline hover:text-[#029FAE]">Angkut Barang</a></li>
+                    <li><a href="#" class="hover:underline hover:text-[#029FAE]">Perbaikan</a></li>
                 </ul>
             </div>
 
@@ -278,6 +275,78 @@
                 body: JSON.stringify({ order_id: orderId, status: "SELESAI" })
             }).then(() => location.reload());
         }
+
+        function getSearchQuery() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get("search") || "";
+        }
+
+        const searchInput = document.getElementById("service-search-input");
+        const searchSuggestion = document.getElementById("service-search-suggestion");
+
+        let allServices = [];
+
+        // Ambil semua service untuk suggestion
+        fetch("/api/services")
+            .then(res => res.json())
+            .then(data => {
+                allServices = data.services || [];
+            });
+
+        // Tampilkan suggestion saat mengetik
+        searchInput.addEventListener("input", function () {
+            const keyword = this.value.trim().toLowerCase();
+            if (!keyword) {
+                searchSuggestion.classList.add("hidden");
+                searchSuggestion.innerHTML = "";
+                return;
+            }
+            // Filter service yang cocok
+            const filtered = allServices.filter(s =>
+                s.name.toLowerCase().includes(keyword) ||
+                (s.description && s.description.toLowerCase().includes(keyword))
+            );
+            if (filtered.length === 0) {
+                searchSuggestion.innerHTML = `<div class="px-4 py-2 text-gray-400">Tidak ditemukan</div>`;
+                searchSuggestion.classList.remove("hidden");
+                return;
+            }
+            searchSuggestion.innerHTML = filtered.slice(0, 8).map(s =>
+                `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer" data-id="${s.id}">
+      ${s.name}
+    </div>`
+            ).join("");
+            searchSuggestion.classList.remove("hidden");
+        });
+
+        // Klik suggestion: redirect ke dashboard dengan query search
+        searchSuggestion.addEventListener("click", function (e) {
+            const item = e.target.closest("[data-id]");
+            if (item) {
+                const serviceName = item.textContent.trim();
+                window.location.href = `/services?search=${encodeURIComponent(serviceName)}`;
+            }
+        });
+
+        // Sembunyikan suggestion jika klik di luar
+        document.addEventListener("click", function (e) {
+            if (!searchInput.contains(e.target) && !searchSuggestion.contains(e.target)) {
+                searchSuggestion.classList.add("hidden");
+            }
+        });
+
+        // Submit search: tampilkan hasil di dashboard
+        searchInput.addEventListener("keydown", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                const keyword = this.value.trim();
+                if (keyword) {
+                    window.location.href = `/services?search=${encodeURIComponent(keyword)}`;
+                } else {
+                    window.location.href = "/services";
+                }
+            }
+        });
     </script>
 </body>
 

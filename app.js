@@ -73,6 +73,10 @@ app.get("/dashboard-user", (req, res) => {
   res.sendFile(path.join(__dirname, "./views/user/dashboard.html"));
 });
 
+app.get("/services", (req, res) => {
+  res.sendFile(path.join(__dirname, "./views/user/services.html"));
+});
+
 app.get("/service-detail/:id", (req, res) => {
   res.sendFile(path.join(__dirname, "./views/user/service-detail.html"));
 });

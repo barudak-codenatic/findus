@@ -1,463 +1,347 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FindUS - Edit Jasa</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200,0,0"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-      integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD"
-      crossorigin="anonymous"
-    />
-  </head>
 
-  <body class="font-sans">
-    <header class="header">
-      <div
-        class="flex justify-center items-center w-full bg-[#272343] text-white p-2"
-      >
-        <nav class="flex space-x-4 items-center text-xs font-light">
-          <a href="" class="flex items-center gap-1">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FindUS - Edit Jasa</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200,0,0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous" />
+</head>
+
+<body class="font-sans">
+  <header class="header">
+    <div class="flex justify-center items-center w-full bg-[#272343] text-white p-2">
+      <nav class="flex space-x-4 items-center text-xs font-light">
+        <a href="" class="flex items-center gap-1">
+          <span class="material-symbols-outlined !text-lg">
+            expand_more
+          </span>
+          Eng
+        </a>
+        <a href="">Faqs</a>
+        <a href="" class="flex items-center gap-1">
+          <span class="material-symbols-outlined !text-lg"> error </span>
+          Need Help
+        </a>
+      </nav>
+    </div>
+    <div class="bg-gray-100">
+      <div class="container mx-auto flex justify-between items-center w-full px-28 py-4">
+        <a class="brand" href="/dashboard-provider"><img src="/public/images/Logo.svg" alt="" /></a>
+        <div class="relative w-full md:w-1/3">
+          <input type="text" id="service-search-input" placeholder="Cari layanan..."
+            class="px-4 py-2 text-sm bg-white rounded focus:outline-none w-full" autocomplete="off" />
+          <!-- Dropdown suggestion -->
+          <div id="service-search-suggestion"
+            class="absolute left-0 right-0 mt-1 bg-white border rounded shadow z-50 hidden max-h-60 overflow-auto">
+          </div>
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            <span class="material-symbols-outlined text-base text-gray-400">search</span>
+          </div>
+        </div>
+        <nav class="flex space-x-4 items-center text-xs">
+          <a class="bg-white rounded px-4 py-1 flex items-center gap-1 text-[#029FAE] font-semibold"
+            href="/provider/services">
             <span class="material-symbols-outlined !text-lg">
-              expand_more
+              inventory
             </span>
-            Eng
+            Layanan Saya
           </a>
-          <a href="">Faqs</a>
-          <a href="" class="flex items-center gap-1">
-            <span class="material-symbols-outlined !text-lg"> error </span>
-            Need Help
+          <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="/provider/orders">
+            <span class="material-symbols-outlined !text-lg">
+              receipt_long
+            </span>
+            Pesanan
+          </a>
+          <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="/provider/chat">
+            <span class="material-symbols-outlined !text-lg"> chat </span>
+            Chat
+          </a>
+          <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="" id="profile-link">
+            <span class="material-symbols-outlined !text-lg"> person </span>
           </a>
         </nav>
       </div>
-      <div class="bg-gray-100">
-        <div
-          class="container mx-auto flex justify-between items-center w-full px-28 py-4"
-        >
-          <a class="brand" href="/dashboard-provider"
-            ><img src="/public/images/Logo.svg" alt=""
-          /></a>
-          <input
-            type="text"
-            placeholder="Search here..."
-            class="w-full md:w-1/3 px-4 py-2 text-sm bg-white rounded focus:outline-none"
-          />
-          <nav class="flex space-x-4 items-center text-xs">
-            <a
-              class="bg-white rounded px-4 py-1 flex items-center gap-1 text-[#029FAE] font-semibold"
-              href="/provider/services"
-            >
-              <span class="material-symbols-outlined !text-lg">
-                inventory
-              </span>
-              Layanan Saya
-            </a>
-            <a
-              class="bg-white rounded px-4 py-1 flex items-center gap-1"
-              href="/provider/orders"
-            >
-              <span class="material-symbols-outlined !text-lg">
-                receipt_long
-              </span>
-              Pesanan
-            </a>
-            <a
-              class="bg-white rounded px-4 py-1 flex items-center gap-1"
-              href="/provider/chat"
-            >
-              <span class="material-symbols-outlined !text-lg"> chat </span>
-              Chat
-            </a>
-            <a
-              class="bg-white rounded px-4 py-1 flex items-center gap-1"
-              href=""
-              id="profile-link"
-            >
-              <span class="material-symbols-outlined !text-lg"> person </span>
-            </a>
-          </nav>
+    </div>
+    <div class="border-b-1 border-gray-300">
+      <div class="container mx-auto flex justify-between items-center w-full px-28 py-4 text-xs">
+        <nav class="flex items-center space-x-2 text-gray-600" aria-label="Breadcrumb">
+          <a href="/" class="hover:underline flex items-center gap-1">
+            <span class="material-symbols-outlined !text-base align-middle">home</span>
+            Home
+          </a>
+          <span class="mx-1 text-gray-400">/</span>
+          <a href="/dashboard-provider" class="hover:underline">Provider Dashboard</a>
+          <span class="mx-1 text-gray-400">/</span>
+          <a href="/provider/services" class="hover:underline">Layanan Saya</a>
+          <span class="mx-1 text-gray-400">/</span>
+          <span class="text-gray-500">Edit Jasa</span>
+        </nav>
+        <div class="contact flex gap-2">
+          <span class="text-gray-500">Contact:</span>(0812) 1284-8626
         </div>
       </div>
-      <div class="border-b-1 border-gray-300">
-        <div
-          class="container mx-auto flex justify-between items-center w-full px-28 py-4 text-xs"
-        >
-          <nav
-            class="flex items-center space-x-2 text-gray-600"
-            aria-label="Breadcrumb"
-          >
-            <a href="/" class="hover:underline flex items-center gap-1">
-              <span class="material-symbols-outlined !text-base align-middle"
-                >home</span
-              >
-              Home
-            </a>
-            <span class="mx-1 text-gray-400">/</span>
-            <a href="/dashboard-provider" class="hover:underline"
-              >Provider Dashboard</a
-            >
-            <span class="mx-1 text-gray-400">/</span>
-            <a href="/provider/services" class="hover:underline"
-              >Layanan Saya</a
-            >
-            <span class="mx-1 text-gray-400">/</span>
-            <span class="text-gray-500">Edit Jasa</span>
-          </nav>
-          <div class="contact flex gap-2">
-            <span class="text-gray-500">Contact:</span>(0812) 1284-8626
-          </div>
-        </div>
+    </div>
+  </header>
+
+  <!-- Section: Form Edit Jasa Layanan -->
+  <main class="container mx-auto px-6 py-8 mb-24">
+    <section class="max-w-7xl mx-auto">
+      <!-- Header Section -->
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">
+          Form Edit Jasa Layanan
+        </h2>
+
+        <hr class="mt-6 border-gray-300" />
       </div>
-    </header>
 
-    <!-- Section: Form Edit Jasa Layanan -->
-    <main class="container mx-auto px-6 py-8 mb-24">
-      <section class="max-w-7xl mx-auto">
-        <!-- Header Section -->
-        <div class="mb-8">
-          <h2 class="text-2xl font-bold text-gray-800 mb-2">
-            Form Edit Jasa Layanan
-          </h2>
+      <!-- Form -->
+      <form id="edit-service-form" class="space-y-6 bg-white" enctype="multipart/form-data">
+        <!-- Hidden Service ID -->
+        <input type="hidden" id="service-id" />
 
-          <hr class="mt-6 border-gray-300" />
+        <!-- Nama Jasa -->
+        <div>
+          <label for="service-name" class="block text-sm font-medium text-gray-700 mb-2">
+            Nama Jasa <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="service-name" placeholder="Contoh: Jasa Sedot WC, Cuci Sepeda Motor, dll"
+            class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition"
+            required />
         </div>
 
-        <!-- Form -->
-        <form
-          id="edit-service-form"
-          class="space-y-6 bg-white"
-          enctype="multipart/form-data"
-        >
-          <!-- Hidden Service ID -->
-          <input type="hidden" id="service-id" />
+        <!-- Kategori Jasa -->
+        <div>
+          <label for="service-category" class="block text-sm font-medium text-gray-700 mb-2">
+            Kategori Jasa <span class="text-red-500">*</span>
+          </label>
+          <select id="service-category"
+            class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition"
+            required>
+            <option value="" disabled selected>Pilih Kategori</option>
+            <option value="Kebersihan">Kebersihan</option>
+            <option value="Angkut Barang">Angkut Barang</option>
+            <option value="Perbaikan">Perbaikan</option>
+          </select>
+        </div>
 
-          <!-- Nama Jasa -->
-          <div>
-            <label
-              for="service-name"
-              class="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Nama Jasa <span class="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="service-name"
-              placeholder="Contoh: Jasa Sedot WC, Cuci Sepeda Motor, dll"
-              class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition"
-              required
-            />
+        <!-- Deskripsi -->
+        <div>
+          <label for="service-description" class="block text-sm font-medium text-gray-700 mb-2">
+            Deskripsi <span class="text-red-500">*</span>
+          </label>
+          <textarea id="service-description" rows="5"
+            placeholder="Jelaskan detail layanan yang Anda tawarkan, termasuk cara kerja, durasi, dan hal-hal yang perlu diketahui customer..."
+            class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition resize-none"
+            required></textarea>
+        </div>
+
+        <!-- Harga -->
+        <div>
+          <label for="service-price" class="block text-sm font-medium text-gray-700 mb-2">
+            Harga <span class="text-red-500">*</span>
+          </label>
+          <div class="relative">
+            <span class="absolute left-4 top-3 text-gray-500">Rp</span>
+            <input type="number" id="service-price" placeholder="0" min="0"
+              class="w-full bg-gray-100 pl-12 pr-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition"
+              required />
           </div>
+          <p class="text-xs text-gray-500 mt-1">
+            Masukkan harga dalam Rupiah tanpa titik atau koma
+          </p>
+        </div>
 
-          <!-- Kategori Jasa -->
+        <!-- Upload Gambar -->
+        <div>
+          <label for="service-image" class="block text-sm font-medium text-gray-700 mb-2">
+            Gambar Jasa
+          </label>
+          <div class="border-2 border-dashed border-gray-300 rounded-lg p-6">
+            <input type="file" id="service-image" accept="image/*" class="hidden" />
+            <div class="text-center" id="upload-trigger">
+              <div
+                class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-[#029FAE] bg-opacity-10 mb-4">
+                <span class="material-symbols-outlined text-[#029FAE] text-2xl">upload</span>
+              </div>
+              <h5 class="text-sm font-medium text-gray-700 mb-1">
+                Drag & drop file atau
+                <span class="text-[#029FAE] cursor-pointer">Browse</span>
+              </h5>
+              <p class="text-xs text-gray-500">
+                Mendukung JPG, JPEG, atau PNG. Ukuran maksimal 5MB.
+              </p>
+            </div>
+
+            <!-- Image Preview -->
+            <div id="image-preview" class="hidden text-center">
+              <img id="preview-img" src="" alt="Preview" class="mx-auto max-h-48 mb-3 rounded" />
+              <button type="button" id="remove-image"
+                class="text-sm text-red-500 hover:text-red-700 flex items-center gap-1 mx-auto">
+                <span class="material-symbols-outlined !text-base">delete</span>
+                Hapus Gambar
+              </button>
+            </div>
+          </div>
+          <p class="text-xs text-gray-500 mt-1">
+            Jika tidak mengunggah gambar baru, gambar yang sudah ada akan
+            tetap digunakan
+          </p>
+        </div>
+
+        <!-- Lokasi Jasa -->
+        <div class="space-y-4">
+          <h3 class="text-sm font-medium text-gray-700">Lokasi Jasa</h3>
+
+          <!-- Provinsi -->
           <div>
-            <label
-              for="service-category"
-              class="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Kategori Jasa <span class="text-red-500">*</span>
+            <label for="province" class="block text-sm font-medium text-gray-700 mb-2">
+              Provinsi <span class="text-red-500">*</span>
             </label>
-            <select
-              id="service-category"
+            <select id="province"
               class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition"
-              required
-            >
-              <option value="" disabled selected>Pilih Kategori</option>
-              <option value="Kebersihan">Kebersihan</option>
-              <option value="Angkut Barang">Angkut Barang</option>
-              <option value="Perbaikan">Perbaikan</option>
+              required>
+              <option value="">Pilih Provinsi</option>
             </select>
           </div>
 
-          <!-- Deskripsi -->
+          <!-- Kabupaten/Kota -->
           <div>
-            <label
-              for="service-description"
-              class="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Deskripsi <span class="text-red-500">*</span>
+            <label for="regency" class="block text-sm font-medium text-gray-700 mb-2">
+              Kabupaten/Kota <span class="text-red-500">*</span>
             </label>
-            <textarea
-              id="service-description"
-              rows="5"
-              placeholder="Jelaskan detail layanan yang Anda tawarkan, termasuk cara kerja, durasi, dan hal-hal yang perlu diketahui customer..."
-              class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition resize-none"
-              required
-            ></textarea>
+            <select id="regency"
+              class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition"
+              required disabled>
+              <option value="">Pilih Kabupaten/Kota</option>
+            </select>
           </div>
 
-          <!-- Harga -->
+          <!-- Kecamatan -->
           <div>
-            <label
-              for="service-price"
-              class="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Harga <span class="text-red-500">*</span>
+            <label for="district" class="block text-sm font-medium text-gray-700 mb-2">
+              Kecamatan <span class="text-red-500">*</span>
             </label>
-            <div class="relative">
-              <span class="absolute left-4 top-3 text-gray-500">Rp</span>
-              <input
-                type="number"
-                id="service-price"
-                placeholder="0"
-                min="0"
-                class="w-full bg-gray-100 pl-12 pr-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition"
-                required
-              />
-            </div>
-            <p class="text-xs text-gray-500 mt-1">
-              Masukkan harga dalam Rupiah tanpa titik atau koma
-            </p>
+            <select id="district"
+              class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition"
+              required disabled>
+              <option value="">Pilih Kecamatan</option>
+            </select>
           </div>
+        </div>
 
-          <!-- Upload Gambar -->
-          <div>
-            <label
-              for="service-image"
-              class="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Gambar Jasa
-            </label>
-            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6">
-              <input
-                type="file"
-                id="service-image"
-                accept="image/*"
-                class="hidden"
-              />
-              <div class="text-center" id="upload-trigger">
-                <div
-                  class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-[#029FAE] bg-opacity-10 mb-4"
-                >
-                  <span
-                    class="material-symbols-outlined text-[#029FAE] text-2xl"
-                    >upload</span
-                  >
-                </div>
-                <h5 class="text-sm font-medium text-gray-700 mb-1">
-                  Drag & drop file atau
-                  <span class="text-[#029FAE] cursor-pointer">Browse</span>
-                </h5>
-                <p class="text-xs text-gray-500">
-                  Mendukung JPG, JPEG, atau PNG. Ukuran maksimal 5MB.
-                </p>
-              </div>
-
-              <!-- Image Preview -->
-              <div id="image-preview" class="hidden text-center">
-                <img
-                  id="preview-img"
-                  src=""
-                  alt="Preview"
-                  class="mx-auto max-h-48 mb-3 rounded"
-                />
-                <button
-                  type="button"
-                  id="remove-image"
-                  class="text-sm text-red-500 hover:text-red-700 flex items-center gap-1 mx-auto"
-                >
-                  <span class="material-symbols-outlined !text-base"
-                    >delete</span
-                  >
-                  Hapus Gambar
-                </button>
-              </div>
-            </div>
-            <p class="text-xs text-gray-500 mt-1">
-              Jika tidak mengunggah gambar baru, gambar yang sudah ada akan
-              tetap digunakan
-            </p>
-          </div>
-
-          <!-- Lokasi Jasa -->
-          <div class="space-y-4">
-            <h3 class="text-sm font-medium text-gray-700">Lokasi Jasa</h3>
-
-            <!-- Provinsi -->
-            <div>
-              <label
-                for="province"
-                class="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Provinsi <span class="text-red-500">*</span>
-              </label>
-              <select
-                id="province"
-                class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition"
-                required
-              >
-                <option value="">Pilih Provinsi</option>
-              </select>
-            </div>
-
-            <!-- Kabupaten/Kota -->
-            <div>
-              <label
-                for="regency"
-                class="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Kabupaten/Kota <span class="text-red-500">*</span>
-              </label>
-              <select
-                id="regency"
-                class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition"
-                required
-                disabled
-              >
-                <option value="">Pilih Kabupaten/Kota</option>
-              </select>
-            </div>
-
-            <!-- Kecamatan -->
-            <div>
-              <label
-                for="district"
-                class="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Kecamatan <span class="text-red-500">*</span>
-              </label>
-              <select
-                id="district"
-                class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition"
-                required
-                disabled
-              >
-                <option value="">Pilih Kecamatan</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Detail Alamat -->
-          <div>
-            <label
-              for="service-address"
-              class="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Detail Alamat <span class="text-red-500">*</span>
-            </label>
-            <textarea
-              id="service-address"
-              rows="3"
-              placeholder="Masukkan detail alamat lengkap (nama jalan, nomor, RT/RW, kode pos)..."
-              class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition resize-none"
-              required
-            ></textarea>
-            <p class="text-xs text-gray-500 mt-1">
-              Tuliskan alamat lengkap agar customer dapat menemukan lokasi Anda
-              dengan mudah
-            </p>
-          </div>
-
-          <!-- Submit Button -->
-          <div class="pt-4">
-            <button
-              type="submit"
-              id="submit-btn"
-              class="w-full bg-[#029FAE] hover:bg-[#027f8a] text-white py-3 rounded-lg flex items-center justify-center gap-2 transition-colors"
-            >
-              <span class="material-symbols-outlined">save</span>
-              Simpan Perubahan
-            </button>
-          </div>
-        </form>
-      </section>
-    </main>
-
-    <footer class="bg-gray-100 py-12 px-6">
-      <div class="container mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
-        <div class="col-span-2 md:col-span-1">
-          <img src="/public/images/Logo.svg" alt="FindUs" class="h-8 mb-4" />
-          <p class="text-sm text-gray-600 mb-4">
-            FindUS adalah platform yang menghubungkan penyedia jasa dengan
-            pelanggan yang membutuhkan layanan mereka.
+        <!-- Detail Alamat -->
+        <div>
+          <label for="service-address" class="block text-sm font-medium text-gray-700 mb-2">
+            Detail Alamat <span class="text-red-500">*</span>
+          </label>
+          <textarea id="service-address" rows="3"
+            placeholder="Masukkan detail alamat lengkap (nama jalan, nomor, RT/RW, kode pos)..."
+            class="w-full bg-gray-100 px-4 py-3 border border-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent transition resize-none"
+            required></textarea>
+          <p class="text-xs text-gray-500 mt-1">
+            Tuliskan alamat lengkap agar customer dapat menemukan lokasi Anda
+            dengan mudah
           </p>
-          <div class="flex space-x-4">
-            <a href="#" class="text-gray-400 hover:text-[#029FAE]">
-              <i class="bi bi-facebook"></i>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-[#029FAE]">
-              <i class="bi bi-twitter-x"></i>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-[#029FAE]">
-              <i class="bi bi-instagram"></i>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-[#029FAE]">
-              <i class="bi bi-linkedin"></i>
-            </a>
-          </div>
         </div>
 
-        <div>
-          <h5 class="font-medium mb-2 text-gray-400">Kategori</h5>
-          <ul class="space-y-1">
-            <li>
-              <a href="#" class="hover:underline hover:text-[#029FAE]"
-                >Elektronik</a
-              >
-            </li>
-            <li>
-              <a href="#" class="hover:underline hover:text-[#029FAE]"
-                >Dekorasi Kamar</a
-              >
-            </li>
-            <li>
-              <a href="#" class="hover:underline hover:text-[#029FAE]"
-                >Alat Makan</a
-              >
-            </li>
-            <li>
-              <a href="#" class="hover:underline hover:text-[#029FAE]"
-                >Jasa Layanan</a
-              >
-            </li>
-          </ul>
+        <!-- Submit Button -->
+        <div class="pt-4">
+          <button type="submit" id="submit-btn"
+            class="w-full bg-[#029FAE] hover:bg-[#027f8a] text-white py-3 rounded-lg flex items-center justify-center gap-2 transition-colors">
+            <span class="material-symbols-outlined">save</span>
+            Simpan Perubahan
+          </button>
         </div>
+      </form>
+    </section>
+  </main>
 
-        <div>
-          <h5 class="font-medium mb-2 text-gray-400">Support</h5>
-          <ul class="space-y-1">
-            <li><a href="#" class="hover:underline">Cara Pemesanan</a></li>
-            <li><a href="#" class="hover:underline">Syarat & Ketentuan</a></li>
-            <li><a href="#" class="hover:underline">Kebijakan Privasi</a></li>
-            <li><a href="#" class="hover:underline">Hubungi Kami</a></li>
-          </ul>
+  <footer class="bg-gray-100 py-12 px-6">
+    <div class="container mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div class="col-span-2 md:col-span-1">
+        <img src="/public/images/Logo.svg" alt="FindUs" class="h-8 mb-4" />
+        <p class="text-sm text-gray-600 mb-4">
+          FindUS adalah platform yang menghubungkan penyedia jasa dengan
+          pelanggan yang membutuhkan layanan mereka.
+        </p>
+        <div class="flex space-x-4">
+          <a href="#" class="text-gray-400 hover:text-[#029FAE]">
+            <i class="bi bi-facebook"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-[#029FAE]">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-[#029FAE]">
+            <i class="bi bi-instagram"></i>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-[#029FAE]">
+            <i class="bi bi-linkedin"></i>
+          </a>
         </div>
       </div>
 
-      <div
-        class="mt-8 border-t border-gray-200 pt-4 text-center text-xs text-gray-500"
-      >
-        &copy; 2025 - FindUS • Designed & Developed by epaarito
+      <div>
+        <h5 class="font-medium mb-2 text-gray-400">Kategori</h5>
+        <ul class="space-y-1">
+          <li>
+            <a href="#" class="hover:underline hover:text-[#029FAE]">Elektronik</a>
+          </li>
+          <li>
+            <a href="#" class="hover:underline hover:text-[#029FAE]">Dekorasi Kamar</a>
+          </li>
+          <li>
+            <a href="#" class="hover:underline hover:text-[#029FAE]">Alat Makan</a>
+          </li>
+          <li>
+            <a href="#" class="hover:underline hover:text-[#029FAE]">Jasa Layanan</a>
+          </li>
+        </ul>
       </div>
-    </footer>
 
-    <script>
-      // Get service ID from URL
-      const urlParams = new URLSearchParams(window.location.search);
-      const pathSegments = window.location.pathname.split("/");
-      const serviceId = pathSegments[pathSegments.length - 1];
+      <div>
+        <h5 class="font-medium mb-2 text-gray-400">Support</h5>
+        <ul class="space-y-1">
+          <li><a href="#" class="hover:underline">Cara Pemesanan</a></li>
+          <li><a href="#" class="hover:underline">Syarat & Ketentuan</a></li>
+          <li><a href="#" class="hover:underline">Kebijakan Privasi</a></li>
+          <li><a href="#" class="hover:underline">Hubungi Kami</a></li>
+        </ul>
+      </div>
+    </div>
 
-      // Location data management
-      const provinceSelect = document.getElementById("province");
-      const regencySelect = document.getElementById("regency");
-      const districtSelect = document.getElementById("district");
+    <div class="mt-8 border-t border-gray-200 pt-4 text-center text-xs text-gray-500">
+      &copy; 2025 - FindUS • Designed & Developed by epaarito
+    </div>
+  </footer>
 
-      // Load user authentication
-      fetch("/api/auth/me")
-        .then((res) => res.json())
-        .then((data) => {
-          if (!data.user || data.user.role !== "PROVIDER") {
-            alert("Akses ditolak. Silakan login sebagai PROVIDER.");
-            window.location.href = "/login";
-          } else {
-            const profileLink = document.getElementById("profile-link");
-            if (profileLink) {
-              profileLink.innerHTML = `
+  <script>
+    // Get service ID from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const pathSegments = window.location.pathname.split("/");
+    const serviceId = pathSegments[pathSegments.length - 1];
+
+    // Location data management
+    const provinceSelect = document.getElementById("province");
+    const regencySelect = document.getElementById("regency");
+    const districtSelect = document.getElementById("district");
+
+    // Load user authentication
+    fetch("/api/auth/me")
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data.user || data.user.role !== "PROVIDER") {
+          alert("Akses ditolak. Silakan login sebagai PROVIDER.");
+          window.location.href = "/login";
+        } else {
+          const profileLink = document.getElementById("profile-link");
+          if (profileLink) {
+            profileLink.innerHTML = `
               <div class="relative cursor-pointer select-none" id="profile-dropdown-parent">
                 <span class="flex items-center gap-1" id="profile-dropdown-toggle">
                   <span class="material-symbols-outlined !text-lg">person</span>
@@ -470,392 +354,465 @@
                 </div>
               </div>
             `;
-              profileLink.href = "javascript:void(0)";
+            profileLink.href = "javascript:void(0)";
 
-              const toggle = document.getElementById("profile-dropdown-toggle");
-              const menu = document.getElementById("profile-dropdown-menu");
-              document.addEventListener("click", function (e) {
-                if (toggle && menu) {
-                  if (toggle.contains(e.target)) {
-                    menu.classList.toggle("hidden");
-                  } else if (!menu.contains(e.target)) {
-                    menu.classList.add("hidden");
-                  }
+            const toggle = document.getElementById("profile-dropdown-toggle");
+            const menu = document.getElementById("profile-dropdown-menu");
+            document.addEventListener("click", function (e) {
+              if (toggle && menu) {
+                if (toggle.contains(e.target)) {
+                  menu.classList.toggle("hidden");
+                } else if (!menu.contains(e.target)) {
+                  menu.classList.add("hidden");
                 }
-              });
-            }
-
-            // Load service data after authentication
-            loadServiceData(serviceId);
+              }
+            });
           }
-        })
-        .catch((err) => {
-          console.error("Gagal memuat data user:", err);
-          window.location.href = "/login";
-        });
 
-      // Image preview functionality
-      const imageInput = document.getElementById("service-image");
-      const imagePreview = document.getElementById("image-preview");
-      const previewImg = document.getElementById("preview-img");
-      const removeImageBtn = document.getElementById("remove-image");
-      const uploadTrigger = document.getElementById("upload-trigger");
-
-      uploadTrigger.addEventListener("click", function () {
-        imageInput.click();
-      });
-
-      imageInput.addEventListener("change", function (e) {
-        const file = e.target.files[0];
-        if (file && file.type.startsWith("image/")) {
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            previewImg.src = e.target.result;
-            uploadTrigger.classList.add("hidden");
-            imagePreview.classList.remove("hidden");
-          };
-          reader.readAsDataURL(file);
+          // Load service data after authentication
+          loadServiceData(serviceId);
         }
+      })
+      .catch((err) => {
+        console.error("Gagal memuat data user:", err);
+        window.location.href = "/login";
       });
 
-      removeImageBtn.addEventListener("click", function () {
-        imageInput.value = "";
-        uploadTrigger.classList.remove("hidden");
-        imagePreview.classList.add("hidden");
-        previewImg.src = "";
-      });
+    // Image preview functionality
+    const imageInput = document.getElementById("service-image");
+    const imagePreview = document.getElementById("image-preview");
+    const previewImg = document.getElementById("preview-img");
+    const removeImageBtn = document.getElementById("remove-image");
+    const uploadTrigger = document.getElementById("upload-trigger");
 
-      // Load service data
-      async function loadServiceData(serviceId) {
-        try {
-          const response = await fetch(`/api/services/${serviceId}`);
-          const data = await response.json();
+    uploadTrigger.addEventListener("click", function () {
+      imageInput.click();
+    });
 
-          if (!data.service) {
-            throw new Error("Layanan tidak ditemukan");
+    imageInput.addEventListener("change", function (e) {
+      const file = e.target.files[0];
+      if (file && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          previewImg.src = e.target.result;
+          uploadTrigger.classList.add("hidden");
+          imagePreview.classList.remove("hidden");
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    removeImageBtn.addEventListener("click", function () {
+      imageInput.value = "";
+      uploadTrigger.classList.remove("hidden");
+      imagePreview.classList.add("hidden");
+      previewImg.src = "";
+    });
+
+    // Load service data
+    async function loadServiceData(serviceId) {
+      try {
+        const response = await fetch(`/api/services/${serviceId}`);
+        const data = await response.json();
+
+        if (!data.service) {
+          throw new Error("Layanan tidak ditemukan");
+        }
+
+        const service = data.service;
+
+        // Set form values
+        document.getElementById("service-id").value = service.id;
+        document.getElementById("service-name").value = service.name;
+        document.getElementById("service-description").value =
+          service.description || "";
+        document.getElementById("service-price").value = service.price;
+
+        // Set kategori jika ada
+        const categorySelect = document.getElementById("service-category");
+        if (service.category) {
+          // Cari opsi yang sesuai dengan kategori layanan
+          for (let i = 0; i < categorySelect.options.length; i++) {
+            if (categorySelect.options[i].value === service.category) {
+              categorySelect.selectedIndex = i;
+              break;
+            }
           }
+        }
 
-          const service = data.service;
+        // Show image preview if exists
+        if (service.image_url) {
+          previewImg.src = service.image_url;
+          previewImg.setAttribute("data-original", service.image_url);
+          uploadTrigger.classList.add("hidden");
+          imagePreview.classList.remove("hidden");
+        }
 
-          // Set form values
-          document.getElementById("service-id").value = service.id;
-          document.getElementById("service-name").value = service.name;
-          document.getElementById("service-description").value =
-            service.description || "";
-          document.getElementById("service-price").value = service.price;
+        // Set location data if exists
+        if (service.province_id) {
+          await loadProvinces(); // Load provinces first
 
-          // Set kategori jika ada
-          const categorySelect = document.getElementById("service-category");
-          if (service.category) {
-            // Cari opsi yang sesuai dengan kategori layanan
-            for (let i = 0; i < categorySelect.options.length; i++) {
-              if (categorySelect.options[i].value === service.category) {
-                categorySelect.selectedIndex = i;
-                break;
-              }
+          // Set province
+          for (let i = 0; i < provinceSelect.options.length; i++) {
+            if (provinceSelect.options[i].value === service.province_id) {
+              provinceSelect.selectedIndex = i;
+              break;
             }
           }
 
-          // Show image preview if exists
-          if (service.image_url) {
-            previewImg.src = service.image_url;
-            previewImg.setAttribute("data-original", service.image_url);
-            uploadTrigger.classList.add("hidden");
-            imagePreview.classList.remove("hidden");
-          }
-
-          // Set location data if exists
-          if (service.province_id) {
-            await loadProvinces(); // Load provinces first
-
-            // Set province
-            for (let i = 0; i < provinceSelect.options.length; i++) {
-              if (provinceSelect.options[i].value === service.province_id) {
-                provinceSelect.selectedIndex = i;
+          // Load and set regency
+          if (service.regency_id) {
+            await loadRegencies(service.province_id);
+            for (let i = 0; i < regencySelect.options.length; i++) {
+              if (regencySelect.options[i].value === service.regency_id) {
+                regencySelect.selectedIndex = i;
                 break;
               }
             }
 
-            // Load and set regency
-            if (service.regency_id) {
-              await loadRegencies(service.province_id);
-              for (let i = 0; i < regencySelect.options.length; i++) {
-                if (regencySelect.options[i].value === service.regency_id) {
-                  regencySelect.selectedIndex = i;
+            // Load and set district
+            if (service.district_id) {
+              await loadDistricts(service.regency_id);
+              for (let i = 0; i < districtSelect.options.length; i++) {
+                if (districtSelect.options[i].value === service.district_id) {
+                  districtSelect.selectedIndex = i;
                   break;
                 }
               }
-
-              // Load and set district
-              if (service.district_id) {
-                await loadDistricts(service.regency_id);
-                for (let i = 0; i < districtSelect.options.length; i++) {
-                  if (districtSelect.options[i].value === service.district_id) {
-                    districtSelect.selectedIndex = i;
-                    break;
-                  }
-                }
-              }
             }
-          } else {
-            // If no existing location data, just load provinces
-            await loadProvinces();
           }
-        } catch (error) {
-          console.error("Error loading service data:", error);
-          alert("Gagal memuat data layanan. Silakan coba lagi.");
-          window.location.href = "/provider/services";
+        } else {
+          // If no existing location data, just load provinces
+          await loadProvinces();
         }
+      } catch (error) {
+        console.error("Error loading service data:", error);
+        alert("Gagal memuat data layanan. Silakan coba lagi.");
+        window.location.href = "/provider/services";
       }
+    }
 
-      // Load provinces
-      async function loadProvinces() {
-        try {
-          const response = await fetch("/public/data/provinces.json");
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          const provinces = await response.json();
-
-          // Sort provinces by name
-          provinces.sort((a, b) => a.name.localeCompare(b.name));
-
-          // Add options to select
-          provinces.forEach((province) => {
-            const option = document.createElement("option");
-            option.value = province.id;
-            option.textContent = province.name;
-            provinceSelect.appendChild(option);
-          });
-        } catch (error) {
-          console.error("Error loading provinces:", error);
-          alert("Gagal memuat data provinsi. Silakan refresh halaman.");
+    // Load provinces
+    async function loadProvinces() {
+      try {
+        const response = await fetch("/public/data/provinces.json");
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
+        const provinces = await response.json();
+
+        // Sort provinces by name
+        provinces.sort((a, b) => a.name.localeCompare(b.name));
+
+        // Add options to select
+        provinces.forEach((province) => {
+          const option = document.createElement("option");
+          option.value = province.id;
+          option.textContent = province.name;
+          provinceSelect.appendChild(option);
+        });
+      } catch (error) {
+        console.error("Error loading provinces:", error);
+        alert("Gagal memuat data provinsi. Silakan refresh halaman.");
       }
+    }
 
-      // Load regencies based on selected province
-      async function loadRegencies(provinceId) {
-        try {
-          // Clear previous options
-          regencySelect.innerHTML =
-            '<option value="">Pilih Kabupaten/Kota</option>';
-          districtSelect.innerHTML =
-            '<option value="">Pilih Kecamatan</option>';
+    // Load regencies based on selected province
+    async function loadRegencies(provinceId) {
+      try {
+        // Clear previous options
+        regencySelect.innerHTML =
+          '<option value="">Pilih Kabupaten/Kota</option>';
+        districtSelect.innerHTML =
+          '<option value="">Pilih Kecamatan</option>';
 
-          // Disable selects
+        // Disable selects
+        districtSelect.disabled = true;
+
+        if (!provinceId) {
+          regencySelect.disabled = true;
+          return;
+        }
+
+        const response = await fetch("/public/data/regencies.json");
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const regencies = await response.json();
+
+        // Filter regencies by province_id and sort by name
+        const filteredRegencies = regencies
+          .filter((regency) => regency.province_id === provinceId)
+          .sort((a, b) => a.name.localeCompare(b.name));
+
+        // Add options to select
+        filteredRegencies.forEach((regency) => {
+          const option = document.createElement("option");
+          option.value = regency.id;
+          option.textContent = regency.name;
+          regencySelect.appendChild(option);
+        });
+
+        // Enable select
+        regencySelect.disabled = false;
+      } catch (error) {
+        console.error("Error loading regencies:", error);
+        alert("Gagal memuat data kabupaten/kota. Silakan coba lagi.");
+      }
+    }
+
+    // Load districts based on selected regency
+    async function loadDistricts(regencyId) {
+      try {
+        // Clear previous options
+        districtSelect.innerHTML =
+          '<option value="">Pilih Kecamatan</option>';
+
+        if (!regencyId) {
           districtSelect.disabled = true;
-
-          if (!provinceId) {
-            regencySelect.disabled = true;
-            return;
-          }
-
-          const response = await fetch("/public/data/regencies.json");
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          const regencies = await response.json();
-
-          // Filter regencies by province_id and sort by name
-          const filteredRegencies = regencies
-            .filter((regency) => regency.province_id === provinceId)
-            .sort((a, b) => a.name.localeCompare(b.name));
-
-          // Add options to select
-          filteredRegencies.forEach((regency) => {
-            const option = document.createElement("option");
-            option.value = regency.id;
-            option.textContent = regency.name;
-            regencySelect.appendChild(option);
-          });
-
-          // Enable select
-          regencySelect.disabled = false;
-        } catch (error) {
-          console.error("Error loading regencies:", error);
-          alert("Gagal memuat data kabupaten/kota. Silakan coba lagi.");
+          return;
         }
-      }
 
-      // Load districts based on selected regency
-      async function loadDistricts(regencyId) {
-        try {
-          // Clear previous options
-          districtSelect.innerHTML =
-            '<option value="">Pilih Kecamatan</option>';
-
-          if (!regencyId) {
-            districtSelect.disabled = true;
-            return;
-          }
-
-          const response = await fetch("/public/data/districts.json");
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          const districts = await response.json();
-
-          // Filter districts by regency_id and sort by name
-          const filteredDistricts = districts
-            .filter((district) => district.regency_id === regencyId)
-            .sort((a, b) => a.name.localeCompare(b.name));
-
-          // Add options to select
-          filteredDistricts.forEach((district) => {
-            const option = document.createElement("option");
-            option.value = district.id;
-            option.textContent = district.name;
-            districtSelect.appendChild(option);
-          });
-
-          // Enable select
-          districtSelect.disabled = false;
-        } catch (error) {
-          console.error("Error loading districts:", error);
-          alert("Gagal memuat data kecamatan. Silakan coba lagi.");
+        const response = await fetch("/public/data/districts.json");
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
+        const districts = await response.json();
+
+        // Filter districts by regency_id and sort by name
+        const filteredDistricts = districts
+          .filter((district) => district.regency_id === regencyId)
+          .sort((a, b) => a.name.localeCompare(b.name));
+
+        // Add options to select
+        filteredDistricts.forEach((district) => {
+          const option = document.createElement("option");
+          option.value = district.id;
+          option.textContent = district.name;
+          districtSelect.appendChild(option);
+        });
+
+        // Enable select
+        districtSelect.disabled = false;
+      } catch (error) {
+        console.error("Error loading districts:", error);
+        alert("Gagal memuat data kecamatan. Silakan coba lagi.");
       }
+    }
 
-      // Event listeners for select changes
-      provinceSelect.addEventListener("change", function () {
-        loadRegencies(this.value);
-      });
+    // Event listeners for select changes
+    provinceSelect.addEventListener("change", function () {
+      loadRegencies(this.value);
+    });
 
-      regencySelect.addEventListener("change", function () {
-        loadDistricts(this.value);
-      });
+    regencySelect.addEventListener("change", function () {
+      loadDistricts(this.value);
+    });
 
-      // Form submission
-      document
-        .getElementById("edit-service-form")
-        .addEventListener("submit", async function (e) {
-          e.preventDefault();
+    // Form submission
+    document
+      .getElementById("edit-service-form")
+      .addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-          const submitBtn = document.getElementById("submit-btn");
-          const originalText = submitBtn.innerHTML;
+        const submitBtn = document.getElementById("submit-btn");
+        const originalText = submitBtn.innerHTML;
 
-          // Show loading state
-          submitBtn.innerHTML = `
+        // Show loading state
+        submitBtn.innerHTML = `
           <span class="material-symbols-outlined animate-spin">refresh</span>
           Menyimpan...
         `;
-          submitBtn.disabled = true;
+        submitBtn.disabled = true;
 
-          try {
-            // Gunakan FormData untuk menangani upload file
-            const formData = new FormData();
-            formData.append("id", document.getElementById("service-id").value);
+        try {
+          // Gunakan FormData untuk menangani upload file
+          const formData = new FormData();
+          formData.append("id", document.getElementById("service-id").value);
+          formData.append(
+            "name",
+            document.getElementById("service-name").value
+          );
+          formData.append(
+            "description",
+            document.getElementById("service-description").value
+          );
+          formData.append(
+            "price",
+            document.getElementById("service-price").value
+          );
+
+          // Tambahkan kategori
+          formData.append(
+            "category",
+            document.getElementById("service-category").value
+          );
+
+          // Tambahkan data lokasi
+          const provinceSelect = document.getElementById("province");
+          const regencySelect = document.getElementById("regency");
+          const districtSelect = document.getElementById("district");
+
+          if (provinceSelect.value) {
+            formData.append("province_id", provinceSelect.value);
             formData.append(
-              "name",
-              document.getElementById("service-name").value
+              "province_name",
+              provinceSelect.options[provinceSelect.selectedIndex].text
             );
+          }
+
+          if (regencySelect.value) {
+            formData.append("regency_id", regencySelect.value);
             formData.append(
-              "description",
-              document.getElementById("service-description").value
+              "regency_name",
+              regencySelect.options[regencySelect.selectedIndex].text
             );
+          }
+
+          if (districtSelect.value) {
+            formData.append("district_id", districtSelect.value);
             formData.append(
-              "price",
-              document.getElementById("service-price").value
+              "district_name",
+              districtSelect.options[districtSelect.selectedIndex].text
             );
+          }
 
-            // Tambahkan kategori
-            formData.append(
-              "category",
-              document.getElementById("service-category").value
-            );
+          // Tambahkan detail alamat
+          const addressInput = document.getElementById("service-address");
+          formData.append("address", addressInput.value);
 
-            // Tambahkan data lokasi
-            const provinceSelect = document.getElementById("province");
-            const regencySelect = document.getElementById("regency");
-            const districtSelect = document.getElementById("district");
+          // Tambahkan file gambar jika ada
+          const imageInput = document.getElementById("service-image");
+          if (imageInput.files && imageInput.files[0]) {
+            formData.append("image", imageInput.files[0]);
+          }
 
-            if (provinceSelect.value) {
-              formData.append("province_id", provinceSelect.value);
-              formData.append(
-                "province_name",
-                provinceSelect.options[provinceSelect.selectedIndex].text
-              );
-            }
+          const response = await fetch("/api/services", {
+            method: "PUT",
+            body: formData, // Tidak perlu set Content-Type, browser akan otomatis set dengan boundary
+          });
 
-            if (regencySelect.value) {
-              formData.append("regency_id", regencySelect.value);
-              formData.append(
-                "regency_name",
-                regencySelect.options[regencySelect.selectedIndex].text
-              );
-            }
+          const data = await response.json();
 
-            if (districtSelect.value) {
-              formData.append("district_id", districtSelect.value);
-              formData.append(
-                "district_name",
-                districtSelect.options[districtSelect.selectedIndex].text
-              );
-            }
-
-            // Tambahkan detail alamat
-            const addressInput = document.getElementById("service-address");
-            formData.append("address", addressInput.value);
-
-            // Tambahkan file gambar jika ada
-            const imageInput = document.getElementById("service-image");
-            if (imageInput.files && imageInput.files[0]) {
-              formData.append("image", imageInput.files[0]);
-            }
-
-            const response = await fetch("/api/services", {
-              method: "PUT",
-              body: formData, // Tidak perlu set Content-Type, browser akan otomatis set dengan boundary
-            });
-
-            const data = await response.json();
-
-            if (data.success) {
-              // Show success message
-              submitBtn.innerHTML = `
+          if (data.success) {
+            // Show success message
+            submitBtn.innerHTML = `
               <span class="material-symbols-outlined">check</span>
               Berhasil!
             `;
-              submitBtn.classList.remove("bg-[#029FAE]", "hover:bg-[#027f8a]");
-              submitBtn.classList.add("bg-green-500");
+            submitBtn.classList.remove("bg-[#029FAE]", "hover:bg-[#027f8a]");
+            submitBtn.classList.add("bg-green-500");
 
-              setTimeout(() => {
-                window.location.href = "/provider/services";
-              }, 1500);
-            } else {
-              throw new Error(data.error || "Gagal menyimpan perubahan");
-            }
-          } catch (error) {
-            console.error("Error updating service:", error);
+            setTimeout(() => {
+              window.location.href = "/provider/services";
+            }, 1500);
+          } else {
+            throw new Error(data.error || "Gagal menyimpan perubahan");
+          }
+        } catch (error) {
+          console.error("Error updating service:", error);
 
-            // Show error state
-            submitBtn.innerHTML = `
+          // Show error state
+          submitBtn.innerHTML = `
             <span class="material-symbols-outlined">error</span>
             Gagal menyimpan
           `;
-            submitBtn.classList.remove("bg-[#029FAE]", "hover:bg-[#027f8a]");
-            submitBtn.classList.add("bg-red-500");
+          submitBtn.classList.remove("bg-[#029FAE]", "hover:bg-[#027f8a]");
+          submitBtn.classList.add("bg-red-500");
 
-            // Reset button after 3 seconds
-            setTimeout(() => {
-              submitBtn.innerHTML = originalText;
-              submitBtn.disabled = false;
-              submitBtn.classList.remove("bg-red-500");
-              submitBtn.classList.add("bg-[#029FAE]", "hover:bg-[#027f8a]");
-            }, 3000);
+          // Reset button after 3 seconds
+          setTimeout(() => {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            submitBtn.classList.remove("bg-red-500");
+            submitBtn.classList.add("bg-[#029FAE]", "hover:bg-[#027f8a]");
+          }, 3000);
 
-            alert(error.message);
-          }
-        });
+          alert(error.message);
+        }
+      });
 
-      // Format price input
-      document
-        .getElementById("service-price")
-        .addEventListener("input", function (e) {
-          // Remove any non-digit characters except for backspace/delete
-          let value = e.target.value.replace(/[^\d]/g, "");
-          e.target.value = value;
-        });
-    </script>
-  </body>
+    // Format price input
+    document
+      .getElementById("service-price")
+      .addEventListener("input", function (e) {
+        // Remove any non-digit characters except for backspace/delete
+        let value = e.target.value.replace(/[^\d]/g, "");
+        e.target.value = value;
+      });
+
+    function getSearchQuery() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("search") || "";
+    }
+
+    const searchInput = document.getElementById("service-search-input");
+    const searchSuggestion = document.getElementById("service-search-suggestion");
+
+    let allServices = [];
+
+    // Ambil semua service untuk suggestion
+    fetch("/api/services")
+      .then(res => res.json())
+      .then(data => {
+        allServices = data.services || [];
+      });
+
+    // Tampilkan suggestion saat mengetik
+    searchInput.addEventListener("input", function () {
+      const keyword = this.value.trim().toLowerCase();
+      if (!keyword) {
+        searchSuggestion.classList.add("hidden");
+        searchSuggestion.innerHTML = "";
+        return;
+      }
+      // Filter service yang cocok
+      const filtered = allServices.filter(s =>
+        s.name.toLowerCase().includes(keyword) ||
+        (s.description && s.description.toLowerCase().includes(keyword))
+      );
+      if (filtered.length === 0) {
+        searchSuggestion.innerHTML = `<div class="px-4 py-2 text-gray-400">Tidak ditemukan</div>`;
+        searchSuggestion.classList.remove("hidden");
+        return;
+      }
+      searchSuggestion.innerHTML = filtered.slice(0, 8).map(s =>
+        `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer" data-id="${s.id}">
+      ${s.name}
+    </div>`
+      ).join("");
+      searchSuggestion.classList.remove("hidden");
+    });
+
+    // Klik suggestion: redirect ke dashboard dengan query search
+    searchSuggestion.addEventListener("click", function (e) {
+      const item = e.target.closest("[data-id]");
+      if (item) {
+        const serviceName = item.textContent.trim();
+        window.location.href = `/provider/services?search=${encodeURIComponent(serviceName)}`;
+      }
+    });
+
+    // Sembunyikan suggestion jika klik di luar
+    document.addEventListener("click", function (e) {
+      if (!searchInput.contains(e.target) && !searchSuggestion.contains(e.target)) {
+        searchSuggestion.classList.add("hidden");
+      }
+    });
+
+    // Submit search: tampilkan hasil di dashboard
+    searchInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const keyword = this.value.trim();
+        if (keyword) {
+          window.location.href = `/provider/services?search=${encodeURIComponent(keyword)}`;
+        } else {
+          window.location.href = "/provider/services";
+        }
+      }
+    });
+  </script>
+</body>
+
 </html>

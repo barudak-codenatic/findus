@@ -36,10 +36,19 @@
     <div class="bg-gray-100">
       <div class="container mx-auto flex justify-between items-center w-full px-28 py-4">
         <a class="brand" href="/dashboard-user"><img src="/public/images/Logo.svg" alt=""></a>
-        <input type="text" placeholder="Search here..."
-          class="w-full md:w-1/3 px-4 py-2 text-sm bg-white rounded focus:outline-none" />
+        <div class="relative w-full md:w-1/3">
+          <input type="text" id="service-search-input" placeholder="Cari layanan..."
+            class="px-4 py-2 text-sm bg-white rounded focus:outline-none w-full" autocomplete="off" />
+          <!-- Dropdown suggestion -->
+          <div id="service-search-suggestion"
+            class="absolute left-0 right-0 mt-1 bg-white border rounded shadow z-50 hidden max-h-60 overflow-auto">
+          </div>
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            <span class="material-symbols-outlined text-base text-gray-400">search</span>
+          </div>
+        </div>
         <nav class="flex space-x-4 items-center text-xs">
-          <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="/order_history">
+          <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="/order-history">
             <span class="material-symbols-outlined !text-lg">
               history
             </span>
@@ -55,20 +64,32 @@
             <span class="material-symbols-outlined !text-lg">
               shopping_cart
             </span>
-            Keranjang
+            Cart
           </a>
-          <a id="profile-link" class="bg-white rounded px-4 py-1 flex items-center gap-1" href="/profile">
+          <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="" id="profile-link">
             <span class="material-symbols-outlined !text-lg">
               person
             </span>
-            Profil
           </a>
         </nav>
       </div>
     </div>
+    <div class="border-b-1 border-gray-300">
+      <div class="container mx-auto flex justify-between items-center w-full px-28 py-4 text-xs">
+        <nav class="flex items-center space-x-2 text-gray-600" aria-label="Breadcrumb">
+          <a href="/" class="hover:underline flex items-center gap-1">
+            <span class="material-symbols-outlined !text-base align-middle">home</span>
+            Beranda
+          </a>
+          <span class="mx-1 text-gray-400">/</span>
+          <a href="/profile" class="hover:underline">Profile</a>
+        </nav>
+        <div class="contact flex gap-2"><span class="text-gray-500">Contact:</span>(0812) 1284-8626</div>
+      </div>
+    </div>
   </header>
 
-  <main class="container mx-auto px-4 py-8 max-w-4xl">
+  <main class="container mx-auto px-4 py-8 max-w-4xl mb-24">
     <div class="bg-white rounded-lg shadow-md overflow-hidden">
       <!-- Header Profil -->
       <div class="p-6 border-b border-gray-200">
@@ -147,32 +168,25 @@
     </div>
   </main>
 
-  <footer class="bg-white mt-12 pt-12 pb-6 px-4">
-    <div class="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-      <div class="col-span-1">
-        <img src="/public/images/Logo.svg" alt="FindUS Logo" class="h-8 mb-4">
-        <p class="text-sm text-gray-600 mb-4">Solusi terbaik untuk kebutuhan jasa Anda. Temukan penyedia jasa
-          terpercaya dengan mudah.</p>
-        <div class="flex space-x-4">
-          <a href="#" class="text-gray-400 hover:text-gray-500">
-            <i class="bi bi-facebook"></i>
-          </a>
-          <a href="#" class="text-gray-400 hover:text-gray-500">
-            <i class="bi bi-twitter"></i>
-          </a>
-          <a href="#" class="text-gray-400 hover:text-gray-500">
-            <i class="bi bi-instagram"></i>
-          </a>
+  <footer class="border-t border-gray-200 py-10 text-sm text-gray-700">
+    <div class="container mx-auto flex justify-start w-full px-28 py-4 gap-24">
+      <div class="w-1/4 flex flex-col gap-4">
+        <a class="brand" href=""><img src="/public/images/Logo.svg" alt=""></a>
+        <p>Platform online untuk mahasiswa yang kos! Belanja kebutuhan harian, perlengkapan kamar, serta pesan
+          layanan seperti jasa layanan, bersih-bersih, dan lainnya dengan mudah.</p>
+        <div class="flex gap-3">
+          <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"><i class="bi bi-twitter"></i></a>
         </div>
       </div>
 
       <div>
-        <h5 class="font-medium mb-2 text-gray-400">Kategori</h5>
+        <h5 class="font-medium mb-2 text-gray-400">Category</h5>
         <ul class="space-y-1">
-          <li><a href="#" class="hover:underline">Jasa Rumah Tangga</a></li>
-          <li><a href="#" class="hover:underline">Jasa Profesional</a></li>
-          <li><a href="#" class="hover:underline">Jasa Pendidikan</a></li>
-          <li><a href="#" class="hover:underline hover:text-[#029FAE]">Jasa Layanan</a></li>
+          <li><a href="#" class="hover:underline hover:text-[#029FAE]">Kebersihan</a></li>
+          <li><a href="#" class="hover:underline hover:text-[#029FAE]">Angkut Barang</a></li>
+          <li><a href="#" class="hover:underline hover:text-[#029FAE]">Perbaikan</a></li>
         </ul>
       </div>
 
@@ -338,6 +352,78 @@
 
     // Load user profile on page load
     document.addEventListener('DOMContentLoaded', fetchUserProfile);
+
+    function getSearchQuery() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("search") || "";
+    }
+
+    const searchInput = document.getElementById("service-search-input");
+    const searchSuggestion = document.getElementById("service-search-suggestion");
+
+    let allServices = [];
+
+    // Ambil semua service untuk suggestion
+    fetch("/api/services")
+      .then(res => res.json())
+      .then(data => {
+        allServices = data.services || [];
+      });
+
+    // Tampilkan suggestion saat mengetik
+    searchInput.addEventListener("input", function () {
+      const keyword = this.value.trim().toLowerCase();
+      if (!keyword) {
+        searchSuggestion.classList.add("hidden");
+        searchSuggestion.innerHTML = "";
+        return;
+      }
+      // Filter service yang cocok
+      const filtered = allServices.filter(s =>
+        s.name.toLowerCase().includes(keyword) ||
+        (s.description && s.description.toLowerCase().includes(keyword))
+      );
+      if (filtered.length === 0) {
+        searchSuggestion.innerHTML = `<div class="px-4 py-2 text-gray-400">Tidak ditemukan</div>`;
+        searchSuggestion.classList.remove("hidden");
+        return;
+      }
+      searchSuggestion.innerHTML = filtered.slice(0, 8).map(s =>
+        `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer" data-id="${s.id}">
+      ${s.name}
+    </div>`
+      ).join("");
+      searchSuggestion.classList.remove("hidden");
+    });
+
+    // Klik suggestion: redirect ke dashboard dengan query search
+    searchSuggestion.addEventListener("click", function (e) {
+      const item = e.target.closest("[data-id]");
+      if (item) {
+        const serviceName = item.textContent.trim();
+        window.location.href = `/services?search=${encodeURIComponent(serviceName)}`;
+      }
+    });
+
+    // Sembunyikan suggestion jika klik di luar
+    document.addEventListener("click", function (e) {
+      if (!searchInput.contains(e.target) && !searchSuggestion.contains(e.target)) {
+        searchSuggestion.classList.add("hidden");
+      }
+    });
+
+    // Submit search: tampilkan hasil di dashboard
+    searchInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const keyword = this.value.trim();
+        if (keyword) {
+          window.location.href = `/services?search=${encodeURIComponent(keyword)}`;
+        } else {
+          window.location.href = "/services";
+        }
+      }
+    });
   </script>
 </body>
 

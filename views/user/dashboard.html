@@ -36,33 +36,43 @@
     <div class="bg-gray-100">
       <div class="container mx-auto flex justify-between items-center w-full px-28 py-4">
         <a class="brand" href="/dashboard-user"><img src="/public/images/Logo.svg" alt=""></a>
-        <input type="text" placeholder="Search here..."
-          class="w-full md:w-1/3 px-4 py-2 text-sm bg-white rounded focus:outline-none" />
+        <div class="relative w-full md:w-1/3">
+          <input type="text" id="service-search-input" placeholder="Cari layanan..."
+            class="px-4 py-2 text-sm bg-white rounded focus:outline-none w-full" autocomplete="off" />
+          <!-- Dropdown suggestion -->
+          <div id="service-search-suggestion"
+            class="absolute left-0 right-0 mt-1 bg-white border rounded shadow z-50 hidden max-h-60 overflow-auto">
+          </div>
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            <span class="material-symbols-outlined text-base text-gray-400">search</span>
+          </div>
+        </div>
         <nav class="flex space-x-4 items-center text-xs">
-          <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="/order-history">
-            <span class="material-symbols-outlined !text-lg">
-              history
-            </span>
-            Riwayat
-          </a>
-          <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="/user/chat">
-            <span class="material-symbols-outlined !text-lg">
-              chat
-            </span>
-            Chat
-          </a>
-          <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="/cart">
-            <span class="material-symbols-outlined !text-lg">
-              shopping_cart
-            </span>
-            Cart
-          </a>
-          <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="" id="profile-link">
-            <span class="material-symbols-outlined !text-lg">
-              person
-            </span>
-          </a>
-        </nav>
+          <nav class="flex space-x-4 items-center text-xs">
+            <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="/order-history">
+              <span class="material-symbols-outlined !text-lg">
+                history
+              </span>
+              Riwayat
+            </a>
+            <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="/user/chat">
+              <span class="material-symbols-outlined !text-lg">
+                chat
+              </span>
+              Chat
+            </a>
+            <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="/cart">
+              <span class="material-symbols-outlined !text-lg">
+                shopping_cart
+              </span>
+              Cart
+            </a>
+            <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="" id="profile-link">
+              <span class="material-symbols-outlined !text-lg">
+                person
+              </span>
+            </a>
+          </nav>
       </div>
     </div>
     <div class="border-b-1 border-gray-300">
@@ -70,10 +80,8 @@
         <nav class="flex items-center space-x-2 text-gray-600" aria-label="Breadcrumb">
           <a href="/" class="hover:underline flex items-center gap-1">
             <span class="material-symbols-outlined !text-base align-middle">home</span>
-            Home
+            Beranda
           </a>
-          <span class="mx-1 text-gray-400">/</span>
-          <a href="/service" class="hover:underline">Service</a>
         </nav>
         <div class="contact flex gap-2"><span class="text-gray-500">Contact:</span>(0812) 1284-8626</div>
       </div>
@@ -86,33 +94,73 @@
     <section class="products">
       <h2 class="text-2xl font-bold my-6">Layanan Tersedia</h2>
       <div class="flex flex-wrap gap-4 mb-6 items-end">
+        <!-- Dropdown Kategori -->
+        <div>
+          <label class="block text-xs mb-1">Kategori</label>
+          <div class="relative min-w-[180px]">
+            <select id="filter-kategori"
+              class="border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-[#029FAE] appearance-none w-full">
+              <option value="">Semua Kategori</option>
+              <option value="Kebersihan">Kebersihan</option>
+              <option value="Angkut Barang">Angkut Barang</option>
+              <option value="Perbaikan">Perbaikan</option>
+            </select>
+            <!-- Dropdown arrow -->
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <span class="material-symbols-outlined text-base text-gray-400">expand_more</span>
+            </div>
+          </div>
+        </div>
+        <!-- Dropdown Provinsi -->
         <div>
           <label class="block text-xs mb-1">Provinsi</label>
-          <select id="filter-provinsi" class="border rounded px-2 py-1 text-sm">
-            <option value="">Semua Provinsi</option>
-          </select>
+          <div class="relative min-w-[180px]">
+            <select id="filter-provinsi"
+              class="border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-[#029FAE] appearance-none w-full">
+              <option value="">Semua Provinsi</option>
+            </select>
+            <!-- Dropdown arrow -->
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <span class="material-symbols-outlined text-base text-gray-400">expand_more</span>
+            </div>
+          </div>
         </div>
+        <!-- Dropdown Kota/Kabupaten -->
         <div>
           <label class="block text-xs mb-1">Kota/Kabupaten</label>
-          <select id="filter-kota" class="border rounded px-2 py-1 text-sm" disabled>
-            <option value="">Semua Kota/Kabupaten</option>
-          </select>
+          <div class="relative min-w-[180px]">
+            <select id="filter-kota"
+              class="border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-[#029FAE] appearance-none w-full"
+              disabled>
+              <option value="">Semua Kota/Kabupaten</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <span class="material-symbols-outlined text-base text-gray-400">expand_more</span>
+            </div>
+          </div>
         </div>
+        <!-- Dropdown Urutkan -->
         <div>
           <label class="block text-xs mb-1">Urutkan</label>
-          <select id="filter-sort" class="border rounded px-2 py-1 text-sm">
-            <option value="terbaru">Terbaru</option>
-            <option value="terlama">Terlama</option>
-            <option value="harga-tertinggi">Harga Tertinggi</option>
-            <option value="harga-terendah">Harga Terendah</option>
-          </select>
+          <div class="relative min-w-[150px]">
+            <select id="filter-sort"
+              class="border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-[#029FAE] appearance-none w-full">
+              <option value="terbaru">Terbaru</option>
+              <option value="terlama">Terlama</option>
+              <option value="harga-tertinggi">Harga Tertinggi</option>
+              <option value="harga-terendah">Harga Terendah</option>
+            </select>
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <span class="material-symbols-outlined text-base text-gray-400">expand_more</span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         <div class="product bg-white rounded">
           <img src="/public/images/jasa1.jpg" alt="Product 1" class="w-full h-46 rounded object-cover mb-2">
           <h3 class="text-lg font-semibold">Jasa Sedot WC</h3>
-          <p class="text-gray-500 font-medium">Terima Jasa Sedot WC. Mudah & Cepat.</p>
+          <p class="text-gray-500 font-medium line-clamp-1">Terima Jasa Sedot WC. Mudah & Cepat.</p>
           <p class="font-medium">Rp.300.000-800.000</p>
         </div>
       </div>
@@ -134,12 +182,9 @@
       <div>
         <h5 class="font-medium mb-2 text-gray-400">Category</h5>
         <ul class="space-y-1">
-          <li><a href="#" class="hover:underline hover:text-[#029FAE]">Peralatan Mandi</a></li>
-          <li><a href="#" class="hover:underline hover:text-[#029FAE]">Alat Masak</a></li>
-          <li><a href="#" class="hover:underline hover:text-[#029FAE]">Elektronik</a></li>
-          <li><a href="#" class="hover:underline hover:text-[#029FAE]">Dekorasi Kamar</a></li>
-          <li><a href="#" class="hover:underline hover:text-[#029FAE]">Alat Makan</a></li>
-          <li><a href="#" class="hover:underline hover:text-[#029FAE]">Jasa Layanan</a></li>
+          <li><a href="#" class="hover:underline hover:text-[#029FAE]">Kebersihan</a></li>
+          <li><a href="#" class="hover:underline hover:text-[#029FAE]">Angkut Barang</a></li>
+          <li><a href="#" class="hover:underline hover:text-[#029FAE]">Perbaikan</a></li>
         </ul>
       </div>
 
@@ -205,6 +250,7 @@
     let provinces = [];
     let regencies = [];
 
+    const kategoriSelect = document.getElementById("filter-kategori");
     const provinsiSelect = document.getElementById("filter-provinsi");
     const kotaSelect = document.getElementById("filter-kota");
     const sortSelect = document.getElementById("filter-sort");
@@ -258,11 +304,17 @@
       loadServices();
     });
 
+    kategoriSelect.addEventListener("change", function () {
+      loadServices();
+    });
+
     function loadServices() {
       let url = "/api/services?";
       const provId = provinsiSelect.value;
       const kotaId = kotaSelect.value;
       const sort = sortSelect.value;
+      const kategori = kategoriSelect.value;
+      const searchKeyword = getSearchQuery().toLowerCase();
 
       if (provId) url += `province_id=${encodeURIComponent(provId)}&`;
       if (kotaId) url += `regency_id=${encodeURIComponent(kotaId)}&`;
@@ -271,25 +323,41 @@
       fetch(url)
         .then(res => res.json())
         .then(data => {
-          const services = data.services || [];
+          let services = data.services || [];
+          // Filter kategori
+          if (kategori) {
+            services = services.filter(s => s.category === kategori);
+          }
+          // Filter search
+          if (searchKeyword) {
+            services = services.filter(s =>
+              s.name.toLowerCase().includes(searchKeyword) ||
+              (s.description && s.description.toLowerCase().includes(searchKeyword))
+            );
+            searchInput.value = getSearchQuery();
+          }
           const productsGrid = document.querySelector('.products .grid');
           if (!productsGrid) return;
 
           productsGrid.innerHTML = "";
 
-          services.forEach(service => {
-            const card = document.createElement('div');
-            card.className = "product bg-white rounded";
-            card.innerHTML = `
+          if (services.length === 0) {
+            productsGrid.innerHTML = `<div class="col-span-full text-center text-gray-400 py-8">Tidak ada layanan ditemukan</div>`;
+          } else {
+            services.forEach(service => {
+              const card = document.createElement('div');
+              card.className = "product bg-white rounded";
+              card.innerHTML = `
             <a href="/service-detail/${service.id}" style="display:block; text-decoration:none; color:inherit;">
               <img src="${service.image_url || '/public/images/jasa1.jpg'}" alt="${service.name}" class="w-full h-44 rounded object-cover mb-2">
-              <h3 class="text-lg font-semibold">${service.name}</h3>
-              <p class="text-gray-500 font-medium">${service.description || ''}</p>
-              <p class="font-medium">Rp.${service.price ? service.price.toLocaleString('id-ID') : '-'}</p>
+              <h3 class="text-lg font-semibold mb-2">${service.name}</h3>
+              <p class="text-gray-500 font-medium line-clamp-2 text-sm mb-2">${service.description || ''}</p>
+              <p class="font-medium text-[#029FAE]">Rp.${service.price ? service.price.toLocaleString('id-ID') : '-'}</p>
             </a>
           `;
-            productsGrid.appendChild(card);
-          });
+              productsGrid.appendChild(card);
+            });
+          }
         })
         .catch(err => {
           console.error("Gagal memuat layanan:", err);
@@ -298,6 +366,78 @@
 
     // Panggil pertama kali
     loadServices();
+
+    function getSearchQuery() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("search") || "";
+    }
+
+    const searchInput = document.getElementById("service-search-input");
+    const searchSuggestion = document.getElementById("service-search-suggestion");
+
+    let allServices = [];
+
+    // Ambil semua service untuk suggestion
+    fetch("/api/services")
+      .then(res => res.json())
+      .then(data => {
+        allServices = data.services || [];
+      });
+
+    // Tampilkan suggestion saat mengetik
+    searchInput.addEventListener("input", function () {
+      const keyword = this.value.trim().toLowerCase();
+      if (!keyword) {
+        searchSuggestion.classList.add("hidden");
+        searchSuggestion.innerHTML = "";
+        return;
+      }
+      // Filter service yang cocok
+      const filtered = allServices.filter(s =>
+        s.name.toLowerCase().includes(keyword) ||
+        (s.description && s.description.toLowerCase().includes(keyword))
+      );
+      if (filtered.length === 0) {
+        searchSuggestion.innerHTML = `<div class="px-4 py-2 text-gray-400">Tidak ditemukan</div>`;
+        searchSuggestion.classList.remove("hidden");
+        return;
+      }
+      searchSuggestion.innerHTML = filtered.slice(0, 8).map(s =>
+        `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer" data-id="${s.id}">
+      ${s.name}
+    </div>`
+      ).join("");
+      searchSuggestion.classList.remove("hidden");
+    });
+
+    // Klik suggestion: redirect ke dashboard dengan query search
+    searchSuggestion.addEventListener("click", function (e) {
+      const item = e.target.closest("[data-id]");
+      if (item) {
+        const serviceName = item.textContent.trim();
+        window.location.href = `/services?search=${encodeURIComponent(serviceName)}`;
+      }
+    });
+
+    // Sembunyikan suggestion jika klik di luar
+    document.addEventListener("click", function (e) {
+      if (!searchInput.contains(e.target) && !searchSuggestion.contains(e.target)) {
+        searchSuggestion.classList.add("hidden");
+      }
+    });
+
+    // Submit search: tampilkan hasil di dashboard
+    searchInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const keyword = this.value.trim();
+        if (keyword) {
+          window.location.href = `/services?search=${encodeURIComponent(keyword)}`;
+        } else {
+          window.location.href = "/services";
+        }
+      }
+    });
   </script>
 
 </body>
