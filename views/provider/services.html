@@ -303,14 +303,53 @@
     </div>
   </div>
 
+  <!-- Custom Alert Modal -->
+  <div id="custom-alert-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+      <div class="flex items-center mb-4">
+        <span id="alert-icon" class="material-symbols-outlined text-2xl mr-3"></span>
+        <h3 id="alert-title" class="text-lg font-semibold"></h3>
+      </div>
+      <p id="alert-message" class="text-gray-600 mb-6"></p>
+      <div class="flex justify-end">
+        <button id="alert-ok-button"
+          class="px-6 py-2 bg-[#029FAE] text-white rounded-lg hover:bg-[#027f8a] transition-colors">
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Confirm Modal -->
+  <div id="custom-confirm-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+      <div class="flex items-center mb-4">
+        <span class="material-symbols-outlined text-2xl mr-3 text-orange-500">warning</span>
+        <h3 id="confirm-title" class="text-lg font-semibold">Konfirmasi</h3>
+      </div>
+      <p id="confirm-message" class="text-gray-600 mb-6"></p>
+      <div class="flex justify-end space-x-3">
+        <button id="confirm-cancel-button"
+          class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">
+          Batal
+        </button>
+        <button id="confirm-ok-button"
+          class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+          Konfirmasi
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // Load user authentication
     fetch("/api/auth/me")
       .then((res) => res.json())
       .then((data) => {
         if (!data.user || data.user.role !== "PROVIDER") {
-          alert("Akses ditolak. Silakan login sebagai PROVIDER.");
-          window.location.href = "/login";
+          showAlert("Akses ditolak. Silakan login sebagai PROVIDER.", 'error').then(() => {
+            window.location.href = "/login";
+          });
         } else {
           const profileLink = document.getElementById("profile-link");
           if (profileLink) {
@@ -505,7 +544,7 @@
         if (spinner) spinner.parentElement.remove();
       } catch (error) {
         console.error("Error loading services:", error);
-        alert("Gagal memuat data layanan. Silakan coba lagi.");
+        await showAlert("Gagal memuat data layanan. Silakan coba lagi.", 'error');
       }
     }
 
@@ -514,8 +553,7 @@
 
     function showDeleteModal(service) {
       serviceToDelete = service;
-      document.getElementById("delete-service-name").textContent =
-        service.name;
+      document.getElementById("delete-service-name").textContent = service.name;
       document.getElementById("delete-modal").classList.remove("hidden");
     }
 
@@ -541,13 +579,14 @@
 
           if (data.success) {
             document.getElementById("delete-modal").classList.add("hidden");
+            await showAlert("Layanan berhasil dihapus!", 'success');
             loadServices(); // Reload services
           } else {
             throw new Error(data.error || "Gagal menghapus layanan");
           }
         } catch (error) {
           console.error("Error deleting service:", error);
-          alert("Gagal menghapus layanan. Silakan coba lagi.");
+          await showAlert("Gagal menghapus layanan. Silakan coba lagi.", 'error');
         }
       });
 
@@ -701,6 +740,88 @@
           .addEventListener("change", updateFilterCount);
       });
     });
+
+    // Custom Alert and Confirm Functions
+    function showAlert(message, type = 'info', title = '') {
+      const modal = document.getElementById('custom-alert-modal');
+      const icon = document.getElementById('alert-icon');
+      const titleEl = document.getElementById('alert-title');
+      const messageEl = document.getElementById('alert-message');
+      const okButton = document.getElementById('alert-ok-button');
+
+      // Set icon and title based on type
+      switch(type) {
+        case 'success':
+          icon.textContent = 'check_circle';
+          icon.className = 'material-symbols-outlined text-2xl mr-3 text-green-500';
+          titleEl.textContent = title || 'Berhasil';
+          okButton.className = 'px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors';
+          break;
+        case 'error':
+          icon.textContent = 'error';
+          icon.className = 'material-symbols-outlined text-2xl mr-3 text-red-500';
+          titleEl.textContent = title || 'Error';
+          okButton.className = 'px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors';
+          break;
+        case 'warning':
+          icon.textContent = 'warning';
+          icon.className = 'material-symbols-outlined text-2xl mr-3 text-orange-500';
+          titleEl.textContent = title || 'Peringatan';
+          okButton.className = 'px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors';
+          break;
+        default:
+          icon.textContent = 'info';
+          icon.className = 'material-symbols-outlined text-2xl mr-3 text-blue-500';
+          titleEl.textContent = title || 'Informasi';
+          okButton.className = 'px-6 py-2 bg-[#029FAE] text-white rounded-lg hover:bg-[#027f8a] transition-colors';
+      }
+
+      messageEl.textContent = message;
+      modal.classList.remove('hidden');
+
+      return new Promise((resolve) => {
+        const handleOk = () => {
+          modal.classList.add('hidden');
+          okButton.removeEventListener('click', handleOk);
+          resolve(true);
+        };
+        okButton.addEventListener('click', handleOk);
+      });
+    }
+
+    function showConfirm(message, title = 'Konfirmasi') {
+      const modal = document.getElementById('custom-confirm-modal');
+      const titleEl = document.getElementById('confirm-title');
+      const messageEl = document.getElementById('confirm-message');
+      const cancelButton = document.getElementById('confirm-cancel-button');
+      const okButton = document.getElementById('confirm-ok-button');
+
+      titleEl.textContent = title;
+      messageEl.textContent = message;
+      modal.classList.remove('hidden');
+
+      return new Promise((resolve) => {
+        const handleCancel = () => {
+          modal.classList.add('hidden');
+          cleanup();
+          resolve(false);
+        };
+
+        const handleOk = () => {
+          modal.classList.add('hidden');
+          cleanup();
+          resolve(true);
+        };
+
+        const cleanup = () => {
+          cancelButton.removeEventListener('click', handleCancel);
+          okButton.removeEventListener('click', handleOk);
+        };
+
+        cancelButton.addEventListener('click', handleCancel);
+        okButton.addEventListener('click', handleOk);
+      });
+    }
   </script>
 </body>
 
