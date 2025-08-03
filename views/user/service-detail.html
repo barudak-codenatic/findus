@@ -44,7 +44,7 @@
                         Batal
                     </button>
                     <button id="modal-confirm"
-                        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                        class="px-4 py-2 bg-[#029FAE] text-white rounded-lg hover:bg-[#027f8a] transition">
                         Ya
                     </button>
                 </div>
@@ -380,8 +380,10 @@
                 const data = await response.json();
 
                 if (!data.user || data.user.role !== 'USER') {
-                    alert('Akses ditolak. Silakan login sebagai USER.');
-                    window.location.href = '/login';
+                    flash.show('Akses ditolak. Silakan login sebagai USER.', 'error');
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 2000);
                     return false;
                 }
 
@@ -390,7 +392,10 @@
                 return true;
             } catch (error) {
                 console.error('Gagal memuat data user:', error);
-                window.location.href = '/login';
+                flash.show('Gagal memuat data user. Silakan login kembali.', 'error');
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2000);
                 return false;
             }
         }

@@ -44,7 +44,7 @@
                         Batal
                     </button>
                     <button id="modal-confirm"
-                        class="px-4 py-2 bg-[#029FAE] text-white rounded-lg hover:bg-[#027f8a] transition">
+                        class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
                         Ya
                     </button>
                 </div>
@@ -842,26 +842,17 @@
 
             switch (order.status) {
                 case 'BELUM BAYAR':
-                    // Buat URL dengan semua parameter yang dibutuhkan
-                    const paymentUrl = new URL('/payment', window.location.origin);
-                    paymentUrl.searchParams.set('service_id', order.service_id);
-                    paymentUrl.searchParams.set('customer_name', order.customer_name || '');
-                    paymentUrl.searchParams.set('customer_phone', order.customer_phone || '');
-                    paymentUrl.searchParams.set('schedule', order.schedule || '');
-                    paymentUrl.searchParams.set('customer_address', order.customer_address || '');
-                    paymentUrl.searchParams.set('note', order.note || '');
-                    paymentUrl.searchParams.set('order_id', order.id); // Tambahan order_id untuk referensi
-
+                    // Hanya perlu order_id karena order sudah ada di database
                     buttons = `
-            <a href="${paymentUrl.toString()}" 
-               class="bg-[#029FAE] text-white px-3 py-1.5 rounded text-xs font-medium hover:bg-[#027f8a] transition">
-              Bayar
-            </a>
-            <button onclick="cancelOrder('${order.id}')" 
-                    class="bg-red-500 text-white px-3 py-1.5 rounded text-xs font-medium hover:bg-red-600 transition">
-              Batalkan
-            </button>
-          `;
+                <a href="/payment?order_id=${order.id}" 
+                   class="bg-[#029FAE] text-white px-3 py-1.5 rounded text-xs font-medium hover:bg-[#027f8a] transition">
+                  Bayar
+                </a>
+                <button onclick="cancelOrder('${order.id}')" 
+                        class="bg-red-500 text-white px-3 py-1.5 rounded text-xs font-medium hover:bg-red-600 transition">
+                  Batalkan
+                </button>
+            `;
                     break;
 
                 case 'DIBAYAR':

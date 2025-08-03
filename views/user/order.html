@@ -654,7 +654,7 @@
                     No. Telepon <span class="text-red-500">*</span>
                   </span>
                 </label>
-                <input type="text" name="customer_phone" placeholder="Masukkan nomor telepon"
+                <input type="number" name="customer_phone" placeholder="Masukkan nomor telepon"
                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-[#029FAE]" 
                   required />
               </div>
@@ -773,16 +773,36 @@
             showModal('loading');
 
             try {
-                // Simulate processing delay
-                await new Promise(resolve => setTimeout(resolve, 1500));
+                // Create order via API
+                const response = await fetch('/api/order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
 
-                // Redirect to payment with order data
-                const params = new URLSearchParams(orderData);
-                window.location.href = `/payment?${params.toString()}`;
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Gagal membuat pesanan');
+                }
+
+                hideModal();
+
+                if (data.snapToken && data.order) {
+                    // Show success message
+                    showFlashNotification('Pesanan berhasil dibuat! Mengarahkan ke pembayaran...', 'success');
+
+                    // Redirect to payment with order_id
+                    setTimeout(() => {
+                        window.location.href = `/payment?order_id=${data.order.id}`;
+                    }, 1500);
+                } else {
+                    throw new Error('Data pesanan tidak lengkap');
+                }
             } catch (error) {
                 hideModal();
-                console.error('Error processing order:', error);
-                showFlashNotification('Terjadi kesalahan saat memproses pesanan', 'error');
+                console.error('Error creating order:', error);
+                showFlashNotification(error.message || 'Terjadi kesalahan saat membuat pesanan', 'error');
             }
         }
 

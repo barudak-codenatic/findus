@@ -185,25 +185,57 @@ exports.updateOrderStatus = async (req, res) => {
 
 exports.getOrder = async (req, res) => {
   try {
-    const order = await Order.findByPk(req.params.id, {
+    const { id } = req.params;
+
+    // Check authentication
+    if (!req.session.user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const userId = req.session.user.id;
+    const userRole = req.session.user.role;
+
+    // Build where condition based on user role
+    let whereCondition = { id };
+
+    if (userRole === "USER") {
+      // User hanya bisa akses order milik sendiri
+      whereCondition.user_id = userId;
+    } else if (userRole === "PROVIDER") {
+      // Provider hanya bisa akses order untuk service mereka
+      whereCondition.provider_id = userId;
+    } else {
+      return res.status(403).json({ error: "Forbidden" });
+    }
+
+    const order = await Order.findOne({
+      where: whereCondition,
       include: [
-        { model: Service },
+        {
+          model: Service,
+          include: [User], // Provider info dalam service
+        },
         {
           model: User,
           as: "Customer",
-          attributes: ["full_name", "email", "phone"],
+          attributes: ["id", "full_name", "email", "phone"],
         },
         {
           model: User,
           as: "Provider",
-          attributes: ["full_name", "email", "phone"],
+          attributes: ["id", "full_name", "email", "phone"],
         },
       ],
     });
-    if (!order) return res.status(404).json({ error: "Order tidak ditemukan" });
+
+    if (!order) {
+      return res.status(404).json({ error: "Order tidak ditemukan" });
+    }
+
     res.json({ order });
-  } catch (err) {
-    res.status(500).json({ error: "Gagal mengambil detail order" });
+  } catch (error) {
+    console.error("Error getting order:", error);
+    res.status(500).json({ error: "Gagal mengambil data order" });
   }
 };
 

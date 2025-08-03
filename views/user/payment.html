@@ -280,6 +280,14 @@
         // === UTILITY FUNCTIONS ===
         function getOrderDataFromUrl() {
             const params = new URLSearchParams(window.location.search);
+            const orderId = params.get('order_id');
+
+            if (orderId) {
+                // Jika ada order_id, load order data dari API
+                return { order_id: orderId };
+            }
+
+            // Fallback untuk backward compatibility
             return {
                 service_id: params.get('service_id'),
                 customer_name: params.get('customer_name'),
@@ -496,6 +504,18 @@
 
         async function loadServiceDetail() {
             try {
+                // Jika service sudah ada dari order, gunakan itu
+                if (appState.service) {
+                    renderPaymentForm(appState.service);
+                    return;
+                }
+
+                // Jika tidak ada, fetch manual
+                if (!appState.orderData.service_id) {
+                    showError('Service ID tidak ditemukan.');
+                    return;
+                }
+
                 const response = await fetch(`/api/services/${appState.orderData.service_id}`);
                 const data = await response.json();
 
@@ -510,6 +530,59 @@
                 console.error('Gagal memuat detail layanan:', error);
                 showError('Gagal memuat detail layanan.');
                 showFlashNotification('Gagal memuat detail layanan', 'error');
+            }
+        }
+
+        // Di payment.html dan tempat lain yang menggunakan getOrderById
+        async function loadOrderData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('order_id');
+
+            if (orderId) {
+                try {
+                    // Gunakan route yang sudah disatukan
+                    const response = await fetch(`/api/order/${orderId}`);
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Order tidak ditemukan');
+                    }
+
+                    // Set order data ke appState dari order yang sudah ada
+                    const order = data.order;
+                    appState.orderData = {
+                        service_id: order.service_id,
+                        customer_name: order.customer_name,
+                        customer_phone: order.customer_phone,
+                        schedule: order.schedule,
+                        customer_address: order.customer_address,
+                        note: order.note || ''
+                    };
+
+                    // Set service data dari order include
+                    if (order.Service) {
+                        appState.service = order.Service;
+                    }
+
+                    return order;
+                } catch (error) {
+                    console.error('Error loading order data:', error);
+                    showError('Gagal memuat data pesanan.');
+                    return null;
+                }
+            } else {
+                // Fallback untuk URL lama (dari redirect langsung dari form)
+                appState.orderData = getOrderDataFromUrl();
+
+                // Validate required order data
+                if (!appState.orderData.service_id || !appState.orderData.customer_name ||
+                    !appState.orderData.customer_phone || !appState.orderData.schedule ||
+                    !appState.orderData.customer_address) {
+                    showError('Data pesanan tidak lengkap. Silakan ulangi proses pemesanan.');
+                    return null;
+                }
+
+                return appState.orderData;
             }
         }
 
@@ -682,43 +755,25 @@
 
                 showFlashNotification('Memproses pembayaran...', 'info');
 
-                // Cek apakah ada order_id dari URL (dari order history)
+                // Cek apakah ada order_id dari URL
                 const urlParams = new URLSearchParams(window.location.search);
-                const existingOrderId = urlParams.get('order_id');
+                const orderId = urlParams.get('order_id');
 
-                let response, data;
-
-                if (existingOrderId) {
-                    // Jika ada order_id, update order yang sudah ada
-                    response = await fetch(`/api/order/${existingOrderId}/payment`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            service_id: appState.orderData.service_id,
-                            customer_name: appState.orderData.customer_name,
-                            customer_address: appState.orderData.customer_address,
-                            customer_phone: appState.orderData.customer_phone,
-                            schedule: appState.orderData.schedule,
-                            note: appState.orderData.note
-                        })
-                    });
-                } else {
-                    // Jika tidak ada order_id, create order baru
-                    response = await fetch('/api/order', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            service_id: appState.orderData.service_id,
-                            customer_name: appState.orderData.customer_name,
-                            customer_address: appState.orderData.customer_address,
-                            customer_phone: appState.orderData.customer_phone,
-                            schedule: appState.orderData.schedule,
-                            note: appState.orderData.note
-                        })
-                    });
+                if (!orderId) {
+                    throw new Error('Order ID tidak ditemukan. Silakan ulangi proses pemesanan.');
                 }
 
-                data = await response.json();
+                // Generate payment token untuk order yang sudah ada
+                const response = await fetch(`/api/order/${orderId}/payment`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Gagal memproses pembayaran');
+                }
 
                 if (data.snapToken) {
                     // Initialize Midtrans payment
@@ -726,13 +781,13 @@
                         onSuccess: function (result) {
                             showFlashNotification('Pembayaran berhasil!', 'success');
                             setTimeout(() => {
-                                window.location.href = `/order-success?order_id=${data.order_id || existingOrderId}&transaction_status=${result.transaction_status}`;
+                                window.location.href = `/order-success?order_id=${orderId}&transaction_status=${result.transaction_status}`;
                             }, 1000);
                         },
                         onPending: function (result) {
                             showFlashNotification('Pembayaran tertunda, silakan selesaikan pembayaran', 'warning');
                             setTimeout(() => {
-                                window.location.href = `/order-success?order_id=${data.order_id || existingOrderId}&transaction_status=${result.transaction_status}`;
+                                window.location.href = `/order-success?order_id=${orderId}&transaction_status=${result.transaction_status}`;
                             }, 2000);
                         },
                         onError: function (result) {
@@ -746,11 +801,11 @@
                         }
                     });
                 } else {
-                    throw new Error(data.error || 'Gagal memproses pembayaran');
+                    throw new Error('Token pembayaran tidak ditemukan');
                 }
             } catch (error) {
                 console.error('Payment error:', error);
-                showFlashNotification('Terjadi kesalahan saat memproses pembayaran', 'error');
+                showFlashNotification(error.message || 'Terjadi kesalahan saat memproses pembayaran', 'error');
                 resetPaymentButton();
             }
 
@@ -903,20 +958,15 @@
                 // Setup flash notification
                 setupFlashNotification();
 
-                // Get order data from URL
-                appState.orderData = getOrderDataFromUrl();
-
-                // Validate required order data
-                if (!appState.orderData.service_id || !appState.orderData.customer_name || !appState.orderData.customer_phone || !appState.orderData.schedule || !appState.orderData.customer_address) {
-                    showError('Data pesanan tidak lengkap. Silakan ulangi proses pemesanan.');
-                    return;
-                }
-
                 // Initialize authentication
                 const authSuccess = await initializeAuth();
                 if (!authSuccess) return;
 
-                // Load search data in parallel with service details
+                // Load order data first (ini akan set appState.orderData dan mungkin appState.service)
+                const orderData = await loadOrderData();
+                if (!orderData) return;
+
+                // Load search data dan service details (jika belum ada dari order)
                 await Promise.all([
                     loadSearchData(),
                     loadServiceDetail()
