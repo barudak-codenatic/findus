@@ -41,11 +41,11 @@
                 <p id="modal-message" class="text-gray-600 mb-6">Apakah Anda yakin ingin melanjutkan pembayaran?</p>
                 <div class="flex gap-3 justify-end">
                     <button id="modal-cancel"
-                        class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                        class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-100 transition">
                         Batal
                     </button>
                     <button id="modal-confirm"
-                        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                        class="px-4 py-2 bg-[#029FAE] text-white rounded-lg hover:bg-[#027f8a] transition">
                         Ya
                     </button>
                 </div>
@@ -247,8 +247,9 @@
             orderData: {
                 service_id: null,
                 customer_name: null,
+                customer_phone: null,
                 schedule: null,
-                service_address: null,
+                customer_address: null,
                 note: null
             },
             service: null,
@@ -282,8 +283,9 @@
             return {
                 service_id: params.get('service_id'),
                 customer_name: params.get('customer_name'),
+                customer_phone: params.get('customer_phone'),
                 schedule: params.get('schedule'),
-                service_address: params.get('service_address'),
+                customer_address: params.get('customer_address'),
                 note: params.get('note') || ''
             };
         }
@@ -567,10 +569,6 @@
               <p class="text-gray-600">${fullServiceAddress}</p>
             </div>
             ` : ''}
-
-            <div class="bg-[#029FAE]/10 border border-[#029FAE]/20 rounded-lg p-4">
-              <p class="text-2xl md:text-3xl font-bold text-[#029FAE]">${formatPrice(service.price)}</p>
-            </div>
           </div>
         </div>
         
@@ -595,6 +593,14 @@
                 </div>
 
                 <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                  <span class="material-symbols-outlined text-gray-600">phone</span>
+                  <div>
+                    <p class="text-sm text-gray-500">No. Telepon</p>
+                    <p class="font-medium">${appState.orderData.customer_phone || '-'}</p>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                   <span class="material-symbols-outlined text-gray-600">schedule</span>
                   <div>
                     <p class="text-sm text-gray-500">Jadwal Layanan</p>
@@ -605,8 +611,8 @@
                 <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                   <span class="material-symbols-outlined text-gray-600">location_on</span>
                   <div>
-                    <p class="text-sm text-gray-500">Alamat Layanan</p>
-                    <p class="font-medium">${appState.orderData.service_address || '-'}</p>
+                    <p class="text-sm text-gray-500">Alamat Pesanan</p>
+                    <p class="font-medium">${appState.orderData.customer_address || '-'}</p>
                   </div>
                 </div>
 
@@ -676,18 +682,43 @@
 
                 showFlashNotification('Memproses pembayaran...', 'info');
 
-                const response = await fetch('/api/order', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        service_id: appState.orderData.service_id,
-                        address: appState.orderData.service_address,
-                        schedule: appState.orderData.schedule,
-                        note: appState.orderData.note
-                    })
-                });
+                // Cek apakah ada order_id dari URL (dari order history)
+                const urlParams = new URLSearchParams(window.location.search);
+                const existingOrderId = urlParams.get('order_id');
 
-                const data = await response.json();
+                let response, data;
+
+                if (existingOrderId) {
+                    // Jika ada order_id, update order yang sudah ada
+                    response = await fetch(`/api/order/${existingOrderId}/payment`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            service_id: appState.orderData.service_id,
+                            customer_name: appState.orderData.customer_name,
+                            customer_address: appState.orderData.customer_address,
+                            customer_phone: appState.orderData.customer_phone,
+                            schedule: appState.orderData.schedule,
+                            note: appState.orderData.note
+                        })
+                    });
+                } else {
+                    // Jika tidak ada order_id, create order baru
+                    response = await fetch('/api/order', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            service_id: appState.orderData.service_id,
+                            customer_name: appState.orderData.customer_name,
+                            customer_address: appState.orderData.customer_address,
+                            customer_phone: appState.orderData.customer_phone,
+                            schedule: appState.orderData.schedule,
+                            note: appState.orderData.note
+                        })
+                    });
+                }
+
+                data = await response.json();
 
                 if (data.snapToken) {
                     // Initialize Midtrans payment
@@ -695,45 +726,35 @@
                         onSuccess: function (result) {
                             showFlashNotification('Pembayaran berhasil!', 'success');
                             setTimeout(() => {
-                                window.location.href = `/order-success?order_id=${result.order_id}&transaction_status=${result.transaction_status}`;
+                                window.location.href = `/order-success?order_id=${data.order_id || existingOrderId}&transaction_status=${result.transaction_status}`;
                             }, 1000);
                         },
                         onPending: function (result) {
                             showFlashNotification('Pembayaran tertunda, silakan selesaikan pembayaran', 'warning');
                             setTimeout(() => {
-                                window.location.href = `/order-success?order_id=${result.order_id}&transaction_status=${result.transaction_status}`;
+                                window.location.href = `/order-success?order_id=${data.order_id || existingOrderId}&transaction_status=${result.transaction_status}`;
                             }, 2000);
                         },
                         onError: function (result) {
                             console.error('Payment error:', result);
                             showFlashNotification('Pembayaran gagal!', 'error');
-
-                            // Reset button
-                            paymentButton.disabled = false;
-                            paymentButton.innerHTML = `
-                <span class="material-symbols-outlined">payment</span>
-                BAYAR SEKARANG
-              `;
+                            resetPaymentButton();
                         },
                         onClose: function () {
                             showFlashNotification('Pembayaran dibatalkan', 'info');
-
-                            // Reset button
-                            paymentButton.disabled = false;
-                            paymentButton.innerHTML = `
-                <span class="material-symbols-outlined">payment</span>
-                BAYAR SEKARANG
-              `;
+                            resetPaymentButton();
                         }
                     });
                 } else {
-                    throw new Error(data.error || 'Gagal membuat order');
+                    throw new Error(data.error || 'Gagal memproses pembayaran');
                 }
             } catch (error) {
                 console.error('Payment error:', error);
                 showFlashNotification('Terjadi kesalahan saat memproses pembayaran', 'error');
+                resetPaymentButton();
+            }
 
-                // Reset button
+            function resetPaymentButton() {
                 paymentButton.disabled = false;
                 paymentButton.innerHTML = `
           <span class="material-symbols-outlined">payment</span>
@@ -886,8 +907,7 @@
                 appState.orderData = getOrderDataFromUrl();
 
                 // Validate required order data
-                if (!appState.orderData.service_id || !appState.orderData.customer_name ||
-                    !appState.orderData.schedule || !appState.orderData.service_address) {
+                if (!appState.orderData.service_id || !appState.orderData.customer_name || !appState.orderData.customer_phone || !appState.orderData.schedule || !appState.orderData.customer_address) {
                     showError('Data pesanan tidak lengkap. Silakan ulangi proses pemesanan.');
                     return;
                 }

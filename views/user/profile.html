@@ -395,9 +395,11 @@
         profileLink.innerHTML = `
           <div class="relative cursor-pointer select-none" id="profile-dropdown-parent">
             <span class="flex items-center gap-1" id="profile-dropdown-toggle">
-              <span class="material-symbols-outlined !text-lg">person</span>
-              ${user.name}
-              <span class="material-symbols-outlined !text-lg">expand_more</span>
+              <span class="flex items-center gap-1" id="profile-dropdown-toggle">
+            <span class="material-symbols-outlined !text-lg">person</span>
+            <span class="hidden sm:inline">${user.name}</span>
+            <span class="material-symbols-outlined !text-lg hidden sm:inline">expand_more</span>
+          </span>
             </span>
             <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded shadow-lg z-50 shadow-md text-gray-700">
               <a href="/profile" class="block px-4 py-2 hover:bg-gray-100">Profile</a>

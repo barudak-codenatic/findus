@@ -7,7 +7,6 @@ const mysql = require("mysql2/promise");
 const { isProvider } = require("./controllers/serviceController");
 const chatController = require("./controllers/chatController");
 const { isAuthenticated } = require("./controllers/authController");
-const userController = require("./controllers/userController");
 
 const app = express();
 

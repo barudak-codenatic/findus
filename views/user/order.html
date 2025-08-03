@@ -616,15 +616,11 @@
             <div class="bg-gray-50 rounded-lg p-4 space-y-3">
               <h3 class="font-semibold text-gray-800 flex items-center gap-2">
                 <span class="material-symbols-outlined">location_on</span>
-                Alamat Lengkap
+                Alamat Penyedia
               </h3>
               <p class="text-gray-600">${fullAddress}</p>
             </div>
             ` : ''}
-
-            <div class="bg-[#029FAE]/10 border border-[#029FAE]/20 rounded-lg p-4">
-              <p class="text-2xl md:text-3xl font-bold text-[#029FAE]">${formatPrice(service.price)}</p>
-            </div>
           </div>
         </div>
         
@@ -654,6 +650,18 @@
               <div class="space-y-2">
                 <label class="block text-sm font-medium text-gray-700">
                   <span class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-base">phone</span>
+                    No. Telepon <span class="text-red-500">*</span>
+                  </span>
+                </label>
+                <input type="text" name="customer_phone" placeholder="Masukkan nomor telepon"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-[#029FAE]" 
+                  required />
+              </div>
+
+              <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700">
+                  <span class="flex items-center gap-2">
                     <span class="material-symbols-outlined text-base">schedule</span>
                     Jadwal Layanan <span class="text-red-500">*</span>
                   </span>
@@ -667,10 +675,10 @@
                 <label class="block text-sm font-medium text-gray-700">
                   <span class="flex items-center gap-2">
                     <span class="material-symbols-outlined text-base">location_on</span>
-                    Alamat Layanan <span class="text-red-500">*</span>
+                    Alamat Pesanan <span class="text-red-500">*</span>
                   </span>
                 </label>
-                <input type="text" name="service_address" placeholder="Alamat lengkap untuk layanan"
+                <input type="text" name="customer_address" placeholder="Alamat lengkap pemesan"
                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-[#029FAE]" 
                   required />
               </div>
@@ -732,13 +740,14 @@
             const orderData = {
                 service_id: appState.serviceId,
                 customer_name: formData.get('customer_name'),
+                customer_phone: formData.get('customer_phone'),
                 schedule: formData.get('schedule'),
-                service_address: formData.get('service_address'),
+                customer_address: formData.get('customer_address'),
                 note: formData.get('note') || ''
             };
 
             // Validate form data
-            if (!orderData.customer_name || !orderData.schedule || !orderData.service_address) {
+            if (!orderData.customer_name || !orderData.customer_phone || !orderData.schedule || !orderData.customer_address) {
                 showFlashNotification('Mohon lengkapi semua field yang wajib diisi', 'warning');
                 return;
             }

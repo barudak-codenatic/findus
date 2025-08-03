@@ -6,7 +6,14 @@ exports.createOrder = async (req, res) => {
     if (!req.session.user)
       return res.status(401).json({ error: "Unauthorized" });
 
-    const { service_id, address, schedule } = req.body;
+    const {
+      service_id,
+      customer_name,
+      customer_phone,
+      customer_address,
+      schedule,
+      note,
+    } = req.body;
     const user_id = req.session.user.id;
 
     // Ambil data service
@@ -19,8 +26,11 @@ exports.createOrder = async (req, res) => {
       user_id,
       service_id,
       provider_id: service.provider_id,
-      address,
+      customer_name,
+      customer_phone,
+      customer_address,
       schedule,
+      note,
       total_price: service.price,
       status: "BELUM BAYAR",
     });
@@ -58,6 +68,107 @@ exports.createOrder = async (req, res) => {
     res.status(500).json({ error: "Gagal membuat order" });
   }
 };
+
+exports.updateOrderPayment = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const user_id = req.session.user.id;
+
+    // Cari order yang sudah ada
+    const existingOrder = await Order.findOne({
+      where: {
+        id: orderId,
+        user_id,
+        status: "BELUM BAYAR",
+      },
+    });
+
+    if (!existingOrder) {
+      return res
+        .status(404)
+        .json({ error: "Order tidak ditemukan atau sudah dibayar" });
+    }
+
+    // Update data order - handle null/empty values properly
+    const {
+      service_id,
+      customer_name,
+      customer_phone,
+      customer_address,
+      schedule,
+      note,
+    } = req.body;
+
+    const updateData = {};
+
+    // Hanya update field yang ada di request body
+    if (service_id !== undefined) updateData.service_id = service_id;
+    if (customer_name !== undefined) updateData.customer_name = customer_name;
+    if (customer_phone !== undefined)
+      updateData.customer_phone = customer_phone;
+    if (customer_address !== undefined)
+      updateData.customer_address = customer_address;
+    if (schedule !== undefined) updateData.schedule = schedule;
+    if (note !== undefined) updateData.note = note; // Bisa null, empty string, atau string berisi
+
+    await existingOrder.update(updateData);
+
+    // Generate Midtrans snap token
+    const snapToken = await generateMidtransToken(existingOrder);
+
+    res.json({
+      snapToken,
+      order_id: existingOrder.id,
+      message: "Order berhasil diupdate, silakan lanjutkan pembayaran",
+    });
+  } catch (error) {
+    console.error("Error updateOrderPayment:", error);
+    res.status(500).json({ error: "Gagal memproses pembayaran" });
+  }
+};
+
+// Tambahkan fungsi generateMidtransToken
+async function generateMidtransToken(order) {
+  try {
+    // Ambil data service untuk detail transaksi
+    const service = await Service.findByPk(order.service_id);
+    if (!service) throw new Error("Service not found");
+
+    let snap = new midtransClient.Snap({
+      isProduction: false,
+      serverKey: process.env.MIDTRANS_SERVER_KEY,
+      clientKey: process.env.MIDTRANS_CLIENT_KEY,
+    });
+
+    const parameter = {
+      transaction_details: {
+        order_id: order.id,
+        gross_amount: order.total_price || service.price,
+      },
+      customer_details: {
+        first_name: order.customer_name,
+        phone: order.customer_phone,
+        billing_address: {
+          address: order.customer_address,
+        },
+      },
+      item_details: [
+        {
+          id: service.id,
+          price: service.price,
+          quantity: 1,
+          name: service.name,
+        },
+      ],
+    };
+
+    const snapResponse = await snap.createTransaction(parameter);
+    return snapResponse.token;
+  } catch (error) {
+    console.error("Error generating Midtrans token:", error);
+    throw error;
+  }
+}
 
 exports.updateOrderStatus = async (req, res) => {
   try {

@@ -44,7 +44,7 @@
                         Batal
                     </button>
                     <button id="modal-confirm"
-                        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                        class="px-4 py-2 bg-[#029FAE] text-white rounded-lg hover:bg-[#027f8a] transition">
                         Ya
                     </button>
                 </div>
@@ -743,7 +743,6 @@
                 <span class="material-symbols-outlined text-sm">category</span>
                 <span>${service?.category || 'Kategori tidak tersedia'}</span>
               </div>
-              <p class="text-[#029FAE] font-bold text-sm">${formatPrice(order.total_price)}</p>
             </div>
           </div>
 
@@ -758,77 +757,77 @@
               </div>
             </button>
             
-            <div id="details-${order.id}" class="hidden mt-3 space-y-3">
-              <!-- Service Provider - Konsisten dengan halaman lain -->
-              ${service ? `
-              <div class="bg-gray-50 rounded-lg p-3 space-y-3">
-                <h5 class="font-semibold text-gray-800 text-sm mb-2 flex items-center gap-2">
-                  <span class="material-symbols-outlined text-sm">person</span>
-                  Penyedia Layanan
-                </h5>
-                <div class="space-y-2 text-xs">
-                  <p><span class="font-medium">Nama:</span> ${service.User?.full_name || '-'}</p>
-                  <p><span class="font-medium">Email:</span> ${service.User?.email || '-'}</p>
-                  <p><span class="font-medium">Telepon:</span> ${service.User?.phone || '-'}</p>
-                </div>
-                ${fullServiceAddress ? `
-                <div class="pt-2 border-t border-gray-200">
-                  <h6 class="font-medium text-gray-800 text-xs mb-1 flex items-center gap-1">
-                    <span class="material-symbols-outlined text-xs">location_on</span>
-                    Alamat Penyedia
-                  </h6>
-                  <p class="text-xs text-gray-600">${fullServiceAddress}</p>
-                </div>
-                ` : ''}
-                ${service.description ? `
-                <div class="pt-2 border-t border-gray-200">
-                  <h6 class="font-medium text-gray-800 text-xs mb-1 flex items-center gap-1">
-                    <span class="material-symbols-outlined text-xs">description</span>
-                    Deskripsi Layanan
-                  </h6>
-                  <p class="text-xs text-gray-600 line-clamp-2">${service.description}</p>
-                </div>
-                ` : ''}
-              </div>
-              ` : `
-              <div class="bg-gray-50 rounded-lg p-3">
-                <p class="text-xs text-gray-500 italic">Detail layanan tidak tersedia</p>
-              </div>
-              `}
+            <div id="details-${order.id}" class="hidden mt-3">
+                <div class="flex flex-col lg:flex-row gap-4">
+                    <!-- Service Provider -->
+                    <div class="bg-gray-50 rounded-lg p-3 space-y-3 lg:w-1/2 border border-gray-200">
+                        <h5 class="font-semibold text-gray-800 text-sm mb-2 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">person</span>
+                            Penyedia Layanan
+                        </h5>
+                        <div class="space-y-2 text-xs">
+                            <p><span class="font-medium">Nama:</span> ${service?.User?.full_name || '-'}</p>
+                            <p><span class="font-medium">Email:</span> ${service?.User?.email || '-'}</p>
+                            <p><span class="font-medium">Telepon:</span> ${service?.User?.phone || '-'}</p>
+                        </div>
+                        ${fullServiceAddress ? `
+                        <div class="pt-2 border-t border-gray-200">
+                            <h6 class="font-medium text-gray-800 text-xs mb-1 flex items-center gap-1">
+                                <span class="material-symbols-outlined text-xs">location_on</span>
+                                Alamat Layanan
+                            </h6>
+                            <p class="text-xs text-gray-600">${fullServiceAddress}</p>
+                        </div>
+                        ` : ''}
+                        ${service?.description ? `
+                        <div class="pt-2 border-t border-gray-200">
+                            <h6 class="font-medium text-gray-800 text-xs mb-1 flex items-center gap-1">
+                                <span class="material-symbols-outlined text-xs">description</span>
+                                Deskripsi Layanan
+                            </h6>
+                            <p class="text-xs text-gray-600 line-clamp-2">${service.description}</p>
+                        </div>
+                        ` : ''}
+                    </div>
 
-              <!-- Order Details -->
-              <div class="space-y-2 text-xs">
-                <div class="flex items-start gap-2">
-                  <span class="material-symbols-outlined text-gray-500 text-sm">location_on</span>
-                  <div>
-                    <span class="text-gray-500">Alamat Layanan:</span>
-                    <span class="ml-1 font-medium">${order.address || '-'}</span>
-                  </div>
+                    <!-- Order Details: Style sama seperti service detail -->
+                    <div class="bg-gray-50 rounded-lg p-3 space-y-3 lg:w-1/2 border border-gray-200">
+                        <h5 class="font-semibold text-gray-800 text-sm mb-2 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">receipt_long</span>
+                            Detail Pesanan
+                        </h5>
+                        <div class="space-y-2 text-xs">
+                            <p><span class="font-medium">Nama Pemesan:</span> ${order.customer_name || '-'}</p>
+                            <p><span class="font-medium">Telepon:</span> ${order.customer_phone || '-'}</p>
+                            <p><span class="font-medium">Alamat:</span> ${order.customer_address || '-'}</p>
+                            <p><span class="font-medium">Jadwal:</span> ${formatShortDate(order.schedule)}</p>
+                            ${order.note ? `<p><span class="font-medium">Catatan:</span> ${order.note}</p>` : ''}
+                        </div>
+                        
+                        <!-- Section untuk info tambahan order (jika ada) -->
+                        <div class="pt-2 border-t border-gray-200">
+                            <h6 class="font-medium text-gray-800 text-xs mb-1 flex items-center gap-1">
+                                <span class="material-symbols-outlined text-xs">schedule</span>
+                                Informasi Pesanan
+                            </h6>
+                            <div class="space-y-1 text-xs text-gray-600">
+                                <p>ID Pesanan: ${order.id}</p>
+                                <p>Tanggal: ${formatShortDate(order.created_at)}</p>
+                                <p>Total: ${formatPrice(order.total_price)}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex items-start gap-2">
-                  <span class="material-symbols-outlined text-gray-500 text-sm">schedule</span>
-                  <div>
-                    <span class="text-gray-500">Jadwal:</span>
-                    <span class="ml-1 font-medium">${formatShortDate(order.schedule)}</span>
-                  </div>
-                </div>
-                ${order.note ? `
-                <div class="flex items-start gap-2">
-                  <span class="material-symbols-outlined text-gray-500 text-sm">note</span>
-                  <div>
-                    <span class="text-gray-500">Catatan:</span>
-                    <span class="ml-1 font-medium">${order.note}</span>
-                  </div>
-                </div>
-                ` : ''}
-              </div>
             </div>
-          </div>
+        </div>
 
-          <!-- Action Buttons -->
-          <div class="mt-3 pt-3 border-t border-gray-100">
-            <div class="flex flex-wrap justify-end gap-2">
-              ${generateActionButtons(order)}
+        <!-- Action Buttons -->
+        <div class="mt-3 pt-3 border-t border-gray-100">
+            <div class="flex flex-wrap justify-between items-center gap-2">
+                <p class="text-[#029FAE] font-bold text-lg">${formatPrice(order.total_price)}</p>
+                <div class="flex flex-wrap justify-end items-center gap-2">
+                  ${generateActionButtons(order)}
+                </div>
             </div>
           </div>
         </div>
@@ -843,8 +842,18 @@
 
             switch (order.status) {
                 case 'BELUM BAYAR':
+                    // Buat URL dengan semua parameter yang dibutuhkan
+                    const paymentUrl = new URL('/payment', window.location.origin);
+                    paymentUrl.searchParams.set('service_id', order.service_id);
+                    paymentUrl.searchParams.set('customer_name', order.customer_name || '');
+                    paymentUrl.searchParams.set('customer_phone', order.customer_phone || '');
+                    paymentUrl.searchParams.set('schedule', order.schedule || '');
+                    paymentUrl.searchParams.set('customer_address', order.customer_address || '');
+                    paymentUrl.searchParams.set('note', order.note || '');
+                    paymentUrl.searchParams.set('order_id', order.id); // Tambahan order_id untuk referensi
+
                     buttons = `
-            <a href="/payment?order_id=${order.id}" 
+            <a href="${paymentUrl.toString()}" 
                class="bg-[#029FAE] text-white px-3 py-1.5 rounded text-xs font-medium hover:bg-[#027f8a] transition">
               Bayar
             </a>

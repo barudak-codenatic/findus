@@ -23,9 +23,21 @@ module.exports = (sequelize) => {
         type: DataTypes.UUID,
         allowNull: false,
       },
-      address: {
+      customer_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      customer_phone: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      customer_address: {
         type: DataTypes.TEXT,
         allowNull: false,
+      },
+      note: {
+        type: DataTypes.TEXT,
+        allowNull: true,
       },
       schedule: {
         type: DataTypes.DATE,
