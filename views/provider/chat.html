@@ -1,264 +1,240 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FindUS - Chat Penyedia Jasa</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200,0,0"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-      integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD"
-      crossorigin="anonymous"
-    />
-  </head>
 
-  <body class="font-sans">
-    <header class="header">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FindUs - Chat Penyedia Jasa</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200,0,0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+</head>
+
+<body class="font-sans bg-gray-50">
+  <!-- Flash Notification -->
+  <div id="flash-notification" class="fixed top-4 right-4 z-[60] hidden">
+    <div id="flash-content" class="px-6 py-4 rounded-lg shadow-lg border-l-4 max-w-sm">
+      <div class="flex items-center gap-3">
+        <span id="flash-icon" class="material-symbols-outlined flex-shrink-0"></span>
+        <div class="flex-1">
+          <p id="flash-message" class="font-medium"></p>
+          <p id="flash-detail" class="text-sm opacity-90 mt-1 hidden"></p>
+        </div>
+        <button id="flash-close" class="material-symbols-outlined text-lg opacity-70 hover:opacity-100 flex-shrink-0">
+          close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div id="confirmation-modal" class="fixed inset-0 bg-black/50 z-[70] hidden flex items-center justify-center">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+      <div class="p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <span id="modal-icon" class="material-symbols-outlined text-2xl text-amber-500">warning</span>
+          <h3 id="modal-title" class="text-lg font-semibold text-gray-900">Konfirmasi</h3>
+        </div>
+        <p id="modal-message" class="text-gray-600 mb-6">Apakah Anda yakin?</p>
+        <div class="flex gap-3 justify-end">
+          <button id="modal-cancel"
+            class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+            Batal
+          </button>
+          <button id="modal-confirm" class="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition">
+            Ya
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <!-- Top Bar -->
+    <div class="flex justify-center items-center w-full bg-[#272343] text-white p-2">
+      <nav class="flex space-x-2 md:space-x-4 items-center text-xs font-light">
+        <a href="" class="flex items-center gap-1">
+          <span class="material-symbols-outlined !text-sm md:!text-lg">expand_more</span>
+          <span class="sm:inline">Eng</span>
+        </a>
+        <a href="" class="sm:inline">Faqs</a>
+        <a href="" class="flex items-center gap-1">
+          <span class="material-symbols-outlined !text-sm md:!text-lg">error</span>
+          <span class="sm:inline">Need Help</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Main Header -->
+    <div class="bg-gray-100">
       <div
-        class="flex justify-center items-center w-full bg-[#272343] text-white p-2"
-      >
-        <nav class="flex space-x-4 items-center text-xs font-light">
-          <a href="" class="flex items-center gap-1">
-            <span class="material-symbols-outlined !text-lg">
-              expand_more
-            </span>
-            Eng
+        class="container mx-auto flex flex-col md:flex-row justify-between items-center w-full px-4 md:px-8 lg:px-16 xl:px-28 py-4 gap-4 md:gap-0">
+        <!-- Logo -->
+        <a class="brand flex-shrink-0" href="/dashboard-provider">
+          <img src="/public/images/Logo.svg" alt="FindUs" class="h-8 md:h-10">
+        </a>
+
+        <!-- Search Bar -->
+        <div class="relative w-full md:w-1/2 lg:w-1/3 order-3 md:order-2">
+          <input type="text" id="service-search-input" placeholder="Cari layanan..."
+            class="px-4 py-2 text-sm bg-white rounded focus:outline-none w-full border border-gray-300"
+            autocomplete="off" />
+          <div id="service-search-suggestion"
+            class="absolute left-0 right-0 mt-1 bg-white border border-gray-300 rounded shadow z-50 hidden max-h-60 overflow-auto">
+          </div>
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            <span class="material-symbols-outlined text-base text-gray-400">search</span>
+          </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex flex-wrap md:flex-nowrap space-x-2 md:space-x-4 items-center text-xs order-2 md:order-3">
+          <a class="bg-white rounded px-2 md:px-4 py-1 flex items-center gap-1 whitespace-nowrap"
+            href="/provider/services">
+            <span class="material-symbols-outlined !text-lg">inventory</span>
+            <span class="sm:inline">Layanan</span>
           </a>
-          <a href="">Faqs</a>
-          <a href="" class="flex items-center gap-1">
-            <span class="material-symbols-outlined !text-lg"> error </span>
-            Need Help
+          <a class="bg-white rounded px-2 md:px-4 py-1 flex items-center gap-1 whitespace-nowrap"
+            href="/provider/orders">
+            <span class="material-symbols-outlined !text-lg">receipt_long</span>
+            <span class="sm:inline">Pesanan</span>
+          </a>
+          <a class="bg-[#029FAE] text-white rounded px-2 md:px-4 py-1 flex items-center gap-1 whitespace-nowrap"
+            href="/provider/chat">
+            <span class="material-symbols-outlined !text-lg">chat</span>
+            <span class="sm:inline">Chat</span>
+          </a>
+          <a class="bg-white rounded px-2 md:px-4 py-1 flex items-center gap-1 whitespace-nowrap" href=""
+            id="profile-link">
+            <span class="material-symbols-outlined !text-lg">person</span>
           </a>
         </nav>
       </div>
-      <div class="bg-gray-100">
-        <div
-          class="container mx-auto flex justify-between items-center w-full px-28 py-4"
-        >
-          <a class="brand" href="/dashboard-provider"
-            ><img
-              src="/public/images/Logo.svg"
-              alt=""
-              onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTIwIDQwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8dGV4dCB4PSI2MCIgeT0iMjQiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiMwMjlGQUUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkZpbmRVUzwvdGV4dD4KPC9zdmc+'"
-          /></a>
-          <div class="relative w-full md:w-1/3">
-            <input
-              type="text"
-              id="service-search-input"
-              placeholder="Cari layanan..."
-              class="px-4 py-2 text-sm bg-white rounded focus:outline-none w-full"
-              autocomplete="off"
-            />
-            <!-- Dropdown suggestion -->
-            <div
-              id="service-search-suggestion"
-              class="absolute left-0 right-0 mt-1 bg-white border border-gray-300 rounded shadow z-50 hidden max-h-60 overflow-auto"
-            ></div>
-            <div
-              class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
-            >
-              <span class="material-symbols-outlined text-base text-gray-400"
-                >search</span
-              >
-            </div>
-          </div>
-          <nav class="flex space-x-4 items-center text-xs">
-            <a
-              class="bg-white rounded px-4 py-1 flex items-center gap-1"
-              href="/provider/services"
-            >
-              <span class="material-symbols-outlined !text-lg">
-                inventory
-              </span>
-              Layanan Saya
-            </a>
-            <a
-              class="bg-white rounded px-4 py-1 flex items-center gap-1"
-              href="/provider/orders"
-            >
-              <span class="material-symbols-outlined !text-lg">
-                receipt_long
-              </span>
-              Pesanan
-            </a>
-            <a
-              class="bg-[#029FAE] text-white rounded px-4 py-1 flex items-center gap-1"
-              href="/provider/chat"
-            >
-              <span class="material-symbols-outlined !text-lg"> chat </span>
-              Chat
-            </a>
-            <a
-              class="bg-white rounded px-4 py-1 flex items-center gap-1"
-              href=""
-              id="profile-link"
-            >
-              <span class="material-symbols-outlined !text-lg"> person </span>
-            </a>
-          </nav>
-        </div>
-      </div>
-      <div class="border-b-1 border-gray-300">
-        <div
-          class="container mx-auto flex justify-between items-center w-full px-28 py-4 text-xs"
-        >
-          <nav
-            class="flex items-center space-x-2 text-gray-600"
-            aria-label="Breadcrumb"
-          >
-            <a href="/" class="hover:underline flex items-center gap-1">
-              <span class="material-symbols-outlined !text-base align-middle"
-                >home</span
-              >
-              Home
-            </a>
-            <span class="mx-1 text-gray-400">/</span>
-            <a href="/dashboard-provider" class="hover:underline"
-              >Provider Dashboard</a
-            >
-            <span class="mx-1 text-gray-400">/</span>
-            <span class="text-gray-800">Chat</span>
-          </nav>
-          <div class="contact flex gap-2">
-            <span class="text-gray-500">Contact:</span>(0812) 1284-8626
-          </div>
-        </div>
-      </div>
-    </header>
+    </div>
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-6 py-8 mb-24">
+    <!-- Breadcrumb -->
+    <div class="border-b-1 border-gray-300 bg-white">
       <div
-        class="flex bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden"
-        style="min-height: 600px"
-      >
-        <!-- Daftar Chat -->
-        <div class="w-1/3 border-r border-gray-200">
-          <div class="p-4 border-b border-gray-200 bg-gray-50">
-            <h2 class="font-medium text-gray-700">Semua Pesan</h2>
-          </div>
-          <div
-            id="chat-list"
-            class="overflow-y-auto"
-            style="height: calc(600px - 57px)"
-          >
-            <!-- Chat list akan diisi oleh JavaScript -->
-            <div class="flex justify-center items-center h-full text-gray-500">
-              <p>Memuat daftar chat...</p>
-            </div>
-          </div>
+        class="container mx-auto flex flex-row justify-between items-center w-full px-4 md:px-8 lg:px-16 xl:px-28 py-2 md:py-4 text-xs gap-2 sm:gap-0">
+        <nav class="flex items-center space-x-2 text-gray-600" aria-label="Breadcrumb">
+          <a href="/" class="hover:underline flex items-center gap-1">
+            <span class="material-symbols-outlined !text-sm md:!text-base align-middle">home</span>
+            <span class="xs:inline">Beranda</span>
+          </a>
+          <span class="mx-1 text-gray-400">/</span>
+          <span class="text-gray-500">Chat</span>
+        </nav>
+        <div class="contact flex items-center gap-1 md:gap-2 text-gray-500">
+          <span class="hidden sm:inline">Contact:</span>
+          <div class="md:hidden"><span class="material-symbols-outlined !text-base">phone</span></div>
+          <span class="xs:inline">(0812) 1284-8626</span>
         </div>
+      </div>
+    </div>
+  </header>
 
-        <!-- Detail Chat -->
-        <div class="w-2/3 flex flex-col">
-          <div
-            id="chat-header"
-            class="p-4 border-b border-gray-200 bg-gray-50 flex items-center"
-          >
-            <div id="chat-info">
-              <p class="text-gray-500">Pilih chat untuk memulai percakapan</p>
-            </div>
-          </div>
-
-          <div
-            id="message-container"
-            class="flex-1 overflow-y-auto p-4"
-            style="height: calc(600px - 130px)"
-          >
-            <!-- Pesan akan diisi oleh JavaScript -->
-          </div>
-
-          <div
-            id="message-form"
-            class="p-4 border-t border-gray-200 bg-gray-50 hidden"
-          >
-            <div class="flex">
-              <input
-                type="text"
-                id="message-input"
-                placeholder="Ketik pesan..."
-                class="flex-1 px-4 py-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-transparent"
-              />
-              <button
-                id="send-button"
-                class="bg-[#029FAE] text-white px-4 py-2 rounded-r-lg hover:bg-[#027f8a] transition"
-              >
-                <span class="material-symbols-outlined !text-lg">send</span>
-              </button>
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 md:px-6 lg:px-8 py-6 mb-24">
+    <div class="flex bg-white rounded-2xl shadow-lg overflow-hidden ring-1 ring-gray-200 h-[600px] md:h-[700px]">
+      <!-- Chat List -->
+      <div class="w-full md:w-1/3 border-r border-gray-200 bg-gray-50 flex flex-col">
+        <div class="p-4 border-b border-gray-200 flex-shrink-0">
+          <h2 class="text-lg font-semibold text-gray-700">Semua Pesan</h2>
+        </div>
+        <div id="chat-list" class="flex-1 overflow-y-auto">
+          <!-- Loading State -->
+          <div class="flex justify-center items-center h-full text-gray-400">
+            <div class="text-center">
+              <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#029FAE] mx-auto mb-2"></div>
+              <p class="text-sm">Memuat daftar chat...</p>
             </div>
           </div>
         </div>
       </div>
-    </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-gray-200 py-10 text-sm text-gray-700">
-      <div
-        class="container mx-auto flex justify-start w-full px-28 py-4 gap-24"
-      >
+      <!-- Chat Detail -->
+      <div class="hidden md:flex md:w-2/3 flex-col bg-white">
+        <!-- Header -->
+        <div id="chat-header" class="p-4 border-b border-gray-200 flex items-center gap-3 flex-shrink-0">
+          <div id="chat-info">
+            <p class="text-gray-500">Pilih chat untuk memulai percakapan</p>
+          </div>
+        </div>
+
+        <!-- Messages Container -->
+        <div id="message-container" class="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50">
+          <!-- Messages will be loaded here -->
+        </div>
+
+        <!-- Message Form -->
+        <div id="message-form" class="p-4 border-t border-gray-200 hidden bg-white flex-shrink-0">
+          <div class="flex items-center gap-2">
+            <input type="text" id="message-input" placeholder="Ketik pesan..."
+              class="flex-1 px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#029FAE]" />
+            <button id="send-button"
+              class="bg-[#029FAE] text-white p-2 rounded-full hover:bg-[#028592] transition shadow-sm">
+              <span class="material-symbols-outlined">send</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Chat Detail (Full Width) -->
+      <div id="mobile-chat-detail" class="hidden md:hidden w-full flex-col bg-white">
+        <!-- Mobile Header -->
+        <div id="mobile-chat-header" class="p-4 border-b border-gray-200 flex items-center gap-3 flex-shrink-0">
+          <button id="back-to-list" class="material-symbols-outlined text-gray-600 hover:text-gray-800">
+            arrow_back
+          </button>
+          <div id="mobile-chat-info">
+            <p class="text-gray-500">Chat</p>
+          </div>
+        </div>
+
+        <!-- Mobile Messages -->
+        <div id="mobile-message-container" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50">
+          <!-- Messages will be loaded here -->
+        </div>
+
+        <!-- Mobile Message Form -->
+        <div id="mobile-message-form" class="p-4 border-t border-gray-200 bg-white flex-shrink-0">
+          <div class="flex items-center gap-2">
+            <input type="text" id="mobile-message-input" placeholder="Ketik pesan..."
+              class="flex-1 px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#029FAE]" />
+            <button id="mobile-send-button"
+              class="bg-[#029FAE] text-white p-2 rounded-full hover:bg-[#028592] transition shadow-sm">
+              <span class="material-symbols-outlined">send</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-200 py-6 md:py-10 text-sm text-gray-700">
+    <div class="container mx-auto px-4 md:px-8 lg:px-16 xl:px-28 py-4">
+      <!-- Desktop Footer -->
+      <div class="hidden md:flex justify-start w-full gap-12 lg:gap-24">
         <div class="w-1/4 flex flex-col gap-4">
-          <a class="brand" href=""
-            ><img
-              src="/public/images/Logo.svg"
-              alt=""
-              onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTIwIDQwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8dGV4dCB4PSI2MCIgeT0iMjQiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiMwMjlGQUUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkZpbmRVUzwvdGV4dD4KPC9zdmc+'"
-          /></a>
-          <p>
-            Platform online untuk mahasiswa yang kos! Belanja kebutuhan harian,
-            perlengkapan kamar, serta pesan layanan seperti jasa layanan,
-            bersih-bersih, dan lainnya dengan mudah.
-          </p>
+          <a class="brand" href="/"><img src="/public/images/Logo.svg" alt="FindUs" class="h-8"></a>
+          <p class="text-sm">Platform online untuk mahasiswa yang kos! Belanja kebutuhan harian, perlengkapan kamar,
+            serta pesan layanan seperti jasa layanan, bersih-bersih, dan lainnya dengan mudah.</p>
           <div class="flex gap-3">
-            <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"
-              ><i class="bi bi-facebook"></i
-            ></a>
-            <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"
-              ><i class="bi bi-instagram"></i
-            ></a>
-            <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"
-              ><i class="bi bi-twitter"></i
-            ></a>
+            <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"><i class="bi bi-twitter"></i></a>
           </div>
         </div>
 
         <div>
           <h5 class="font-medium mb-2 text-gray-400">Category</h5>
           <ul class="space-y-1">
-            <li>
-              <a href="#" class="hover:underline hover:text-[#029FAE]"
-                >Peralatan Mandi</a
-              >
-            </li>
-            <li>
-              <a href="#" class="hover:underline hover:text-[#029FAE]"
-                >Alat Masak</a
-              >
-            </li>
-            <li>
-              <a href="#" class="hover:underline hover:text-[#029FAE]"
-                >Elektronik</a
-              >
-            </li>
-            <li>
-              <a href="#" class="hover:underline hover:text-[#029FAE]"
-                >Dekorasi Kamar</a
-              >
-            </li>
-            <li>
-              <a href="#" class="hover:underline hover:text-[#029FAE]"
-                >Alat Makan</a
-              >
-            </li>
-            <li>
-              <a href="#" class="hover:underline hover:text-[#029FAE]"
-                >Jasa Layanan</a
-              >
-            </li>
+            <li><a href="#" class="hover:underline hover:text-[#029FAE]">Kebersihan</a></li>
+            <li><a href="#" class="hover:underline hover:text-[#029FAE]">Angkut Barang</a></li>
+            <li><a href="#" class="hover:underline hover:text-[#029FAE]">Perbaikan</a></li>
           </ul>
         </div>
 
@@ -273,405 +249,111 @@
         </div>
       </div>
 
-      <div
-        class="mt-8 border-t border-gray-200 pt-4 text-center text-xs text-gray-500"
-      >
+      <!-- Mobile Footer -->
+      <div class="md:hidden space-y-6">
+        <div class="text-center">
+          <a class="brand" href="/"><img src="/public/images/Logo.svg" alt="FindUs" class="h-8 mx-auto mb-4"></a>
+          <p class="text-sm">Platform online untuk mahasiswa yang kos!</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-6">
+          <div>
+            <h5 class="font-medium mb-2 text-gray-400">Category</h5>
+            <ul class="space-y-1">
+              <li><a href="#" class="hover:underline hover:text-[#029FAE] text-sm">Kebersihan</a></li>
+              <li><a href="#" class="hover:underline hover:text-[#029FAE] text-sm">Angkut Barang</a></li>
+              <li><a href="#" class="hover:underline hover:text-[#029FAE] text-sm">Perbaikan</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h5 class="font-medium mb-2 text-gray-400">Support</h5>
+            <ul class="space-y-1">
+              <li><a href="#" class="hover:underline text-sm">Cara Pemesanan</a></li>
+              <li><a href="#" class="hover:underline text-sm">Syarat & Ketentuan</a></li>
+              <li><a href="#" class="hover:underline text-sm">Kebijakan Privasi</a></li>
+              <li><a href="#" class="hover:underline text-sm">Hubungi Kami</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="flex justify-center gap-4">
+          <a href="#" class="text-xl hover:text-[#029FAE] transition"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="text-xl hover:text-[#029FAE] transition"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="text-xl hover:text-[#029FAE] transition"><i class="bi bi-twitter"></i></a>
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="mt-6 md:mt-8 border-t border-gray-200 pt-4 text-center text-xs text-gray-500">
         &copy; 2025 - FindUS • Designed & Developed by epaarito
       </div>
-    </footer>
-
-    <!-- Custom Alert Modal -->
-    <div
-      id="custom-alert-modal"
-      class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden"
-    >
-      <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
-        <div class="flex items-center mb-4">
-          <span
-            id="alert-icon"
-            class="material-symbols-outlined text-2xl mr-3"
-          ></span>
-          <h3 id="alert-title" class="text-lg font-semibold"></h3>
-        </div>
-        <p id="alert-message" class="text-gray-600 mb-6"></p>
-        <div class="flex justify-end">
-          <button
-            id="alert-ok-button"
-            class="px-6 py-2 bg-[#029FAE] text-white rounded-lg hover:bg-[#027f8a] transition-colors"
-          >
-            OK
-          </button>
-        </div>
-      </div>
     </div>
+  </footer>
 
-    <!-- Custom Confirm Modal -->
-    <div
-      id="custom-confirm-modal"
-      class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden"
-    >
-      <div class="bg-white rounded-lg p-6 w-full max-w-md mx-4">
-        <div class="flex items-center mb-4">
-          <span class="material-symbols-outlined text-2xl mr-3 text-orange-500"
-            >warning</span
-          >
-          <h3 id="confirm-title" class="text-lg font-semibold">Konfirmasi</h3>
-        </div>
-        <p id="confirm-message" class="text-gray-600 mb-6"></p>
-        <div class="flex justify-end space-x-3">
-          <button
-            id="confirm-cancel-button"
-            class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            Batal
-          </button>
-          <button
-            id="confirm-ok-button"
-            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
-          >
-            Konfirmasi
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <script>
-      // Load user authentication
-      fetch("/api/auth/me")
-        .then((res) => res.json())
-        .then((data) => {
-          if (!data.user || data.user.role !== "PROVIDER") {
-            showAlert(
-              "Akses ditolak. Silakan login sebagai PROVIDER.",
-              "error"
-            ).then(() => {
-              window.location.href = "/login";
-            });
-          } else {
-            const profileLink = document.getElementById("profile-link");
-            if (profileLink) {
-              profileLink.innerHTML = `
-              <div class="relative cursor-pointer select-none" id="profile-dropdown-parent">
-                <span class="flex items-center gap-1" id="profile-dropdown-toggle">
-                  <span class="material-symbols-outlined !text-lg">person</span>
-                  ${data.user.name}
-                  <span class="material-symbols-outlined !text-lg">expand_more</span>
-                </span>
-                <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded shadow-lg z-50 shadow-md text-gray-700">
-                  <a href="/profile" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-                  <a href="/api/auth/logout" class="block px-4 py-2 hover:bg-gray-100">Logout</a>
-                </div>
-              </div>
-            `;
-              profileLink.href = "javascript:void(0)";
-
-              const toggle = document.getElementById("profile-dropdown-toggle");
-              const menu = document.getElementById("profile-dropdown-menu");
-              document.addEventListener("click", function (e) {
-                if (toggle && menu) {
-                  if (toggle.contains(e.target)) {
-                    menu.classList.toggle("hidden");
-                  } else if (!menu.contains(e.target)) {
-                    menu.classList.add("hidden");
-                  }
-                }
-              });
-            }
-            loadChatList();
-          }
-        })
-        .catch((err) => {
-          console.error("Gagal memuat data user:", err);
-          window.location.href = "/login";
-        });
-
-      // Variabel untuk menyimpan ID chat yang aktif
-      let activeChatId = null;
-      let userId = null;
-
-      // Fungsi untuk memuat daftar chat
-      function loadChatList() {
-        fetch("/api/chats")
-          .then((res) => res.json())
-          .then((data) => {
-            const chatListElement = document.getElementById("chat-list");
-            if (data.chats && data.chats.length > 0) {
-              let chatListHTML = "";
-              data.chats.forEach((chat) => {
-                const lastMessage =
-                  chat.Messages && chat.Messages.length > 0
-                    ? chat.Messages[0]
-                    : null;
-                const unreadClass =
-                  lastMessage &&
-                  !lastMessage.is_read &&
-                  lastMessage.sender_id !== userId
-                    ? "font-bold"
-                    : "";
-
-                chatListHTML += `
-                        <div class="chat-item p-4 border-b border-gray-200 hover:bg-gray-50 cursor-pointer ${
-                          activeChatId === chat.id ? "bg-gray-100" : ""
-                        }" 
-                             data-chat-id="${chat.id}" data-user-id="${
-                  chat.user_id
-                }">
-                            <div class="flex items-center">
-                                <div class="w-10 h-10 rounded-full bg-gray-300 flex-shrink-0 overflow-hidden">
-                                    <img src="${
-                                      chat.User.photo_url ||
-                                      "https://via.placeholder.com/40"
-                                    }" alt="" class="w-full h-full object-cover">
-                                </div>
-                                <div class="ml-3 flex-1">
-                                    <p class="font-medium ${unreadClass}">${
-                  chat.User.full_name
-                }</p>
-                                    <p class="text-sm text-gray-500 truncate ${unreadClass}">
-                                        ${
-                                          lastMessage
-                                            ? lastMessage.content
-                                            : "Belum ada pesan"
-                                        }
-                                    </p>
-                                </div>
-                                <div class="text-xs text-gray-400">
-                                    ${
-                                      lastMessage
-                                        ? formatDate(lastMessage.created_at)
-                                        : ""
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        `;
-              });
-              chatListElement.innerHTML = chatListHTML;
-
-              // Tambahkan event listener untuk setiap chat item
-              document.querySelectorAll(".chat-item").forEach((item) => {
-                item.addEventListener("click", function () {
-                  const chatId = this.getAttribute("data-chat-id");
-                  activeChatId = chatId;
-                  loadChatDetail(chatId);
-
-                  // Tandai chat ini sebagai aktif
-                  document.querySelectorAll(".chat-item").forEach((el) => {
-                    el.classList.remove("bg-gray-100");
-                  });
-                  this.classList.add("bg-gray-100");
-
-                  // Update URL tanpa reload halaman
-                  const newUrl = new URL(window.location);
-                  newUrl.searchParams.set("chatId", chatId);
-                  window.history.pushState({}, "", newUrl);
-                });
-              });
-
-              // Auto-load chat jika ada chatId di URL
-              const urlChatId = getUrlParameter("chatId");
-              if (urlChatId) {
-                const targetChatItem = document.querySelector(
-                  `[data-chat-id="${urlChatId}"]`
-                );
-                if (targetChatItem) {
-                  targetChatItem.click();
-                } else {
-                  // Jika chat tidak ditemukan di list, coba load langsung
-                  activeChatId = urlChatId;
-                  loadChatDetail(urlChatId);
-                }
-              }
-            } else {
-              chatListElement.innerHTML = `
-                    <div class="flex flex-col justify-center items-center h-full text-gray-500 p-4">
-                        <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">chat</span>
-                        <p class="mb-2">Belum ada percakapan</p>
-                        <p class="text-sm">Tunggu pengguna menghubungi Anda</p>
-                    </div>
-                    `;
-            }
-          })
-          .catch(async (error) => {
-            console.error("Error loading chat list:", error);
-            document.getElementById("chat-list").innerHTML = `
-        <div class="flex justify-center items-center h-full text-red-500">
-          <p>Gagal memuat daftar chat</p>
-        </div>
-      `;
-            await showAlert(
-              "Gagal memuat daftar chat. Silakan refresh halaman.",
-              "error"
-            );
-          });
+  <script>
+    // === APPLICATION STATE ===
+    let appState = {
+      user: null,
+      chats: [],
+      activeChat: null,
+      activeChatId: null,
+      isMobileView: false,
+      realTimeInterval: null,
+      searchData: {
+        services: [],
+        provinces: [],
+        regencies: []
       }
+    };
 
-      // Fungsi untuk memuat detail chat
-      function loadChatDetail(chatId) {
-        fetch(`/api/chats/${chatId}`)
-          .then((res) => res.json())
-          .then((data) => {
-            // Update header chat
-            const chatHeaderElement = document.getElementById("chat-info");
-            chatHeaderElement.innerHTML = `
-                      <div class="flex items-center">
-                          <div class="w-10 h-10 rounded-full bg-gray-300 flex-shrink-0 overflow-hidden">
-                              <img src="${
-                                data.chat.User.photo_url ||
-                                "https://via.placeholder.com/40"
-                              }" alt="" class="w-full h-full object-cover">
-                          </div>
-                          <div class="ml-3">
-                              <p class="font-medium">${
-                                data.chat.User.full_name
-                              }</p>
-                              <p class="text-xs text-gray-500">${
-                                data.chat.Service.name
-                              }</p>
-                          </div>
-                      </div>
-                      `;
+    // === DOM ELEMENTS ===
+    const elements = {
+      profileLink: document.getElementById('profile-link'),
+      searchInput: document.getElementById('service-search-input'),
+      searchSuggestion: document.getElementById('service-search-suggestion'),
 
-            // Update container pesan
-            const messageContainerElement =
-              document.getElementById("message-container");
-            if (data.messages && data.messages.length > 0) {
-              let messagesHTML = "";
-              data.messages.forEach((message) => {
-                const isCurrentUser = message.sender_id === userId;
-                messagesHTML += `
-                              <div class="mb-4 ${
-                                isCurrentUser ? "text-right" : ""
-                              }">
-                                  <div class="inline-block max-w-xs sm:max-w-md rounded-lg px-4 py-2 ${
-                                    isCurrentUser
-                                      ? "bg-[#029FAE] text-white"
-                                      : "bg-gray-200 text-gray-800"
-                                  }">
-                                      <p>${message.content}</p>
-                                  </div>
-                                  <p class="text-xs text-gray-500 mt-1">${formatTime(
-                                    message.created_at
-                                  )}</p>
-                              </div>
-                              `;
-              });
-              messageContainerElement.innerHTML = messagesHTML;
-              // Scroll ke pesan terbaru
-              messageContainerElement.scrollTop =
-                messageContainerElement.scrollHeight;
-            } else {
-              messageContainerElement.innerHTML = `
-                          <div class="flex justify-center items-center h-full text-gray-500">
-                              <p>Belum ada pesan. Mulai percakapan sekarang!</p>
-                          </div>
-                          `;
-            }
+      // Chat elements
+      chatList: document.getElementById('chat-list'),
+      chatHeader: document.getElementById('chat-header'),
+      chatInfo: document.getElementById('chat-info'),
+      messageContainer: document.getElementById('message-container'),
+      messageForm: document.getElementById('message-form'),
+      messageInput: document.getElementById('message-input'),
+      sendButton: document.getElementById('send-button'),
 
-            // Tampilkan form pesan
-            document.getElementById("message-form").classList.remove("hidden");
+      // Mobile elements
+      mobileChatDetail: document.getElementById('mobile-chat-detail'),
+      mobileChatHeader: document.getElementById('mobile-chat-header'),
+      mobileChatInfo: document.getElementById('mobile-chat-info'),
+      mobileMessageContainer: document.getElementById('mobile-message-container'),
+      mobileMessageForm: document.getElementById('mobile-message-form'),
+      mobileMessageInput: document.getElementById('mobile-message-input'),
+      mobileSendButton: document.getElementById('mobile-send-button'),
+      backToList: document.getElementById('back-to-list'),
 
-            // Setup event listener untuk form pesan
-            setupMessageForm(chatId);
-          })
-          .catch(async (error) => {
-            console.error("Error loading chat detail:", error);
-            document.getElementById("message-container").innerHTML = `
-        <div class="flex justify-center items-center h-full text-red-500">
-          <p>Gagal memuat detail chat</p>
-        </div>
-      `;
-            await showAlert(
-              "Gagal memuat detail chat. Silakan coba lagi.",
-              "error"
-            );
-          });
-      }
+      // Flash notification elements
+      flashNotification: document.getElementById('flash-notification'),
+      flashContent: document.getElementById('flash-content'),
+      flashIcon: document.getElementById('flash-icon'),
+      flashMessage: document.getElementById('flash-message'),
+      flashDetail: document.getElementById('flash-detail'),
+      flashClose: document.getElementById('flash-close'),
 
-      // Fungsi untuk mendapatkan parameter URL
-      function getUrlParameter(name) {
-        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-        var results = regex.exec(location.search);
-        return results === null
-          ? ""
-          : decodeURIComponent(results[1].replace(/\+/g, " "));
-      }
+      // Modal elements
+      confirmationModal: document.getElementById('confirmation-modal'),
+      modalIcon: document.getElementById('modal-icon'),
+      modalTitle: document.getElementById('modal-title'),
+      modalMessage: document.getElementById('modal-message'),
+      modalCancel: document.getElementById('modal-cancel'),
+      modalConfirm: document.getElementById('modal-confirm')
+    };
 
-      // Fungsi untuk setup form pesan
-      function setupMessageForm(chatId) {
-        const messageInput = document.getElementById("message-input");
-        const sendButton = document.getElementById("send-button");
+    // === UTILITY FUNCTIONS ===
+    function formatDate(dateString) {
+      if (!dateString) return '';
 
-        // Reset event listener
-        const newMessageInput = messageInput.cloneNode(true);
-        const newSendButton = sendButton.cloneNode(true);
-        messageInput.parentNode.replaceChild(newMessageInput, messageInput);
-        sendButton.parentNode.replaceChild(newSendButton, sendButton);
-
-        // Setup event listener baru
-        newMessageInput.addEventListener("keypress", function (event) {
-          if (event.key === "Enter" && !event.shiftKey) {
-            event.preventDefault();
-            sendMessage(chatId, newMessageInput.value);
-          }
-        });
-
-        newSendButton.addEventListener("click", function () {
-          sendMessage(chatId, newMessageInput.value);
-        });
-      }
-
-      // Fungsi untuk mengirim pesan
-      function sendMessage(chatId, content) {
-        if (!content.trim()) return;
-
-        const messageInput = document.getElementById("message-input");
-        messageInput.value = "";
-
-        fetch("/api/messages", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            chatId,
-            content: content.trim(),
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            // Tambahkan pesan baru ke container
-            const messageContainerElement =
-              document.getElementById("message-container");
-            const messageElement = document.createElement("div");
-            messageElement.className = "mb-4 text-right";
-            messageElement.innerHTML = `
-                      <div class="inline-block max-w-xs sm:max-w-md rounded-lg px-4 py-2 bg-[#029FAE] text-white">
-                          <p>${data.message.content}</p>
-                      </div>
-                      <p class="text-xs text-gray-500 mt-1">${formatTime(
-                        data.message.created_at
-                      )}</p>
-                      `;
-            messageContainerElement.appendChild(messageElement);
-            // Scroll ke pesan terbaru
-            messageContainerElement.scrollTop =
-              messageContainerElement.scrollHeight;
-          })
-          .catch(async (error) => {
-            console.error("Error sending message:", error);
-            await showAlert(
-              "Gagal mengirim pesan. Silakan coba lagi.",
-              "error"
-            );
-            // Restore the message in input if failed
-            messageInput.value = content;
-          });
-      }
-
-      // Fungsi untuk memformat tanggal
-      function formatDate(dateString) {
+      try {
         const date = new Date(dateString);
         const now = new Date();
         const yesterday = new Date(now);
@@ -684,309 +366,822 @@
         } else {
           return `${date.getDate()}/${date.getMonth() + 1}`;
         }
+      } catch (error) {
+        console.error('Error formatting date:', error);
+        return '';
       }
+    }
 
-      // Fungsi untuk memformat waktu
-      function formatTime(dateString) {
+    function formatTime(dateString) {
+      if (!dateString) return '';
+
+      try {
         const date = new Date(dateString);
         return date.toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit",
         });
+      } catch (error) {
+        console.error('Error formatting time:', error);
+        return '';
+      }
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function checkMobileView() {
+      appState.isMobileView = window.innerWidth < 768;
+    }
+
+    function getUrlParameter(name) {
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+      var results = regex.exec(location.search);
+      return results === null
+        ? ""
+        : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+    // === FLASH NOTIFICATION FUNCTIONALITY ===
+    function showFlashNotification(message, type = 'success', detail = '') {
+      elements.flashMessage.textContent = message;
+
+      if (detail) {
+        elements.flashDetail.textContent = detail;
+        elements.flashDetail.classList.remove('hidden');
+      } else {
+        elements.flashDetail.classList.add('hidden');
       }
 
-      // Dapatkan ID pengguna dari session
-      fetch("/api/auth/me")
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.user) {
-            userId = data.user.id;
+      let iconName, bgClass;
+      switch (type) {
+        case 'success':
+          iconName = 'check_circle';
+          bgClass = 'bg-green-50 text-green-800 border-green-500';
+          break;
+        case 'error':
+          iconName = 'error';
+          bgClass = 'bg-red-50 text-red-800 border-red-500';
+          break;
+        case 'warning':
+          iconName = 'warning';
+          bgClass = 'bg-yellow-50 text-yellow-800 border-yellow-500';
+          break;
+        case 'info':
+          iconName = 'info';
+          bgClass = 'bg-blue-50 text-blue-800 border-blue-500';
+          break;
+        default:
+          iconName = 'notifications';
+          bgClass = 'bg-gray-50 text-gray-800 border-gray-500';
+      }
+
+      elements.flashIcon.textContent = iconName;
+      elements.flashContent.className = `px-6 py-4 rounded-lg shadow-lg border-l-4 max-w-sm ${bgClass}`;
+      elements.flashNotification.classList.remove('hidden');
+
+      setTimeout(() => hideFlashNotification(), 5000);
+    }
+
+    function hideFlashNotification() {
+      elements.flashNotification.classList.add('hidden');
+    }
+
+    function setupFlashNotification() {
+      elements.flashClose.addEventListener('click', hideFlashNotification);
+    }
+
+    // === CONFIRMATION MODAL FUNCTIONALITY ===
+    function showConfirmationModal(title, message, confirmText, confirmAction, iconType = 'warning') {
+      return new Promise((resolve) => {
+        elements.modalTitle.textContent = title;
+        elements.modalMessage.textContent = message;
+        elements.modalConfirm.textContent = confirmText;
+
+        const iconMap = {
+          'warning': { icon: 'warning', color: 'text-amber-500' },
+          'danger': { icon: 'dangerous', color: 'text-red-500' },
+          'info': { icon: 'info', color: 'text-blue-500' },
+          'question': { icon: 'help', color: 'text-gray-500' }
+        };
+
+        const iconConfig = iconMap[iconType] || iconMap['warning'];
+        elements.modalIcon.textContent = iconConfig.icon;
+        elements.modalIcon.className = `material-symbols-outlined text-2xl ${iconConfig.color}`;
+
+        elements.confirmationModal.classList.remove('hidden');
+
+        const handleConfirm = () => {
+          hideConfirmationModal();
+          if (confirmAction) confirmAction();
+          resolve(true);
+          cleanup();
+        };
+
+        const handleCancel = () => {
+          hideConfirmationModal();
+          resolve(false);
+          cleanup();
+        };
+
+        const handleOutsideClick = (e) => {
+          if (e.target === elements.confirmationModal) {
+            handleCancel();
           }
+        };
+
+        const handleEscape = (e) => {
+          if (e.key === 'Escape') {
+            handleCancel();
+          }
+        };
+
+        const cleanup = () => {
+          elements.modalConfirm.removeEventListener('click', handleConfirm);
+          elements.modalCancel.removeEventListener('click', handleCancel);
+          elements.confirmationModal.removeEventListener('click', handleOutsideClick);
+          document.removeEventListener('keydown', handleEscape);
+        };
+
+        elements.modalConfirm.addEventListener('click', handleConfirm);
+        elements.modalCancel.addEventListener('click', handleCancel);
+        elements.confirmationModal.addEventListener('click', handleOutsideClick);
+        document.addEventListener('keydown', handleEscape);
+      });
+    }
+
+    function hideConfirmationModal() {
+      elements.confirmationModal.classList.add('hidden');
+    }
+
+    // === AUTHENTICATION ===
+    async function initializeAuth() {
+      try {
+        const response = await fetch('/api/auth/me');
+        const data = await response.json();
+
+        if (!data.user || data.user.role !== 'PROVIDER') {
+          showFlashNotification('Akses ditolak. Silakan login sebagai PROVIDER.', 'error');
+          setTimeout(() => {
+            window.location.href = '/login';
+          }, 2000);
+          return false;
+        }
+
+        appState.user = data.user;
+        setupUserProfile(data.user);
+        return true;
+      } catch (error) {
+        console.error('Gagal memuat data user:', error);
+        showFlashNotification('Gagal memuat data pengguna', 'error');
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 2000);
+        return false;
+      }
+    }
+
+    function setupUserProfile(user) {
+      elements.profileLink.innerHTML = `
+        <div class="relative cursor-pointer select-none" id="profile-dropdown-parent">
+          <span class="flex items-center gap-1" id="profile-dropdown-toggle">
+            <span class="material-symbols-outlined !text-lg">person</span>
+            <span class="hidden sm:inline">${escapeHtml(user.name)}</span>
+            <span class="material-symbols-outlined !text-lg hidden sm:inline">expand_more</span>
+          </span>
+          <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded shadow-lg z-50 text-gray-700">
+            <a href="/profile" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+            <a href="/api/auth/logout" class="block px-4 py-2 hover:bg-gray-100">Logout</a>
+          </div>
+        </div>
+      `;
+      elements.profileLink.href = 'javascript:void(0)';
+
+      setupProfileDropdown();
+    }
+
+    function setupProfileDropdown() {
+      const toggle = document.getElementById('profile-dropdown-toggle');
+      const menu = document.getElementById('profile-dropdown-menu');
+
+      document.addEventListener('click', function (e) {
+        if (toggle && menu) {
+          if (toggle.contains(e.target)) {
+            menu.classList.toggle('hidden');
+          } else if (!menu.contains(e.target)) {
+            menu.classList.add('hidden');
+          }
+        }
+      });
+    }
+
+    // === DATA LOADING ===
+    async function loadSearchData() {
+      try {
+        const [servicesResponse, provincesResponse, regenciesResponse] = await Promise.all([
+          fetch('/api/services'),
+          fetch('/public/data/provinces.json'),
+          fetch('/public/data/regencies.json')
+        ]);
+
+        const servicesData = await servicesResponse.json();
+        appState.searchData.services = servicesData.services || [];
+        appState.searchData.provinces = await provincesResponse.json();
+        appState.searchData.regencies = await regenciesResponse.json();
+      } catch (error) {
+        console.error('Gagal memuat data search:', error);
+        showFlashNotification('Gagal memuat data pencarian', 'warning');
+      }
+    }
+
+    async function loadChatList() {
+      try {
+        const response = await fetch('/api/chats');
+        const data = await response.json();
+
+        if (data.chats && data.chats.length > 0) {
+          appState.chats = data.chats;
+          renderChatList(data.chats);
+        } else {
+          showEmptyChatList();
+        }
+      } catch (error) {
+        console.error('Error loading chat list:', error);
+        showFlashNotification('Gagal memuat daftar chat', 'error');
+        showEmptyChatList();
+      }
+    }
+
+    async function loadChatDetail(chatId) {
+      if (!chatId) {
+        console.error('No chat ID provided');
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/chats/${chatId}`);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.chat) {
+          appState.activeChat = data.chat;
+          appState.activeChatId = chatId;
+
+          if (appState.isMobileView) {
+            renderMobileChatDetail(data.chat, data.messages || []);
+            showMobileChatDetail();
+          } else {
+            renderChatDetail(data.chat, data.messages || []);
+          }
+
+          // Setup message form after rendering
+          setTimeout(() => {
+            setupMessageForm(chatId);
+          }, 100);
+        } else {
+          throw new Error('Chat data not found');
+        }
+      } catch (error) {
+        console.error('Error loading chat detail:', error);
+        showFlashNotification('Gagal memuat detail chat', 'error');
+      }
+    }
+
+    // === RENDERING ===
+    function showEmptyChatList() {
+      elements.chatList.innerHTML = `
+        <div class="flex flex-col justify-center items-center h-full text-gray-500 p-4">
+          <span class="material-symbols-outlined text-4xl mb-2">chat</span>
+          <p class="mb-2 text-center">Belum ada percakapan</p>
+          <p class="text-sm text-center">Tunggu pelanggan menghubungi Anda melalui layanan yang Anda tawarkan</p>
+        </div>
+      `;
+    }
+
+    function renderChatList(chats) {
+      if (!chats || !Array.isArray(chats)) {
+        console.error('Invalid chats data');
+        showEmptyChatList();
+        return;
+      }
+
+      let chatListHTML = '';
+
+      chats.forEach(chat => {
+        if (!chat) return;
+
+        const lastMessage = chat.Messages && chat.Messages.length > 0 ? chat.Messages[0] : null;
+        const isUnread = lastMessage && !lastMessage.is_read && lastMessage.sender_id !== appState.user?.id;
+        const isActive = appState.activeChatId === chat.id;
+
+        chatListHTML += `
+          <div class="chat-item p-4 border-b border-gray-200 hover:bg-gray-100 cursor-pointer transition ${isActive ? 'bg-gray-100' : ''}" 
+               data-chat-id="${chat.id}">
+            <div class="flex items-center">
+              <div class="w-10 h-10 rounded-full bg-gray-300 flex-shrink-0 overflow-hidden">
+                <img src="${chat.User?.photo_url || '/public/images/default-avatar.svg'}" 
+                     alt="User Avatar"
+                     class="w-full h-full object-cover"
+                     onerror="this.src='/public/images/default-avatar.svg'">
+              </div>
+              <div class="ml-3 flex-1 min-w-0">
+                <p class="font-medium truncate ${isUnread ? 'font-bold' : ''}">${escapeHtml(chat.User?.full_name || 'Pelanggan')}</p>
+                <p class="text-sm text-gray-500 truncate ${isUnread ? 'font-semibold' : ''}">
+                  ${lastMessage ? escapeHtml(lastMessage.content) : 'Belum ada pesan'}
+                </p>
+                ${chat.Service ? `<p class="text-xs text-[#029FAE] truncate">${escapeHtml(chat.Service.name)}</p>` : ''}
+              </div>
+              <div class="text-xs text-gray-400 flex-shrink-0">
+                ${lastMessage ? formatDate(lastMessage.created_at) : ''}
+                ${isUnread ? '<div class="w-2 h-2 bg-[#029FAE] rounded-full mt-1 ml-auto"></div>' : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      elements.chatList.innerHTML = chatListHTML;
+      setupChatListEvents();
+    }
+
+    function setupChatListEvents() {
+      document.querySelectorAll('.chat-item').forEach(item => {
+        item.addEventListener('click', function () {
+          const chatId = this.getAttribute('data-chat-id');
+
+          // Update active state
+          document.querySelectorAll('.chat-item').forEach(el => {
+            el.classList.remove('bg-gray-100');
+          });
+          this.classList.add('bg-gray-100');
+
+          loadChatDetail(chatId);
+
+          // Update URL without reload
+          const newUrl = new URL(window.location);
+          newUrl.searchParams.set('chatId', chatId);
+          window.history.pushState({}, '', newUrl);
+        });
+      });
+    }
+
+    function renderChatDetail(chat, messages) {
+      if (!chat) {
+        console.error('Chat data not provided');
+        return;
+      }
+
+      // Update header
+      elements.chatInfo.innerHTML = `
+        <div class="flex items-center">
+          <div class="w-10 h-10 rounded-full bg-gray-300 flex-shrink-0 overflow-hidden">
+            <img src="${chat.User?.photo_url || '/public/images/default-avatar.svg'}" 
+                 alt="User Avatar"
+                 class="w-full h-full object-cover"
+                 onerror="this.src='/public/images/default-avatar.svg'">
+          </div>
+          <div class="ml-3">
+            <p class="font-medium">${escapeHtml(chat.User?.full_name || 'Pelanggan')}</p>
+            ${chat.Service ? `<p class="text-xs text-gray-500">${escapeHtml(chat.Service.name)}</p>` : ''}
+          </div>
+        </div>
+      `;
+
+      // Render messages
+      renderMessages(elements.messageContainer, messages);
+
+      // Show message form
+      if (elements.messageForm) {
+        elements.messageForm.classList.remove('hidden');
+      }
+    }
+
+    function renderMobileChatDetail(chat, messages) {
+      if (!chat) {
+        console.error('Chat data not provided');
+        return;
+      }
+
+      // Update mobile header
+      elements.mobileChatInfo.innerHTML = `
+        <div class="flex items-center">
+          <div class="w-8 h-8 rounded-full bg-gray-300 flex-shrink-0 overflow-hidden">
+            <img src="${chat.User?.photo_url || '/public/images/default-avatar.svg'}" 
+                 alt="User Avatar"
+                 class="w-full h-full object-cover"
+                 onerror="this.src='/public/images/default-avatar.svg'">
+          </div>
+          <div class="ml-2">
+            <p class="font-medium text-sm">${escapeHtml(chat.User?.full_name || 'Pelanggan')}</p>
+            ${chat.Service ? `<p class="text-xs text-gray-500">${escapeHtml(chat.Service.name)}</p>` : ''}
+          </div>
+        </div>
+      `;
+
+      // Render messages
+      renderMessages(elements.mobileMessageContainer, messages);
+    }
+
+    function renderMessages(container, messages) {
+      if (!container) {
+        console.error('Container element not found');
+        return;
+      }
+
+      if (messages && messages.length > 0) {
+        let messagesHTML = '';
+        messages.forEach(message => {
+          if (!message) return;
+
+          const isCurrentUser = message.sender_id === appState.user?.id;
+          messagesHTML += `
+            <div class="mb-4 ${isCurrentUser ? 'text-right' : ''}">
+              <div class="inline-block max-w-xs sm:max-w-md rounded-lg px-4 py-2 ${isCurrentUser
+              ? 'bg-[#029FAE] text-white'
+              : 'bg-gray-200 text-gray-800'
+            }">
+                <p class="break-words">${escapeHtml(message.content || '')}</p>
+              </div>
+              <p class="text-xs text-gray-500 mt-1">${formatTime(message.created_at)}</p>
+            </div>
+          `;
+        });
+        container.innerHTML = messagesHTML;
+      } else {
+        container.innerHTML = `
+          <div class="flex justify-center items-center h-full text-gray-500">
+            <div class="text-center">
+              <span class="material-symbols-outlined text-4xl mb-2">chat_bubble_outline</span>
+              <p>Belum ada pesan. Mulai percakapan sekarang!</p>
+            </div>
+          </div>
+        `;
+      }
+
+      // Scroll to bottom
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function showMobileChatDetail() {
+      elements.chatList.parentElement.classList.add('hidden');
+      elements.mobileChatDetail.classList.remove('hidden');
+      elements.mobileChatDetail.classList.add('flex');
+    }
+
+    function hideMobileChatDetail() {
+      elements.mobileChatDetail.classList.add('hidden');
+      elements.mobileChatDetail.classList.remove('flex');
+      elements.chatList.parentElement.classList.remove('hidden');
+    }
+
+    // === MESSAGE FUNCTIONALITY ===
+    function setupMessageForm(chatId) {
+      // Desktop form
+      if (elements.messageInput && elements.sendButton) {
+        setupMessageInput(elements.messageInput, elements.sendButton, chatId, elements.messageContainer);
+      }
+
+      // Mobile form
+      if (appState.isMobileView && elements.mobileMessageInput && elements.mobileSendButton) {
+        setupMessageInput(elements.mobileMessageInput, elements.mobileSendButton, chatId, elements.mobileMessageContainer);
+      }
+    }
+
+    function setupMessageInput(inputElement, buttonElement, chatId, containerElement) {
+      if (!inputElement || !buttonElement || !containerElement) {
+        console.error('Required elements not found for message input setup');
+        return;
+      }
+
+      // Clear existing event listeners by cloning elements
+      const newInput = inputElement.cloneNode(true);
+      const newButton = buttonElement.cloneNode(true);
+
+      if (inputElement.parentNode && buttonElement.parentNode) {
+        inputElement.parentNode.replaceChild(newInput, inputElement);
+        buttonElement.parentNode.replaceChild(newButton, buttonElement);
+
+        // Update references in elements object
+        if (inputElement === elements.messageInput) {
+          elements.messageInput = newInput;
+        } else if (inputElement === elements.mobileMessageInput) {
+          elements.mobileMessageInput = newInput;
+        }
+
+        if (buttonElement === elements.sendButton) {
+          elements.sendButton = newButton;
+        } else if (buttonElement === elements.mobileSendButton) {
+          elements.mobileSendButton = newButton;
+        }
+      } else {
+        console.warn('Parent element not found, using original elements');
+        newInput = inputElement;
+        newButton = buttonElement;
+      }
+
+      // Setup new event listeners
+      newInput.addEventListener('keypress', function (event) {
+        if (event.key === 'Enter' && !event.shiftKey) {
+          event.preventDefault();
+          sendMessage(chatId, newInput.value.trim(), containerElement, newInput);
+        }
+      });
+
+      newButton.addEventListener('click', function () {
+        sendMessage(chatId, newInput.value.trim(), containerElement, newInput);
+      });
+    }
+
+    async function sendMessage(chatId, content, containerElement, inputElement) {
+      if (!content || !containerElement || !inputElement) return;
+
+      // Clear input
+      inputElement.value = '';
+
+      try {
+        const response = await fetch('/api/messages', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chatId,
+            content
+          }),
         });
 
-      // Refresh chat list setiap 10 detik
-      setInterval(() => {
-        if (activeChatId) {
-          loadChatDetail(activeChatId);
-        }
-        loadChatList();
-      }, 10000);
+        const data = await response.json();
 
-      function getSearchQuery() {
-        const params = new URLSearchParams(window.location.search);
-        return params.get("search") || "";
+        if (data.message) {
+          // Add message to container
+          const messageElement = document.createElement('div');
+          messageElement.className = 'mb-4 text-right';
+          messageElement.innerHTML = `
+            <div class="inline-block max-w-xs sm:max-w-md rounded-lg px-4 py-2 bg-[#029FAE] text-white">
+              <p class="break-words">${escapeHtml(data.message.content)}</p>
+            </div>
+            <p class="text-xs text-gray-500 mt-1">${formatTime(data.message.created_at)}</p>
+          `;
+          containerElement.appendChild(messageElement);
+
+          // Scroll to bottom
+          containerElement.scrollTop = containerElement.scrollHeight;
+
+          // Refresh chat list to update last message
+          await loadChatList();
+        }
+      } catch (error) {
+        console.error('Error sending message:', error);
+        showFlashNotification('Gagal mengirim pesan', 'error');
+      }
+    }
+
+    // === SEARCH FUNCTIONALITY ===
+    function setupSearchSuggestion() {
+      elements.searchInput.addEventListener('input', handleSearchInput);
+      elements.searchSuggestion.addEventListener('click', handleSuggestionClick);
+      elements.searchInput.addEventListener('keydown', handleSearchSubmit);
+
+      // Hide suggestions when clicking outside
+      document.addEventListener('click', function (e) {
+        if (!elements.searchInput.contains(e.target) && !elements.searchSuggestion.contains(e.target)) {
+          elements.searchSuggestion.classList.add('hidden');
+        }
+      });
+    }
+
+    function handleSearchInput() {
+      const keyword = elements.searchInput.value.trim().toLowerCase();
+
+      if (!keyword) {
+        elements.searchSuggestion.classList.add('hidden');
+        return;
       }
 
-      const searchInput = document.getElementById("service-search-input");
-      const searchSuggestion = document.getElementById(
-        "service-search-suggestion"
+      const suggestions = generateSuggestions(keyword);
+      renderSuggestions(suggestions);
+    }
+
+    function generateSuggestions(keyword) {
+      const { services, provinces, regencies } = appState.searchData;
+
+      return {
+        services: services.filter(s =>
+          s.name.toLowerCase().includes(keyword) ||
+          (s.description && s.description.toLowerCase().includes(keyword))
+        ).slice(0, 5),
+        provinces: provinces.filter(p =>
+          p.name.toLowerCase().includes(keyword)
+        ).slice(0, 3),
+        regencies: regencies.filter(r =>
+          r.name.toLowerCase().includes(keyword)
+        ).slice(0, 3)
+      };
+    }
+
+    function renderSuggestions({ services, provinces, regencies }) {
+      let html = '';
+
+      if (services.length > 0) {
+        html += '<div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-50">LAYANAN</div>';
+        services.forEach(s => {
+          html += `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer flex items-center gap-2" data-type="service" data-id="${s.id}">
+            <span class="material-symbols-outlined text-sm">work</span>${escapeHtml(s.name)}
+          </div>`;
+        });
+      }
+
+      if (provinces.length > 0) {
+        html += '<div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-50">PROVINSI</div>';
+        provinces.forEach(p => {
+          html += `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer flex items-center gap-2" data-type="province" data-id="${p.id}" data-name="${p.name}">
+            <span class="material-symbols-outlined text-sm">location_on</span>${escapeHtml(p.name)}
+          </div>`;
+        });
+      }
+
+      if (regencies.length > 0) {
+        html += '<div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-50">KOTA/KABUPATEN</div>';
+        regencies.forEach(r => {
+          const province = appState.searchData.provinces.find(p => p.id === r.province_id);
+          html += `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer flex items-center gap-2" data-type="regency" data-id="${r.id}" data-name="${r.name}" data-province-id="${r.province_id}">
+            <span class="material-symbols-outlined text-sm">place</span>${escapeHtml(r.name)}, ${escapeHtml(province?.name || '')}
+          </div>`;
+        });
+      }
+
+      elements.searchSuggestion.innerHTML = html || '<div class="px-4 py-2 text-gray-400">Tidak ditemukan</div>';
+      elements.searchSuggestion.classList.remove('hidden');
+    }
+
+    function handleSuggestionClick(e) {
+      const item = e.target.closest('[data-type]');
+      if (!item) return;
+
+      const { type, id, name } = item.dataset;
+
+      switch (type) {
+        case 'service':
+          const serviceName = item.textContent.trim().replace(/^work/, '');
+          window.location.href = `/provider/services?search=${encodeURIComponent(serviceName)}`;
+          break;
+        case 'province':
+          window.location.href = `/provider/services?province_id=${id}&search=${encodeURIComponent(name)}`;
+          break;
+        case 'regency':
+          const provinceId = item.dataset.provinceId;
+          window.location.href = `/provider/services?province_id=${provinceId}&regency_id=${id}&search=${encodeURIComponent(name)}`;
+          break;
+      }
+    }
+
+    function handleSearchSubmit(e) {
+      if (e.key !== 'Enter') return;
+
+      e.preventDefault();
+      const keyword = elements.searchInput.value.trim();
+
+      if (!keyword) {
+        window.location.href = '/provider/services';
+        return;
+      }
+
+      // Check exact matches
+      const { provinces, regencies } = appState.searchData;
+
+      const matchedProvince = provinces.find(p =>
+        p.name.toLowerCase() === keyword.toLowerCase()
       );
 
-      let allServices = [];
-      let allProvinces = [];
-      let allRegencies = [];
-
-      // Ambil semua data untuk suggestion
-      Promise.all([
-        fetch("/api/services").then((res) => res.json()),
-        fetch("/public/data/provinces.json").then((res) => res.json()),
-        fetch("/public/data/regencies.json").then((res) => res.json()),
-      ])
-        .then(([servicesData, provincesData, regenciesData]) => {
-          allServices = servicesData.services || [];
-          allProvinces = provincesData || [];
-          allRegencies = regenciesData || [];
-        })
-        .catch(async (error) => {
-          console.error("Error loading search data:", error);
-          await showAlert(
-            "Gagal memuat data pencarian. Beberapa fitur mungkin tidak berfungsi.",
-            "warning"
-          );
-        });
-
-      // Tampilkan suggestion saat mengetik
-      searchInput.addEventListener("input", function () {
-        const keyword = this.value.trim().toLowerCase();
-        if (!keyword) {
-          searchSuggestion.classList.add("hidden");
-          searchSuggestion.innerHTML = "";
-          return;
-        }
-
-        // Filter services berdasarkan nama/deskripsi
-        const filteredServices = allServices
-          .filter(
-            (s) =>
-              s.name.toLowerCase().includes(keyword) ||
-              (s.description && s.description.toLowerCase().includes(keyword))
-          )
-          .slice(0, 5);
-
-        // Filter provinsi berdasarkan nama
-        const filteredProvinces = allProvinces
-          .filter((p) => p.name.toLowerCase().includes(keyword))
-          .slice(0, 3);
-
-        // Filter kota/kabupaten berdasarkan nama
-        const filteredRegencies = allRegencies
-          .filter((r) => r.name.toLowerCase().includes(keyword))
-          .slice(0, 3);
-
-        let suggestionHTML = "";
-
-        // Tambahkan suggestion services
-        if (filteredServices.length > 0) {
-          suggestionHTML += `<div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-50">LAYANAN</div>`;
-          filteredServices.forEach((s) => {
-            suggestionHTML += `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer flex items-center gap-1" data-type="service" data-id="${s.id}">
-        <span class="material-symbols-outlined text-sm">work</span>${s.name}
-      </div>`;
-          });
-        }
-
-        // Tambahkan suggestion provinsi
-        if (filteredProvinces.length > 0) {
-          suggestionHTML += `<div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-50">PROVINSI</div>`;
-          filteredProvinces.forEach((p) => {
-            suggestionHTML += `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer flex items-center gap-1" data-type="province" data-id="${p.id}" data-name="${p.name}">
-        <span class="material-symbols-outlined text-sm">location_on</span>${p.name}
-      </div>`;
-          });
-        }
-
-        // Tambahkan suggestion kota/kabupaten
-        if (filteredRegencies.length > 0) {
-          suggestionHTML += `<div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-50">KOTA/KABUPATEN</div>`;
-          filteredRegencies.forEach((r) => {
-            const province = allProvinces.find((p) => p.id === r.province_id);
-            suggestionHTML += `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer flex items-center gap-1" data-type="regency" data-id="${
-              r.id
-            }" data-name="${r.name}" data-province-id="${r.province_id}">
-        <span class="material-symbols-outlined text-sm">place</span>${
-          r.name
-        }, ${province?.name || ""}
-      </div>`;
-          });
-        }
-
-        if (suggestionHTML === "") {
-          searchSuggestion.innerHTML = `<div class="px-4 py-2 text-gray-400">Tidak ditemukan</div>`;
-        } else {
-          searchSuggestion.innerHTML = suggestionHTML;
-        }
-
-        searchSuggestion.classList.remove("hidden");
-      });
-
-      // Klik suggestion: redirect berdasarkan tipe
-      searchSuggestion.addEventListener("click", function (e) {
-        const item = e.target.closest("[data-type]");
-        if (item) {
-          const type = item.dataset.type;
-          const id = item.dataset.id;
-          const name = item.dataset.name;
-
-          if (type === "service") {
-            const serviceName = item.textContent.trim().replace(/^work/, "");
-            window.location.href = `/provider/services?search=${encodeURIComponent(
-              serviceName
-            )}`;
-          } else if (type === "province") {
-            window.location.href = `/provider/services?province_id=${id}&search=${encodeURIComponent(
-              name
-            )}`;
-          } else if (type === "regency") {
-            const provinceId = item.dataset.provinceId;
-            window.location.href = `/provider/services?province_id=${provinceId}&regency_id=${id}&search=${encodeURIComponent(
-              name
-            )}`;
-          }
-        }
-      });
-
-      // Sembunyikan suggestion jika klik di luar
-      document.addEventListener("click", function (e) {
-        if (
-          !searchInput.contains(e.target) &&
-          !searchSuggestion.contains(e.target)
-        ) {
-          searchSuggestion.classList.add("hidden");
-        }
-      });
-
-      // Submit search: cek apakah provinsi/kota atau layanan
-      searchInput.addEventListener("keydown", function (e) {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          const keyword = this.value.trim();
-          if (!keyword) {
-            window.location.href = "/services";
-            return;
-          }
-
-          // Cek apakah keyword cocok dengan provinsi
-          const matchedProvince = allProvinces.find(
-            (p) => p.name.toLowerCase() === keyword.toLowerCase()
-          );
-          if (matchedProvince) {
-            window.location.href = `/provider/services?province_id=${
-              matchedProvince.id
-            }&search=${encodeURIComponent(matchedProvince.name)}`;
-            return;
-          }
-
-          // Cek apakah keyword cocok dengan kota/kabupaten
-          const matchedRegency = allRegencies.find(
-            (r) => r.name.toLowerCase() === keyword.toLowerCase()
-          );
-          if (matchedRegency) {
-            window.location.href = `/provider/services?province_id=${
-              matchedRegency.province_id
-            }&regency_id=${matchedRegency.id}&search=${encodeURIComponent(
-              matchedRegency.name
-            )}`;
-            return;
-          }
-
-          // Jika tidak cocok dengan lokasi, search sebagai layanan
-          window.location.href = `/provider/services?search=${encodeURIComponent(
-            keyword
-          )}`;
-        }
-      });
-
-      // Custom Alert and Confirm Functions
-      function showAlert(message, type = "info", title = "") {
-        const modal = document.getElementById("custom-alert-modal");
-        const icon = document.getElementById("alert-icon");
-        const titleEl = document.getElementById("alert-title");
-        const messageEl = document.getElementById("alert-message");
-        const okButton = document.getElementById("alert-ok-button");
-
-        // Set icon and title based on type
-        switch (type) {
-          case "success":
-            icon.textContent = "check_circle";
-            icon.className =
-              "material-symbols-outlined text-2xl mr-3 text-green-500";
-            titleEl.textContent = title || "Berhasil";
-            okButton.className =
-              "px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors";
-            break;
-          case "error":
-            icon.textContent = "error";
-            icon.className =
-              "material-symbols-outlined text-2xl mr-3 text-red-500";
-            titleEl.textContent = title || "Error";
-            okButton.className =
-              "px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors";
-            break;
-          case "warning":
-            icon.textContent = "warning";
-            icon.className =
-              "material-symbols-outlined text-2xl mr-3 text-orange-500";
-            titleEl.textContent = title || "Peringatan";
-            okButton.className =
-              "px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors";
-            break;
-          default:
-            icon.textContent = "info";
-            icon.className =
-              "material-symbols-outlined text-2xl mr-3 text-blue-500";
-            titleEl.textContent = title || "Informasi";
-            okButton.className =
-              "px-6 py-2 bg-[#029FAE] text-white rounded-lg hover:bg-[#027f8a] transition-colors";
-        }
-
-        messageEl.textContent = message;
-        modal.classList.remove("hidden");
-
-        return new Promise((resolve) => {
-          const handleOk = () => {
-            modal.classList.add("hidden");
-            okButton.removeEventListener("click", handleOk);
-            resolve(true);
-          };
-          okButton.addEventListener("click", handleOk);
-        });
+      if (matchedProvince) {
+        window.location.href = `/provider/services?province_id=${matchedProvince.id}&search=${encodeURIComponent(matchedProvince.name)}`;
+        return;
       }
 
-      function showConfirm(message, title = "Konfirmasi") {
-        const modal = document.getElementById("custom-confirm-modal");
-        const titleEl = document.getElementById("confirm-title");
-        const messageEl = document.getElementById("confirm-message");
-        const cancelButton = document.getElementById("confirm-cancel-button");
-        const okButton = document.getElementById("confirm-ok-button");
+      const matchedRegency = regencies.find(r =>
+        r.name.toLowerCase() === keyword.toLowerCase()
+      );
 
-        titleEl.textContent = title;
-        messageEl.textContent = message;
-        modal.classList.remove("hidden");
-
-        return new Promise((resolve) => {
-          const handleCancel = () => {
-            modal.classList.add("hidden");
-            cleanup();
-            resolve(false);
-          };
-
-          const handleOk = () => {
-            modal.classList.add("hidden");
-            cleanup();
-            resolve(true);
-          };
-
-          const cleanup = () => {
-            cancelButton.removeEventListener("click", handleCancel);
-            okButton.removeEventListener("click", handleOk);
-          };
-
-          cancelButton.addEventListener("click", handleCancel);
-          okButton.addEventListener("click", handleOk);
-        });
+      if (matchedRegency) {
+        window.location.href = `/provider/services?province_id=${matchedRegency.province_id}&regency_id=${matchedRegency.id}&search=${encodeURIComponent(matchedRegency.name)}`;
+        return;
       }
 
-      // Replace all existing alert() calls with showAlert()
-    </script>
-  </body>
+      window.location.href = `/provider/services?search=${encodeURIComponent(keyword)}`;
+    }
+
+    // === MOBILE FUNCTIONALITY ===
+    function setupMobileEvents() {
+      elements.backToList.addEventListener('click', function () {
+        hideMobileChatDetail();
+      });
+
+      // Handle window resize
+      window.addEventListener('resize', function () {
+        const wasMobile = appState.isMobileView;
+        checkMobileView();
+
+        if (wasMobile !== appState.isMobileView) {
+          // View changed, re-render active chat if exists
+          if (appState.activeChat && appState.activeChatId) {
+            loadChatDetail(appState.activeChatId);
+          }
+        }
+      });
+    }
+
+    // === REAL-TIME UPDATES ===
+    function startRealTimeUpdates() {
+      // Refresh chat list and active chat periodically
+      const intervalId = setInterval(async () => {
+        try {
+          // Only refresh if user is still authenticated
+          if (!appState.user) {
+            clearInterval(intervalId);
+            return;
+          }
+
+          if (appState.activeChatId) {
+            await loadChatDetail(appState.activeChatId);
+          }
+          await loadChatList();
+        } catch (error) {
+          console.error('Error in real-time update:', error);
+          // Don't show flash notification for real-time update errors
+          // to avoid spam
+        }
+      }, 10000); // Every 10 seconds
+
+      // Store interval ID for cleanup if needed
+      appState.realTimeInterval = intervalId;
+    }
+
+    // === INITIALIZATION ===
+    async function initialize() {
+      try {
+        // Setup flash notification and modal
+        setupFlashNotification();
+
+        // Check mobile view
+        checkMobileView();
+
+        // Initialize authentication
+        const authSuccess = await initializeAuth();
+        if (!authSuccess) return;
+
+        // Load data in parallel
+        await Promise.all([
+          loadSearchData(),
+          loadChatList()
+        ]);
+
+        // Setup functionality
+        setupSearchSuggestion();
+        setupMobileEvents();
+
+        // Start real-time updates
+        startRealTimeUpdates();
+
+        // Check for chat ID in URL params (e.g., from orders redirect)
+        const chatId = getUrlParameter('chatId');
+        if (chatId) {
+          // Delay to ensure DOM is ready
+          setTimeout(() => {
+            // Find and click the corresponding chat item
+            const targetChatItem = document.querySelector(`[data-chat-id="${chatId}"]`);
+            if (targetChatItem) {
+              targetChatItem.click();
+            } else {
+              // If chat not found in list, try load directly
+              loadChatDetail(chatId);
+            }
+          }, 500);
+        }
+
+      } catch (error) {
+        console.error('Initialization error:', error);
+        showFlashNotification('Gagal memuat halaman', 'error', 'Silakan refresh halaman');
+      }
+    }
+
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', function () {
+      if (appState.realTimeInterval) {
+        clearInterval(appState.realTimeInterval);
+      }
+    });
+
+    // Start the application
+    document.addEventListener('DOMContentLoaded', initialize);
+  </script>
+</body>
+
 </html>
