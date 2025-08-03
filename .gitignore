@@ -12,6 +12,8 @@ npm-debug.log
 /public/images/services/*
 !.gitkeep
 
+/public/images/reviews/*
+!.gitkeep
 
 # Build/Generated
 dist/
