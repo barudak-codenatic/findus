@@ -52,3 +52,43 @@ exports.getReviewsByService = async (req, res) => {
     res.status(500).json({ error: "Gagal mengambil ulasan" });
   }
 };
+
+exports.getReviewByOrder = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const user_id = req.session.user.id;
+    const review = await Review.findOne({
+      where: { order_id: orderId, user_id },
+    });
+    if (!review) return res.json({ review: null });
+    res.json({ review });
+  } catch (err) {
+    console.error("Error getReviewByOrder:", err);
+    res.status(500).json({ error: "Gagal mengambil data ulasan" });
+  }
+};
+
+exports.updateReview = async (req, res) => {
+  try {
+    const { reviewId } = req.params;
+    const user_id = req.session.user.id;
+    const review = await Review.findOne({ where: { id: reviewId, user_id } });
+    if (!review)
+      return res.status(404).json({ error: "Review tidak ditemukan" });
+
+    // Update fields
+    review.rating = req.body.rating || review.rating;
+    review.comment = req.body.comment || review.comment;
+
+    // Jika ada file image
+    if (req.file) {
+      review.image_url = "/uploads/" + req.file.filename;
+    }
+
+    await review.save();
+    res.json({ success: true, review });
+  } catch (err) {
+    console.error("Error updateReview:", err);
+    res.status(500).json({ error: "Gagal update ulasan" });
+  }
+};

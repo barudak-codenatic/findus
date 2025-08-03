@@ -77,8 +77,16 @@ exports.getOrder = async (req, res) => {
     const order = await Order.findByPk(req.params.id, {
       include: [
         { model: Service },
-        { model: User, as: "Customer", attributes: ["full_name"] },
-        { model: User, as: "Provider", attributes: ["full_name"] },
+        {
+          model: User,
+          as: "Customer",
+          attributes: ["full_name", "email", "phone"],
+        },
+        {
+          model: User,
+          as: "Provider",
+          attributes: ["full_name", "email", "phone"],
+        },
       ],
     });
     if (!order) return res.status(404).json({ error: "Order tidak ditemukan" });

@@ -30,5 +30,16 @@ router.post(
   reviewController.createReview
 );
 router.get("/service/:serviceId", reviewController.getReviewsByService);
+router.get(
+  "/order/:orderId",
+  isAuthenticated,
+  reviewController.getReviewByOrder
+);
+router.put(
+  "/:reviewId",
+  isAuthenticated,
+  upload.single("image"),
+  reviewController.updateReview
+);
 
 module.exports = router;

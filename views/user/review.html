@@ -4,52 +4,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FindUs - Solusi Kebutuhan Mahasiswa</title>
+    <title>FindUs - Beri Ulasan</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200,0,0" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-        integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
 </head>
-<style>
-    .rating-stars label {
-        color: #d1d5db;
-        transition: color 0.2s;
-        cursor: pointer;
-    }
-
-    .rating-stars label.selected,
-    .rating-stars label.hovered {
-        color: #fbbf24;
-    }
-</style>
 
 <body class="font-sans">
+    <!-- Flash Notification -->
+    <div id="flash-notification" class="fixed top-4 right-4 z-[60] hidden">
+        <div id="flash-content" class="px-6 py-4 rounded-lg shadow-lg border-l-4 max-w-sm">
+            <div class="flex items-center gap-3">
+                <span id="flash-icon" class="material-symbols-outlined flex-shrink-0"></span>
+                <div class="flex-1">
+                    <p id="flash-message" class="font-medium"></p>
+                    <p id="flash-detail" class="text-sm opacity-90 mt-1 hidden"></p>
+                </div>
+                <button id="flash-close"
+                    class="material-symbols-outlined text-lg opacity-70 hover:opacity-100 flex-shrink-0">
+                    close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmation-modal" class="fixed inset-0 bg-black/50 z-[70] hidden flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <span id="modal-icon" class="material-symbols-outlined text-2xl text-blue-500">info</span>
+                    <h3 id="modal-title" class="text-lg font-semibold text-gray-900">Konfirmasi</h3>
+                </div>
+                <p id="modal-message" class="text-gray-600 mb-6">Apakah Anda yakin?</p>
+                <div class="flex gap-3 justify-end">
+                    <button id="modal-cancel"
+                        class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                        Batal
+                    </button>
+                    <button id="modal-confirm"
+                        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                        Ya
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
     <header class="header">
+        <!-- Top Bar -->
         <div class="flex justify-center items-center w-full bg-[#272343] text-white p-2">
-            <nav class="flex space-x-4 items-center text-xs font-light">
+            <nav class="flex space-x-2 md:space-x-4 items-center text-xs font-light">
                 <a href="" class="flex items-center gap-1">
-                    <span class="material-symbols-outlined !text-lg">
-                        expand_more
-                    </span>
-                    Eng
+                    <span class="material-symbols-outlined !text-sm md:!text-lg">expand_more</span>
+                    <span class="sm:inline">Eng</span>
                 </a>
-                <a href="">Faqs</a>
+                <a href="" class="sm:inline">Faqs</a>
                 <a href="" class="flex items-center gap-1">
-                    <span class="material-symbols-outlined !text-lg">
-                        error
-                    </span>
-                    Need Help
+                    <span class="material-symbols-outlined !text-sm md:!text-lg">error</span>
+                    <span class="sm:inline">Need Help</span>
                 </a>
             </nav>
         </div>
+
+        <!-- Main Header -->
         <div class="bg-gray-100">
-            <div class="container mx-auto flex justify-between items-center w-full px-28 py-4">
-                <a class="brand" href="/dashboard-user"><img src="/public/images/Logo.svg" alt=""></a>
-                <div class="relative w-full md:w-1/3">
+            <div
+                class="container mx-auto flex flex-col md:flex-row justify-between items-center w-full px-4 md:px-8 lg:px-16 xl:px-28 py-4 gap-4 md:gap-0">
+                <!-- Logo -->
+                <a class="brand flex-shrink-0" href="/dashboard-user">
+                    <img src="/public/images/Logo.svg" alt="FindUs" class="h-8 md:h-10">
+                </a>
+
+                <!-- Search Bar -->
+                <div class="relative w-full md:w-1/2 lg:w-1/3 order-3 md:order-2">
                     <input type="text" id="service-search-input" placeholder="Cari layanan..."
-                        class="px-4 py-2 text-sm bg-white rounded focus:outline-none w-full" autocomplete="off" />
-                    <!-- Dropdown suggestion -->
+                        class="px-4 py-2 text-sm bg-white rounded focus:outline-none w-full border border-gray-300"
+                        autocomplete="off" />
                     <div id="service-search-suggestion"
                         class="absolute left-0 right-0 mt-1 bg-white border border-gray-300 rounded shadow z-50 hidden max-h-60 overflow-auto">
                     </div>
@@ -57,438 +90,1147 @@
                         <span class="material-symbols-outlined text-base text-gray-400">search</span>
                     </div>
                 </div>
-                <nav class="flex space-x-4 items-center text-xs">
-                    <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="/order-history">
-                        <span class="material-symbols-outlined !text-lg">
-                            history
-                        </span>
-                        Riwayat
+
+                <!-- Navigation -->
+                <nav
+                    class="flex flex-wrap md:flex-nowrap space-x-2 md:space-x-4 items-center text-xs order-2 md:order-3">
+                    <a class="bg-white rounded px-2 md:px-4 py-1 flex items-center gap-1 whitespace-nowrap"
+                        href="/order-history">
+                        <span class="material-symbols-outlined !text-lg">history</span>
+                        <span class="sm:inline">Riwayat</span>
                     </a>
-                    <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="/user/chat">
-                        <span class="material-symbols-outlined !text-lg">
-                            chat
-                        </span>
-                        Chat
+                    <a class="bg-white rounded px-2 md:px-4 py-1 flex items-center gap-1 whitespace-nowrap"
+                        href="/user/chat">
+                        <span class="material-symbols-outlined !text-lg">chat</span>
+                        <span class="sm:inline">Chat</span>
                     </a>
-                    <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="/cart">
-                        <span class="material-symbols-outlined !text-lg">
-                            shopping_cart
-                        </span>
-                        Cart
+                    <a class="bg-white rounded px-2 md:px-4 py-1 flex items-center gap-1 whitespace-nowrap"
+                        href="/cart">
+                        <span class="material-symbols-outlined !text-lg">shopping_cart</span>
+                        <span class="sm:inline">Keranjang</span>
                     </a>
-                    <a class="bg-white rounded px-4 py-1 flex items-center gap-1" href="" id="profile-link">
-                        <span class="material-symbols-outlined !text-lg">
-                            person
-                        </span>
+                    <a class="bg-white rounded px-2 md:px-4 py-1 flex items-center gap-1 whitespace-nowrap" href=""
+                        id="profile-link">
+                        <span class="material-symbols-outlined !text-lg">person</span>
                     </a>
                 </nav>
             </div>
         </div>
-        <div class="border-b-1 border-gray-300">
-            <div class="container mx-auto flex justify-between items-center w-full px-28 py-4 text-xs">
+
+        <!-- Breadcrumb -->
+        <div class="border-b-1 border-gray-300 bg-white">
+            <div
+                class="container mx-auto flex flex-row justify-between items-center w-full px-4 md:px-8 lg:px-16 xl:px-28 py-2 md:py-4 text-xs gap-2 sm:gap-0">
                 <nav class="flex items-center space-x-2 text-gray-600" aria-label="Breadcrumb">
                     <a href="/" class="hover:underline flex items-center gap-1">
-                        <span class="material-symbols-outlined !text-base align-middle">home</span>
-                        Home
+                        <span class="material-symbols-outlined !text-sm md:!text-base align-middle">home</span>
+                        <span class="hidden sm:inline">Beranda</span>
                     </a>
                     <span class="mx-1 text-gray-400">/</span>
-                    <a href="/service" class="hover:underline">Service</a>
+                    <a href="/order-history" class="hover:underline">Riwayat Pemesanan</a>
+                    <span class="mx-1 text-gray-400">/</span>
+                    <span class="hover:underline">Ulasan</span>
                 </nav>
-                <div class="contact flex gap-2"><span class="text-gray-500">Contact:</span>(0812) 1284-8626</div>
+                <div class="contact flex items-center gap-1 md:gap-2 text-gray-500">
+                    <span class="hidden sm:inline">Contact:</span>
+                    <div class="md:hidden"><span class="material-symbols-outlined !text-base">phone</span></div>
+                    <span class="xs:inline">(0812) 1284-8626</span>
+                </div>
             </div>
         </div>
     </header>
-    <main class="container mx-auto px-6 py-2 mb-24">
-        <div class="flex flex-col md:flex-row gap-10 mt-24 items-start">
-            <!-- Gambar Service Dinamis -->
-            <div class="w-full md:w-1/3">
-                <img id="service-image" src="https://placehold.co/400x400.png?text=Loading..." alt="Service"
-                    class="rounded-lg w-full h-auto" />
-            </div>
 
-            <div class="w-full md:w-2/3 space-y-4">
-                <!-- Detail Order akan diinject di sini -->
-                <div id="order-detail"></div>
-                <h2 class="text-xl font-semibold text-gray-800">Beri Ulasan:</h2>
-                <!-- Form Ulasan -->
-                <form id="review-form" enctype="multipart/form-data">
-                    <!-- Ganti bagian rating pada form review -->
-                    <div>
-                        <label class="block mb-1">Rating</label>
-                        <div class="flex rating-stars gap-1 text-2xl">
-                            <input type="radio" id="star1" name="rating" value="1" class="hidden" />
-                            <label for="star1" title="1 star">&#9733;</label>
-                            <input type="radio" id="star2" name="rating" value="2" class="hidden" />
-                            <label for="star2" title="2 stars">&#9733;</label>
-                            <input type="radio" id="star3" name="rating" value="3" class="hidden" />
-                            <label for="star3" title="3 stars">&#9733;</label>
-                            <input type="radio" id="star4" name="rating" value="4" class="hidden" />
-                            <label for="star4" title="4 stars">&#9733;</label>
-                            <input type="radio" id="star5" name="rating" value="5" class="hidden" />
-                            <label for="star5" title="5 stars">&#9733;</label>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block mb-1">Komentar</label>
-                        <textarea name="comment" rows="5"
-                            class="w-full px-4 py-3 rounded bg-gray-100 text-sm text-gray-700 resize-none"
-                            placeholder="Bagaimana hasil dari jasa ini?"></textarea>
-                    </div>
-                    <div>
-                        <label class="block mb-1">Gambar (Opsional)</label>
-                        <input type="file" name="image" accept="image/*"
-                            class="w-full px-4 py-2 rounded bg-gray-100 text-sm text-gray-600" />
-                    </div>
-                    <button type="submit"
-                        class="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition duration-300 ease-in-out text-xs tracking-wide">
-                        KIRIM ULASAN
-                    </button>
-                </form>
-                <div id="review-success" class="hidden text-green-600 mt-2"></div>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 md:px-6 lg:px-8 py-4 mb-24">
+        <!-- Hero Section -->
+        <section class="hero my-4 md:my-6 rounded-md w-full">
+            <img src="/public/images/Hero.svg" alt="Hero Banner"
+                class="w-full h-32 sm:h-48 md:h-64 lg:h-auto object-cover rounded-md"
+                onerror="this.src='https://placehold.co/1200x400?text=Banner+Penyedia+Jasa'">
+        </section>
+
+        <!-- Page Title -->
+        <div class="mb-6">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800" id="page-title">Beri Ulasan</h1>
+            <p class="text-gray-600 text-sm mt-1" id="page-subtitle">Bagikan pengalaman Anda dengan layanan yang telah
+                diterima</p>
+        </div>
+
+        <!-- Review Content -->
+        <div id="review-content" class="flex flex-col lg:flex-row gap-6 lg:gap-10 mt-8 md:mt-12">
+            <!-- Loading State -->
+            <div class="flex justify-center items-center h-64 w-full col-span-full">
+                <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#029FAE]"></div>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div id="error-state" class="hidden text-center py-16">
+            <div class="flex flex-col items-center justify-center">
+                <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">error_outline</span>
+                <h3 class="text-xl font-medium text-gray-700 mb-2">Pesanan Tidak Ditemukan</h3>
+                <p class="text-gray-500 mb-6">Pesanan yang Anda cari tidak ditemukan atau tidak valid.</p>
+                <a href="/order-history"
+                    class="bg-[#029FAE] text-white px-6 py-2 rounded-lg hover:bg-[#027f8a] transition">
+                    Kembali ke Riwayat
+                </a>
             </div>
         </div>
     </main>
-    <footer class="border-t border-gray-200 py-10 text-sm text-gray-700">
-        <div class="container mx-auto flex justify-start w-full px-28 py-4 gap-24">
-            <div class="w-1/4 flex flex-col gap-4">
-                <a class="brand" href=""><img src="/public/images/Logo.svg" alt=""></a>
-                <p>Platform online untuk mahasiswa yang kos! Belanja kebutuhan harian, perlengkapan kamar, serta pesan
-                    layanan seperti jasa layanan, bersih-bersih, dan lainnya dengan mudah.</p>
-                <div class="flex gap-3">
-                    <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"><i class="bi bi-twitter"></i></a>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-200 py-6 md:py-10 text-sm text-gray-700">
+        <div class="container mx-auto px-4 md:px-8 lg:px-16 xl:px-28 py-4">
+            <!-- Desktop Footer -->
+            <div class="hidden md:flex justify-start w-full gap-12 lg:gap-24">
+                <div class="w-1/4 flex flex-col gap-4">
+                    <a class="brand" href="/"><img src="/public/images/Logo.svg" alt="FindUs" class="h-8"></a>
+                    <p class="text-sm">Platform online untuk mahasiswa yang kos! Belanja kebutuhan harian, perlengkapan
+                        kamar, serta pesan layanan seperti jasa layanan, bersih-bersih, dan lainnya dengan mudah.</p>
+                    <div class="flex gap-3">
+                        <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"><i
+                                class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"><i
+                                class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-xl px-1 hover:text-[#029FAE] transition"><i
+                                class="bi bi-twitter"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h5 class="font-medium mb-2 text-gray-400">Category</h5>
+                    <ul class="space-y-1">
+                        <li><a href="#" class="hover:underline hover:text-[#029FAE]">Kebersihan</a></li>
+                        <li><a href="#" class="hover:underline hover:text-[#029FAE]">Angkut Barang</a></li>
+                        <li><a href="#" class="hover:underline hover:text-[#029FAE]">Perbaikan</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="font-medium mb-2 text-gray-400">Support</h5>
+                    <ul class="space-y-1">
+                        <li><a href="#" class="hover:underline">Cara Pemesanan</a></li>
+                        <li><a href="#" class="hover:underline">Syarat & Ketentuan</a></li>
+                        <li><a href="#" class="hover:underline">Kebijakan Privasi</a></li>
+                        <li><a href="#" class="hover:underline">Hubungi Kami</a></li>
+                    </ul>
                 </div>
             </div>
 
-            <div>
-                <h5 class="font-medium mb-2 text-gray-400">Category</h5>
-                <ul class="space-y-1">
-                    <li><a href="#" class="hover:underline hover:text-[#029FAE]">Kebersihan</a></li>
-                    <li><a href="#" class="hover:underline hover:text-[#029FAE]">Angkut Barang</a></li>
-                    <li><a href="#" class="hover:underline hover:text-[#029FAE]">Perbaikan</a></li>
-                </ul>
+            <!-- Mobile Footer -->
+            <div class="md:hidden space-y-6">
+                <div class="text-center">
+                    <a class="brand" href="/"><img src="/public/images/Logo.svg" alt="FindUs"
+                            class="h-8 mx-auto mb-4"></a>
+                    <p class="text-sm">Platform online untuk mahasiswa yang kos!</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <h5 class="font-medium mb-2 text-gray-400">Category</h5>
+                        <ul class="space-y-1">
+                            <li><a href="#" class="hover:underline hover:text-[#029FAE] text-sm">Kebersihan</a></li>
+                            <li><a href="#" class="hover:underline hover:text-[#029FAE] text-sm">Angkut Barang</a></li>
+                            <li><a href="#" class="hover:underline hover:text-[#029FAE] text-sm">Perbaikan</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h5 class="font-medium mb-2 text-gray-400">Support</h5>
+                        <ul class="space-y-1">
+                            <li><a href="#" class="hover:underline text-sm">Cara Pemesanan</a></li>
+                            <li><a href="#" class="hover:underline text-sm">Syarat & Ketentuan</a></li>
+                            <li><a href="#" class="hover:underline text-sm">Kebijakan Privasi</a></li>
+                            <li><a href="#" class="hover:underline text-sm">Hubungi Kami</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="flex justify-center gap-4">
+                    <a href="#" class="text-xl hover:text-[#029FAE] transition"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-xl hover:text-[#029FAE] transition"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-xl hover:text-[#029FAE] transition"><i class="bi bi-twitter"></i></a>
+                </div>
             </div>
 
-            <div>
-                <h5 class="font-medium mb-2 text-gray-400">Support</h5>
-                <ul class="space-y-1">
-                    <li><a href="#" class="hover:underline">Cara Pemesanan</a></li>
-                    <li><a href="#" class="hover:underline">Syarat & Ketentuan</a></li>
-                    <li><a href="#" class="hover:underline">Kebijakan Privasi</a></li>
-                    <li><a href="#" class="hover:underline">Hubungi Kami</a></li>
-                </ul>
+            <!-- Copyright -->
+            <div class="mt-6 md:mt-8 border-t border-gray-200 pt-4 text-center text-xs text-gray-500">
+                &copy; 2025 - FindUS • Designed & Developed by epaarito
             </div>
-        </div>
-
-        <div class="mt-8 border-t border-gray-200 pt-4 text-center text-xs text-gray-500">
-            &copy; 2025 - FindUS • Designed & Developed by epaarito
         </div>
     </footer>
+
     <script>
-        fetch("/api/auth/me")
-            .then((res) => res.json())
-            .then((data) => {
-                if (!data.user || data.user.role !== "USER") {
-                    alert("Akses ditolak. Silakan login sebagai USER.");
-                    window.location.href = "/login";
-                } else {
-                    const profileLink = document.getElementById("profile-link");
-                    if (profileLink) {
-                        profileLink.innerHTML = `
-                        <div class="relative cursor-pointer select-none" id="profile-dropdown-parent">
-                            <span class="flex items-center gap-1" id="profile-dropdown-toggle">
-                            <span class="material-symbols-outlined !text-lg">person</span>
-                            ${data.user.name}
-                            <span class="material-symbols-outlined !text-lg">expand_more</span>
-                            </span>
-                            <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded shadow-lg z-50 shadow-md text-gray-700">
-                            <a href="/profile" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-                            <a href="/api/auth/logout" class="block px-4 py-2 hover:bg-gray-100">Logout</a>
-                            </div>
-                        </div>
-                        `;
-                        profileLink.href = "javascript:void(0)";
+        // === APPLICATION STATE ===
+        let appState = {
+            user: null,
+            order: null,
+            service: null,
+            existingReview: null,
+            orderId: null,
+            isEditMode: false,
+            isSubmitting: false,
+            searchData: {
+                services: [],
+                provinces: [],
+                regencies: []
+            }
+        };
 
-                        const toggle = document.getElementById("profile-dropdown-toggle");
-                        const menu = document.getElementById("profile-dropdown-menu");
-                        document.addEventListener("click", function (e) {
-                            if (toggle && menu) {
-                                if (toggle.contains(e.target)) {
-                                    menu.classList.toggle("hidden");
-                                } else if (!menu.contains(e.target)) {
-                                    menu.classList.add("hidden");
-                                }
-                            }
-                        });
-                    }
-                }
-            })
-            .catch((err) => {
-                console.error("Gagal memuat data user:", err);
-                window.location.href = "/login";
-            });
+        // === DOM ELEMENTS ===
+        const elements = {
+            profileLink: document.getElementById('profile-link'),
+            searchInput: document.getElementById('service-search-input'),
+            searchSuggestion: document.getElementById('service-search-suggestion'),
 
-        // Ambil order_id dari URL
+            // Content areas
+            reviewContent: document.getElementById('review-content'),
+            errorState: document.getElementById('error-state'),
+
+            // Page elements
+            pageTitle: document.getElementById('page-title'),
+            pageSubtitle: document.getElementById('page-subtitle'),
+            breadcrumbTitle: document.getElementById('breadcrumb-title'),
+
+            // Flash notification elements
+            flashNotification: document.getElementById('flash-notification'),
+            flashContent: document.getElementById('flash-content'),
+            flashIcon: document.getElementById('flash-icon'),
+            flashMessage: document.getElementById('flash-message'),
+            flashDetail: document.getElementById('flash-detail'),
+            flashClose: document.getElementById('flash-close'),
+
+            // Modal elements
+            confirmationModal: document.getElementById('confirmation-modal'),
+            modalIcon: document.getElementById('modal-icon'),
+            modalTitle: document.getElementById('modal-title'),
+            modalMessage: document.getElementById('modal-message'),
+            modalCancel: document.getElementById('modal-cancel'),
+            modalConfirm: document.getElementById('modal-confirm')
+        };
+
+        // === UTILITY FUNCTIONS ===
         function getOrderIdFromUrl() {
-            // Ambil dari path, misal /review-service/12345
             const match = window.location.pathname.match(/\/review-service\/([^\/]+)/);
             return match ? match[1] : null;
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const orderId = getOrderIdFromUrl();
-            if (!orderId) {
-                document.getElementById("order-detail").innerHTML = "<p class='text-red-500'>Order ID tidak ditemukan.</p>";
+        function formatPrice(price) {
+            return price ? `Rp${price.toLocaleString('id-ID')}` : 'Rp-';
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return '-';
+            try {
+                return new Date(dateString).toLocaleDateString('id-ID', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            } catch (error) {
+                return '-';
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showError(message) {
+            elements.reviewContent.innerHTML = `
+        <div class="col-span-full text-center text-red-400 py-8">
+          <span class="material-symbols-outlined text-6xl mb-4 block text-red-300">error</span>
+          <p class="text-xl font-semibold mb-2">${message}</p>
+          <a href="/order-history" class="text-[#029FAE] hover:underline mt-4 inline-block">← Kembali ke Riwayat</a>
+        </div>
+      `;
+        }
+
+        // === FLASH NOTIFICATION FUNCTIONALITY ===
+        function showFlashNotification(message, type = 'success', detail = '') {
+            elements.flashMessage.textContent = message;
+
+            if (detail) {
+                elements.flashDetail.textContent = detail;
+                elements.flashDetail.classList.remove('hidden');
+            } else {
+                elements.flashDetail.classList.add('hidden');
+            }
+
+            let iconName, bgClass;
+            switch (type) {
+                case 'success':
+                    iconName = 'check_circle';
+                    bgClass = 'bg-green-50 text-green-800 border-green-500';
+                    break;
+                case 'error':
+                    iconName = 'error';
+                    bgClass = 'bg-red-50 text-red-800 border-red-500';
+                    break;
+                case 'warning':
+                    iconName = 'warning';
+                    bgClass = 'bg-yellow-50 text-yellow-800 border-yellow-500';
+                    break;
+                case 'info':
+                    iconName = 'info';
+                    bgClass = 'bg-blue-50 text-blue-800 border-blue-500';
+                    break;
+                default:
+                    iconName = 'notifications';
+                    bgClass = 'bg-gray-50 text-gray-800 border-gray-500';
+            }
+
+            elements.flashIcon.textContent = iconName;
+            elements.flashContent.className = `px-6 py-4 rounded-lg shadow-lg border-l-4 max-w-sm ${bgClass}`;
+            elements.flashNotification.classList.remove('hidden');
+
+            setTimeout(() => hideFlashNotification(), 5000);
+        }
+
+        function hideFlashNotification() {
+            elements.flashNotification.classList.add('hidden');
+        }
+
+        function setupFlashNotification() {
+            elements.flashClose.addEventListener('click', hideFlashNotification);
+        }
+
+        // === CONFIRMATION MODAL FUNCTIONALITY ===
+        function showConfirmationModal(title, message, confirmText, confirmAction, iconType = 'info') {
+            return new Promise((resolve) => {
+                elements.modalTitle.textContent = title;
+                elements.modalMessage.textContent = message;
+                elements.modalConfirm.textContent = confirmText;
+
+                const iconMap = {
+                    'warning': { icon: 'warning', color: 'text-amber-500' },
+                    'danger': { icon: 'dangerous', color: 'text-red-500' },
+                    'info': { icon: 'info', color: 'text-[#029FAE]-500' },
+                    'question': { icon: 'help', color: 'text-gray-500' }
+                };
+
+                const iconConfig = iconMap[iconType] || iconMap['info'];
+                elements.modalIcon.textContent = iconConfig.icon;
+                elements.modalIcon.className = `material-symbols-outlined text-2xl ${iconConfig.color}`;
+
+                elements.confirmationModal.classList.remove('hidden');
+
+                const handleConfirm = () => {
+                    hideConfirmationModal();
+                    if (confirmAction) confirmAction();
+                    resolve(true);
+                    cleanup();
+                };
+
+                const handleCancel = () => {
+                    hideConfirmationModal();
+                    resolve(false);
+                    cleanup();
+                };
+
+                const handleOutsideClick = (e) => {
+                    if (e.target === elements.confirmationModal) {
+                        handleCancel();
+                    }
+                };
+
+                const handleEscape = (e) => {
+                    if (e.key === 'Escape') {
+                        handleCancel();
+                    }
+                };
+
+                const cleanup = () => {
+                    elements.modalConfirm.removeEventListener('click', handleConfirm);
+                    elements.modalCancel.removeEventListener('click', handleCancel);
+                    elements.confirmationModal.removeEventListener('click', handleOutsideClick);
+                    document.removeEventListener('keydown', handleEscape);
+                };
+
+                elements.modalConfirm.addEventListener('click', handleConfirm);
+                elements.modalCancel.addEventListener('click', handleCancel);
+                elements.confirmationModal.addEventListener('click', handleOutsideClick);
+                document.addEventListener('keydown', handleEscape);
+            });
+        }
+
+        function hideConfirmationModal() {
+            elements.confirmationModal.classList.add('hidden');
+        }
+
+        // === AUTHENTICATION ===
+        async function initializeAuth() {
+            try {
+                const response = await fetch('/api/auth/me');
+                const data = await response.json();
+
+                if (!data.user || data.user.role !== 'USER') {
+                    showFlashNotification('Akses ditolak. Silakan login sebagai USER.', 'error');
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 2000);
+                    return false;
+                }
+
+                appState.user = data.user;
+                setupUserProfile(data.user);
+                return true;
+            } catch (error) {
+                console.error('Gagal memuat data user:', error);
+                showFlashNotification('Gagal memuat data pengguna', 'error');
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2000);
+                return false;
+            }
+        }
+
+        function setupUserProfile(user) {
+            elements.profileLink.innerHTML = `
+        <div class="relative cursor-pointer select-none" id="profile-dropdown-parent">
+          <span class="flex items-center gap-1" id="profile-dropdown-toggle">
+            <span class="material-symbols-outlined !text-lg">person</span>
+            <span class="hidden sm:inline">${escapeHtml(user.name)}</span>
+            <span class="material-symbols-outlined !text-lg hidden sm:inline">expand_more</span>
+          </span>
+          <div id="profile-dropdown-menu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded shadow-lg z-50 text-gray-700">
+            <a href="/profile" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+            <a href="/api/auth/logout" class="block px-4 py-2 hover:bg-gray-100">Logout</a>
+          </div>
+        </div>
+      `;
+            elements.profileLink.href = 'javascript:void(0)';
+
+            setupProfileDropdown();
+        }
+
+        function setupProfileDropdown() {
+            const toggle = document.getElementById('profile-dropdown-toggle');
+            const menu = document.getElementById('profile-dropdown-menu');
+
+            document.addEventListener('click', function (e) {
+                if (toggle && menu) {
+                    if (toggle.contains(e.target)) {
+                        menu.classList.toggle('hidden');
+                    } else if (!menu.contains(e.target)) {
+                        menu.classList.add('hidden');
+                    }
+                }
+            });
+        }
+
+        // === DATA LOADING ===
+        async function loadSearchData() {
+            try {
+                const [servicesResponse, provincesResponse, regenciesResponse] = await Promise.all([
+                    fetch('/api/services'),
+                    fetch('/public/data/provinces.json'),
+                    fetch('/public/data/regencies.json')
+                ]);
+
+                const servicesData = await servicesResponse.json();
+                appState.searchData.services = servicesData.services || [];
+                appState.searchData.provinces = await provincesResponse.json();
+                appState.searchData.regencies = await regenciesResponse.json();
+            } catch (error) {
+                console.error('Gagal memuat data search:', error);
+                showFlashNotification('Gagal memuat data pencarian', 'warning');
+            }
+        }
+
+        async function loadOrderDetail() {
+            if (!appState.orderId) {
+                showError('ID pesanan tidak valid.');
                 return;
             }
 
-            fetch(`/api/order/${orderId}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (!data.order) {
-                        document.getElementById("order-detail").innerHTML = "<p class='text-red-500'>Order tidak ditemukan.</p>";
-                        return;
-                    }
-                    const order = data.order;
-                    // Update gambar service
-                    const serviceImg = document.getElementById("service-image");
-                    if (serviceImg) {
-                        serviceImg.src = order.Service?.image_url || 'https://placehold.co/400x400.png?text=Service';
-                        serviceImg.alt = order.Service?.name || 'Service';
-                    }
-                    // Inject detail order ke dalam kolom kanan
-                    document.getElementById("order-detail").innerHTML = `
-                <div class="bg-white rounded-lg shadow p-4 mb-4">
-                    <h3 class="text-lg font-semibold mb-2">Detail Pesanan</h3>
-                    <div>
-                        <p><strong>Jasa:</strong> ${order.Service?.name || '-'}</p>
-                        <p><strong>Penyedia:</strong> ${order.Provider?.full_name || '-'}</p>
-                        <p><strong>Alamat:</strong> ${order.address || '-'}</p>
-                        <p><strong>Jadwal:</strong> ${order.schedule || '-'}</p>
-                        <p><strong>Status:</strong> ${order.status || '-'}</p>
-                        <p><strong>Total:</strong> Rp${order.Service?.price ? order.Service.price.toLocaleString('id-ID') : '-'}</p>
-                    </div>
+            try {
+                const response = await fetch(`/api/order/${appState.orderId}`);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (!data.order) {
+                    throw new Error('Order data not found');
+                }
+
+                appState.order = data.order;
+                appState.service = data.order.Service;
+
+                // Check if user has already reviewed this specific order
+                await checkExistingReview();
+
+                renderReviewPage();
+
+            } catch (error) {
+                console.error('Error loading order detail:', error);
+                showFlashNotification('Gagal memuat detail pesanan', 'error');
+                showError('Gagal memuat detail pesanan. Silakan coba lagi.');
+            }
+        }
+
+        async function checkExistingReview() {
+            try {
+                const response = await fetch(`/api/reviews/order/${appState.orderId}`);
+                const data = await response.json();
+
+                if (data.review) {
+                    appState.existingReview = data.review;
+                    appState.isEditMode = true;
+
+                    // Update page title for edit mode
+                    elements.pageTitle.textContent = 'Edit Ulasan';
+                    elements.pageSubtitle.textContent = 'Perbarui ulasan Anda untuk layanan ini';
+                    elements.breadcrumbTitle.textContent = 'Edit Ulasan';
+                }
+            } catch (error) {
+                console.error('Error checking existing review:', error);
+                // Continue if check fails - might be new review
+            }
+        }
+
+        // === RENDERING ===
+        function renderReviewPage() {
+            const service = appState.service;
+            const order = appState.order;
+
+            // Format addresses
+            const serviceAddress = [
+                service?.address,
+                service?.district_name,
+                service?.regency_name,
+                service?.province_name
+            ].filter(Boolean).join(', ');
+
+            const orderAddress = [
+                order?.address,
+                order?.district_name,
+                order?.regency_name,
+                order?.province_name
+            ].filter(Boolean).join(', ');
+
+            elements.reviewContent.innerHTML = `
+        <!-- Service Detail -->
+        <div class="lg:w-1/2">
+          <img src="${service?.image_url || '/public/images/services/default.svg'}"
+            alt="${escapeHtml(service?.name || 'Service')}" 
+            class="rounded-lg w-full h-64 md:h-80 lg:h-96 object-cover shadow-md mb-4"
+            onerror="this.src='/public/images/services/default.svg'">
+          
+          <div class="space-y-4">
+            <div>
+              <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-2">${escapeHtml(service?.name || '-')}</h2>
+              <div class="flex items-center gap-2 text-sm text-gray-500 mb-4">
+                <span class="material-symbols-outlined text-base">category</span>
+                <span>${escapeHtml(service?.category || 'Kategori tidak tersedia')}</span>
+              </div>
+              ${service?.rating ? `
+              <div class="flex items-center gap-1 mb-4">
+                <span class="material-symbols-outlined text-yellow-500">star</span>
+                <span class="font-medium">${service.rating.toFixed(1)}</span>
+                ${service.total_reviews ? `<span class="text-sm text-gray-500">(${service.total_reviews} ulasan)</span>` : ''}
+              </div>
+              ` : ''}
+            </div>
+
+            <div class="bg-gray-50 rounded-lg p-4 space-y-3">
+              <h3 class="font-semibold text-gray-800 flex items-center gap-2">
+                <span class="material-symbols-outlined">description</span>
+                Deskripsi Layanan
+              </h3>
+              <p class="text-gray-600 leading-relaxed">${escapeHtml(service?.description || 'Deskripsi tidak tersedia')}</p>
+            </div>
+
+            <div class="bg-gray-50 rounded-lg p-4 space-y-3">
+              <h3 class="font-semibold text-gray-800 flex items-center gap-2">
+                <span class="material-symbols-outlined">person</span>
+                Penyedia Layanan
+              </h3>
+              <div class="space-y-2 text-sm">
+                <p><span class="font-medium">Nama:</span> ${escapeHtml(service?.User?.full_name || order?.Provider?.full_name || '-')}</p>
+                <p><span class="font-medium">Email:</span> ${escapeHtml(service?.User?.email || order?.Provider?.email || '-')}</p>
+                <p><span class="font-medium">Telepon:</span> ${escapeHtml(service?.User?.phone || order?.Provider?.phone || '-')}</p>
+              </div>
+            </div>
+
+            ${serviceAddress ? `
+            <div class="bg-gray-50 rounded-lg p-4 space-y-3">
+              <h3 class="font-semibold text-gray-800 flex items-center gap-2">
+                <span class="material-symbols-outlined">location_on</span>
+                Lokasi Layanan
+              </h3>
+              <p class="text-gray-600">${escapeHtml(serviceAddress)}</p>
+            </div>
+            ` : ''}
+          </div>
+        </div>
+        
+        <!-- Review Form -->
+        <div class="lg:w-1/2 space-y-4 md:space-y-6">
+          <!-- Order Detail -->
+          <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div class="bg-blue-50 px-6 py-4 border-b border-blue-200">
+              <h2 class="text-xl font-bold text-blue-800 flex items-center gap-2">
+                <span class="material-symbols-outlined">assignment</span>
+                Detail Pesanan
+              </h2>
+            </div>
+            
+            <div class="p-6 space-y-4">
+              <div class="space-y-3">
+                <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                  <span class="material-symbols-outlined text-gray-600">confirmation_number</span>
+                  <div>
+                    <p class="text-sm text-gray-500">ID Pesanan</p>
+                    <p class="font-medium font-mono text-sm">${escapeHtml(order?.id || '-')}</p>
+                  </div>
                 </div>
-            `;
-                })
-                .catch(() => {
-                    document.getElementById("order-detail").innerHTML = "<p class='text-red-500'>Gagal memuat detail pesanan.</p>";
+
+                <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                  <span class="material-symbols-outlined text-gray-600">schedule</span>
+                  <div>
+                    <p class="text-sm text-gray-500">Jadwal Layanan</p>
+                    <p class="font-medium">${formatDate(order?.schedule)}</p>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                  <span class="material-symbols-outlined text-gray-600">location_on</span>
+                  <div>
+                    <p class="text-sm text-gray-500">Alamat Pesanan</p>
+                    <p class="font-medium">${escapeHtml(orderAddress || '-')}</p>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                  <span class="material-symbols-outlined text-gray-600">info</span>
+                  <div>
+                    <p class="text-sm text-gray-500">Status Pesanan</p>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(order?.status)}">
+                      ${escapeHtml(order?.status || '-')}
+                    </span>
+                  </div>
+                </div>
+
+                ${order?.note ? `
+                <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                  <span class="material-symbols-outlined text-gray-600">note</span>
+                  <div>
+                    <p class="text-sm text-gray-500">Catatan</p>
+                    <p class="font-medium">${escapeHtml(order.note)}</p>
+                  </div>
+                </div>
+                ` : ''}
+
+                <div class="bg-[#029FAE]/10 border border-[#029FAE]/20 rounded-lg p-4">
+                  <div class="flex justify-between items-center">
+                    <span class="text-lg font-medium text-gray-700">Total Biaya:</span>
+                    <span class="text-2xl font-bold text-[#029FAE]">${formatPrice(order?.total_price || service?.price)}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Review Form -->
+          <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div class="bg-green-50 px-6 py-4 border-b border-green-200">
+              <h2 class="text-xl font-bold text-green-800 flex items-center gap-2">
+                <span class="material-symbols-outlined">rate_review</span>
+                ${appState.isEditMode ? 'Edit Ulasan' : 'Beri Ulasan'}
+              </h2>
+              ${appState.isEditMode ? '<p class="text-sm text-green-700 mt-1">Perbarui ulasan Anda untuk layanan ini</p>' : ''}
+            </div>
+            
+            <div class="p-6">
+              <form id="review-form" class="space-y-6">
+                <!-- Rating -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-3">
+                    Rating <span class="text-red-500">*</span>
+                  </label>
+                  <div class="flex rating-stars gap-1 text-3xl">
+                    <input type="radio" id="star1" name="rating" value="1" class="hidden" required />
+                    <label for="star1" title="1 bintang" class="cursor-pointer text-gray-300 hover:text-yellow-400 transition-colors">★</label>
+                    <input type="radio" id="star2" name="rating" value="2" class="hidden" />
+                    <label for="star2" title="2 bintang" class="cursor-pointer text-gray-300 hover:text-yellow-400 transition-colors">★</label>
+                    <input type="radio" id="star3" name="rating" value="3" class="hidden" />
+                    <label for="star3" title="3 bintang" class="cursor-pointer text-gray-300 hover:text-yellow-400 transition-colors">★</label>
+                    <input type="radio" id="star4" name="rating" value="4" class="hidden" />
+                    <label for="star4" title="4 bintang" class="cursor-pointer text-gray-300 hover:text-yellow-400 transition-colors">★</label>
+                    <input type="radio" id="star5" name="rating" value="5" class="hidden" />
+                    <label for="star5" title="5 bintang" class="cursor-pointer text-gray-300 hover:text-yellow-400 transition-colors">★</label>
+                  </div>
+                  <p class="text-xs text-gray-500 mt-1">Pilih rating dari 1-5 bintang</p>
+                </div>
+
+                <!-- Comment -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Komentar <span class="text-red-500">*</span>
+                  </label>
+                  <textarea name="comment" 
+                            rows="5"
+                            required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#029FAE] focus:border-[#029FAE] resize-none"
+                            placeholder="Bagikan pengalaman Anda dengan layanan ini...">${appState.existingReview?.comment || ''}</textarea>
+                  <p class="text-xs text-gray-500 mt-1">Minimum 10 karakter</p>
+                </div>
+
+                <!-- Image Upload -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Foto (Opsional)
+                  </label>
+                  <div class="flex items-center justify-center w-full">
+                    <label for="review-image" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
+                      <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                        <span class="material-symbols-outlined text-gray-400 text-2xl mb-2">cloud_upload</span>
+                        <p class="mb-2 text-sm text-gray-500">
+                          <span class="font-semibold">Klik untuk upload</span> atau drag & drop
+                        </p>
+                        <p class="text-xs text-gray-500">PNG, JPG, JPEG (MAX. 5MB)</p>
+                      </div>
+                      <input id="review-image" name="image" type="file" accept="image/*" class="hidden" />
+                    </label>
+                  </div>
+                  <div id="image-preview" class="hidden mt-3">
+                    <img id="preview-img" class="w-32 h-32 object-cover rounded-lg border" />
+                    <button type="button" id="remove-image" class="mt-2 text-xs text-red-500 hover:text-red-700">
+                      Hapus foto
+                    </button>
+                  </div>
+                  ${appState.existingReview?.image_url ? `
+                  <div id="existing-image" class="mt-3">
+                    <p class="text-sm text-gray-600 mb-2">Foto saat ini:</p>
+                    <img src="${appState.existingReview.image_url}" class="w-32 h-32 object-cover rounded-lg border" />
+                    <p class="text-xs text-gray-500 mt-1">Upload foto baru untuk mengganti</p>
+                  </div>
+                  ` : ''}
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" 
+                        id="submit-review"
+                        class="w-full bg-[#029FAE] text-white py-3 rounded-lg hover:bg-[#027f8a] transition duration-300 font-medium disabled:bg-gray-400 disabled:cursor-not-allowed">
+                  <span id="submit-text">${appState.isEditMode ? 'Update Ulasan' : 'Kirim Ulasan'}</span>
+                  <span id="submit-loading" class="hidden">
+                    <div class="flex items-center justify-center gap-2">
+                      <div class="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white"></div>
+                      ${appState.isEditMode ? 'Mengupdate...' : 'Mengirim...'}
+                    </div>
+                  </span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      `;
+
+            // Setup form functionality after rendering
+            setupRatingSystem();
+            setupImageUpload();
+            setupReviewForm();
+
+            // Populate existing review data if in edit mode
+            if (appState.isEditMode && appState.existingReview) {
+                populateExistingReview();
+            }
+        }
+
+        function populateExistingReview() {
+            const review = appState.existingReview;
+
+            // Set rating
+            if (review.rating) {
+                const ratingInput = document.getElementById(`star${review.rating}`);
+                if (ratingInput) {
+                    ratingInput.checked = true;
+                    updateStars(review.rating - 1);
+                }
+            }
+
+            // Comment is already set in textarea value during rendering
+        }
+
+        function getStatusColor(status) {
+            const statusColors = {
+                'BELUM BAYAR': 'bg-yellow-100 text-yellow-800',
+                'DIBAYAR': 'bg-blue-100 text-blue-800',
+                'DIPROSES': 'bg-purple-100 text-purple-800',
+                'SELESAI': 'bg-green-100 text-green-800',
+                'DIBATALKAN': 'bg-red-100 text-red-800'
+            };
+            return statusColors[status] || 'bg-gray-100 text-gray-800';
+        }
+
+        // === RATING FUNCTIONALITY ===
+        function setupRatingSystem() {
+            const starInputs = document.querySelectorAll('.rating-stars input');
+            const starLabels = document.querySelectorAll('.rating-stars label');
+
+            starLabels.forEach((label, idx) => {
+                // Click handler
+                label.addEventListener('click', function () {
+                    const input = starInputs[idx];
+                    input.checked = true;
+                    updateStars(idx);
                 });
 
-            const reviewForm = document.getElementById("review-form");
-            reviewForm.addEventListener("submit", function (e) {
-                e.preventDefault();
-                const orderId = getOrderIdFromUrl();
-                const formData = new FormData(reviewForm);
-                formData.append("order_id", orderId);
+                // Hover handler
+                label.addEventListener('mouseenter', function () {
+                    highlightStars(idx);
+                });
 
-                fetch("/api/reviews", {
-                    method: "POST",
-                    body: formData
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.success) {
-                            document.getElementById("review-success").textContent = "Ulasan berhasil dikirim!";
-                            document.getElementById("review-success").classList.remove("hidden");
-                            reviewForm.reset();
-                        } else {
-                            alert(data.error || "Gagal mengirim ulasan");
-                        }
-                    })
-                    .catch(() => alert("Gagal mengirim ulasan"));
+                label.addEventListener('mouseleave', function () {
+                    const checkedIdx = [...starInputs].findIndex(input => input.checked);
+                    if (checkedIdx >= 0) {
+                        highlightStars(checkedIdx);
+                    } else {
+                        clearStars();
+                    }
+                });
             });
-        });
-
-        const starLabels = document.querySelectorAll('.rating-stars label');
-        const starInputs = document.querySelectorAll('.rating-stars input');
+        }
 
         function updateStars(selectedIdx) {
+            const starLabels = document.querySelectorAll('.rating-stars label');
             starLabels.forEach((label, idx) => {
                 if (idx <= selectedIdx) {
-                    label.classList.add('selected');
+                    label.style.color = '#fbbf24';
                 } else {
-                    label.classList.remove('selected');
+                    label.style.color = '#d1d5db';
                 }
             });
         }
 
-        // Saat klik (pilih rating)
-        starInputs.forEach((input, idx) => {
-            input.addEventListener('change', function () {
-                updateStars(idx);
+        function highlightStars(hoveredIdx) {
+            const starLabels = document.querySelectorAll('.rating-stars label');
+            starLabels.forEach((label, idx) => {
+                if (idx <= hoveredIdx) {
+                    label.style.color = '#fbbf24';
+                } else {
+                    label.style.color = '#d1d5db';
+                }
             });
-        });
-
-        // Saat hover
-        starLabels.forEach((label, idx) => {
-            label.addEventListener('mouseenter', function () {
-                starLabels.forEach((l, i) => {
-                    if (i <= idx) l.classList.add('hovered');
-                    else l.classList.remove('hovered');
-                });
-            });
-            label.addEventListener('mouseleave', function () {
-                starLabels.forEach(l => l.classList.remove('hovered'));
-            });
-        });
-
-        // Reset bintang saat form direset
-        document.getElementById('review-form').addEventListener('reset', function () {
-            starLabels.forEach(label => label.classList.remove('selected', 'hovered'));
-        });
-
-        function getSearchQuery() {
-            const params = new URLSearchParams(window.location.search);
-            return params.get("search") || "";
         }
 
-        const searchInput = document.getElementById("service-search-input");
-        const searchSuggestion = document.getElementById("service-search-suggestion");
+        function clearStars() {
+            const starLabels = document.querySelectorAll('.rating-stars label');
+            starLabels.forEach(label => {
+                label.style.color = '#d1d5db';
+            });
+        }
 
-        let allServices = [];
-        let allProvinces = [];
-        let allRegencies = [];
+        // === IMAGE UPLOAD FUNCTIONALITY ===
+        function setupImageUpload() {
+            const imageInput = document.getElementById('review-image');
+            const imagePreview = document.getElementById('image-preview');
+            const previewImg = document.getElementById('preview-img');
+            const removeImageBtn = document.getElementById('remove-image');
 
-        // Ambil semua data untuk suggestion
-        Promise.all([
-            fetch("/api/services").then(res => res.json()),
-            fetch("/public/data/provinces.json").then(res => res.json()),
-            fetch("/public/data/regencies.json").then(res => res.json())
-        ]).then(([servicesData, provincesData, regenciesData]) => {
-            allServices = servicesData.services || [];
-            allProvinces = provincesData || [];
-            allRegencies = regenciesData || [];
-        });
+            imageInput.addEventListener('change', function (e) {
+                const file = e.target.files[0];
+                if (!file) return;
 
-        // Tampilkan suggestion saat mengetik
-        searchInput.addEventListener("input", function () {
-            const keyword = this.value.trim().toLowerCase();
+                // Validate file size (5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    showFlashNotification('Ukuran file terlalu besar. Maksimal 5MB.', 'error');
+                    this.value = '';
+                    return;
+                }
+
+                // Validate file type
+                if (!file.type.startsWith('image/')) {
+                    showFlashNotification('File harus berupa gambar.', 'error');
+                    this.value = '';
+                    return;
+                }
+
+                // Show preview
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImg.src = e.target.result;
+                    imagePreview.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            });
+
+            removeImageBtn.addEventListener('click', function () {
+                imageInput.value = '';
+                imagePreview.classList.add('hidden');
+            });
+        }
+
+        // === FORM SUBMISSION ===
+        function setupReviewForm() {
+            const reviewForm = document.getElementById('review-form');
+
+            reviewForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                if (appState.isSubmitting) return;
+
+                const formData = new FormData(this);
+                const rating = formData.get('rating');
+                const comment = formData.get('comment');
+
+                // Validation
+                if (!rating) {
+                    showFlashNotification('Silakan pilih rating', 'error');
+                    return;
+                }
+
+                if (!comment || comment.trim().length < 10) {
+                    showFlashNotification('Komentar minimal 10 karakter', 'error');
+                    return;
+                }
+
+                // Confirm submission
+                const action = appState.isEditMode ? 'memperbarui' : 'mengirim';
+                const confirmed = await showConfirmationModal(
+                    `Konfirmasi ${appState.isEditMode ? 'Update' : 'Ulasan'}`,
+                    `Apakah Anda yakin ingin ${action} ulasan untuk pesanan #${appState.orderId}?`,
+                    `${appState.isEditMode ? 'Update' : 'Kirim'} Ulasan`,
+                    null,
+                    'question'
+                );
+
+                if (!confirmed) return;
+
+                await submitReview(formData);
+            });
+        }
+
+        async function submitReview(formData) {
+            const submitButton = document.getElementById('submit-review');
+            const submitText = document.getElementById('submit-text');
+            const submitLoading = document.getElementById('submit-loading');
+
+            appState.isSubmitting = true;
+            submitButton.disabled = true;
+            submitText.classList.add('hidden');
+            submitLoading.classList.remove('hidden');
+
+            try {
+                // Add required data to form
+                formData.append('order_id', appState.orderId);
+                formData.append('service_id', appState.service.id);
+
+                const url = appState.isEditMode ? `/api/reviews/${appState.existingReview.id}` : '/api/reviews';
+                const method = appState.isEditMode ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                    method: method,
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    const message = appState.isEditMode ? 'Ulasan berhasil diperbarui!' : 'Ulasan berhasil dikirim!';
+                    showFlashNotification(message, 'success', 'Terima kasih atas ulasan Anda');
+
+                    // Redirect after success
+                    setTimeout(() => {
+                        window.location.href = '/order-history';
+                    }, 2000);
+                } else {
+                    throw new Error(data.error || `Gagal ${appState.isEditMode ? 'memperbarui' : 'mengirim'} ulasan`);
+                }
+
+            } catch (error) {
+                console.error('Error submitting review:', error);
+                showFlashNotification(error.message || `Gagal ${appState.isEditMode ? 'memperbarui' : 'mengirim'} ulasan`, 'error');
+            } finally {
+                appState.isSubmitting = false;
+                submitButton.disabled = false;
+                submitText.classList.remove('hidden');
+                submitLoading.classList.add('hidden');
+            }
+        }
+
+        // === SEARCH FUNCTIONALITY ===
+        function setupSearchSuggestion() {
+            elements.searchInput.addEventListener('input', handleSearchInput);
+            elements.searchSuggestion.addEventListener('click', handleSuggestionClick);
+            elements.searchInput.addEventListener('keydown', handleSearchSubmit);
+
+            document.addEventListener('click', function (e) {
+                if (!elements.searchInput.contains(e.target) && !elements.searchSuggestion.contains(e.target)) {
+                    elements.searchSuggestion.classList.add('hidden');
+                }
+            });
+        }
+
+        function handleSearchInput() {
+            const keyword = elements.searchInput.value.trim().toLowerCase();
+
             if (!keyword) {
-                searchSuggestion.classList.add("hidden");
-                searchSuggestion.innerHTML = "";
+                elements.searchSuggestion.classList.add('hidden');
                 return;
             }
 
-            // Filter services berdasarkan nama/deskripsi
-            const filteredServices = allServices.filter(s =>
-                s.name.toLowerCase().includes(keyword) ||
-                (s.description && s.description.toLowerCase().includes(keyword))
-            ).slice(0, 5);
+            const suggestions = generateSuggestions(keyword);
+            renderSuggestions(suggestions);
+        }
 
-            // Filter provinsi berdasarkan nama
-            const filteredProvinces = allProvinces.filter(p =>
-                p.name.toLowerCase().includes(keyword)
-            ).slice(0, 3);
+        function generateSuggestions(keyword) {
+            const { services, provinces, regencies } = appState.searchData;
 
-            // Filter kota/kabupaten berdasarkan nama
-            const filteredRegencies = allRegencies.filter(r =>
-                r.name.toLowerCase().includes(keyword)
-            ).slice(0, 3);
+            return {
+                services: services.filter(s =>
+                    s.name.toLowerCase().includes(keyword) ||
+                    (s.description && s.description.toLowerCase().includes(keyword))
+                ).slice(0, 5),
+                provinces: provinces.filter(p =>
+                    p.name.toLowerCase().includes(keyword)
+                ).slice(0, 3),
+                regencies: regencies.filter(r =>
+                    r.name.toLowerCase().includes(keyword)
+                ).slice(0, 3)
+            };
+        }
 
-            let suggestionHTML = "";
+        function renderSuggestions({ services, provinces, regencies }) {
+            let html = '';
 
-            // Tambahkan suggestion services
-            if (filteredServices.length > 0) {
-                suggestionHTML += `<div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-50">LAYANAN</div>`;
-                filteredServices.forEach(s => {
-                    suggestionHTML += `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer flex items-center gap-1" data-type="service" data-id="${s.id}">
-        <span class="material-symbols-outlined text-sm">work</span>${s.name}
-      </div>`;
+            if (services.length > 0) {
+                html += '<div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-50">LAYANAN</div>';
+                services.forEach(s => {
+                    html += `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer flex items-center gap-2" data-type="service" data-id="${s.id}">
+            <span class="material-symbols-outlined text-sm">work</span>${escapeHtml(s.name)}
+          </div>`;
                 });
             }
 
-            // Tambahkan suggestion provinsi
-            if (filteredProvinces.length > 0) {
-                suggestionHTML += `<div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-50">PROVINSI</div>`;
-                filteredProvinces.forEach(p => {
-                    suggestionHTML += `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer flex items-center gap-1" data-type="province" data-id="${p.id}" data-name="${p.name}">
-        <span class="material-symbols-outlined text-sm">location_on</span>${p.name}
-      </div>`;
+            if (provinces.length > 0) {
+                html += '<div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-50">PROVINSI</div>';
+                provinces.forEach(p => {
+                    html += `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer flex items-center gap-2" data-type="province" data-id="${p.id}" data-name="${p.name}">
+            <span class="material-symbols-outlined text-sm">location_on</span>${escapeHtml(p.name)}
+          </div>`;
                 });
             }
 
-            // Tambahkan suggestion kota/kabupaten
-            if (filteredRegencies.length > 0) {
-                suggestionHTML += `<div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-50">KOTA/KABUPATEN</div>`;
-                filteredRegencies.forEach(r => {
-                    const province = allProvinces.find(p => p.id === r.province_id);
-                    suggestionHTML += `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer flex items-center gap-1" data-type="regency" data-id="${r.id}" data-name="${r.name}" data-province-id="${r.province_id}">
-        <span class="material-symbols-outlined text-sm">place</span>${r.name}, ${province?.name || ''}
-      </div>`;
+            if (regencies.length > 0) {
+                html += '<div class="px-4 py-2 text-xs font-semibold text-gray-500 bg-gray-50">KOTA/KABUPATEN</div>';
+                regencies.forEach(r => {
+                    const province = appState.searchData.provinces.find(p => p.id === r.province_id);
+                    html += `<div class="px-4 py-2 hover:bg-[#029FAE] hover:text-white cursor-pointer flex items-center gap-2" data-type="regency" data-id="${r.id}" data-name="${r.name}" data-province-id="${r.province_id}">
+            <span class="material-symbols-outlined text-sm">place</span>${escapeHtml(r.name)}, ${escapeHtml(province?.name || '')}
+          </div>`;
                 });
             }
 
-            if (suggestionHTML === "") {
-                searchSuggestion.innerHTML = `<div class="px-4 py-2 text-gray-400">Tidak ditemukan</div>`;
-            } else {
-                searchSuggestion.innerHTML = suggestionHTML;
-            }
+            elements.searchSuggestion.innerHTML = html || '<div class="px-4 py-2 text-gray-400">Tidak ditemukan</div>';
+            elements.searchSuggestion.classList.remove('hidden');
+        }
 
-            searchSuggestion.classList.remove("hidden");
-        });
+        function handleSuggestionClick(e) {
+            const item = e.target.closest('[data-type]');
+            if (!item) return;
 
-        // Klik suggestion: redirect berdasarkan tipe
-        searchSuggestion.addEventListener("click", function (e) {
-            const item = e.target.closest("[data-type]");
-            if (item) {
-                const type = item.dataset.type;
-                const id = item.dataset.id;
-                const name = item.dataset.name;
+            const { type, id, name } = item.dataset;
 
-                if (type === "service") {
+            switch (type) {
+                case 'service':
                     const serviceName = item.textContent.trim().replace(/^work/, '');
                     window.location.href = `/services?search=${encodeURIComponent(serviceName)}`;
-                } else if (type === "province") {
+                    break;
+                case 'province':
                     window.location.href = `/services?province_id=${id}&search=${encodeURIComponent(name)}`;
-                } else if (type === "regency") {
+                    break;
+                case 'regency':
                     const provinceId = item.dataset.provinceId;
                     window.location.href = `/services?province_id=${provinceId}&regency_id=${id}&search=${encodeURIComponent(name)}`;
-                }
+                    break;
             }
-        });
+        }
 
-        // Sembunyikan suggestion jika klik di luar
-        document.addEventListener("click", function (e) {
-            if (!searchInput.contains(e.target) && !searchSuggestion.contains(e.target)) {
-                searchSuggestion.classList.add("hidden");
+        function handleSearchSubmit(e) {
+            if (e.key !== 'Enter') return;
+
+            e.preventDefault();
+            const keyword = elements.searchInput.value.trim();
+
+            if (!keyword) {
+                window.location.href = '/services';
+                return;
             }
-        });
 
-        // Submit search: cek apakah provinsi/kota atau layanan
-        searchInput.addEventListener("keydown", function (e) {
-            if (e.key === "Enter") {
-                e.preventDefault();
-                const keyword = this.value.trim();
-                if (!keyword) {
-                    window.location.href = "/services";
-                    return;
-                }
+            const { provinces, regencies } = appState.searchData;
 
-                // Cek apakah keyword cocok dengan provinsi
-                const matchedProvince = allProvinces.find(p =>
-                    p.name.toLowerCase() === keyword.toLowerCase()
-                );
-                if (matchedProvince) {
-                    window.location.href = `/services?province_id=${matchedProvince.id}&search=${encodeURIComponent(matchedProvince.name)}`;
-                    return;
-                }
+            const matchedProvince = provinces.find(p =>
+                p.name.toLowerCase() === keyword.toLowerCase()
+            );
 
-                // Cek apakah keyword cocok dengan kota/kabupaten
-                const matchedRegency = allRegencies.find(r =>
-                    r.name.toLowerCase() === keyword.toLowerCase()
-                );
-                if (matchedRegency) {
-                    window.location.href = `/services?province_id=${matchedRegency.province_id}&regency_id=${matchedRegency.id}&search=${encodeURIComponent(matchedRegency.name)}`;
-                    return;
-                }
-
-                // Jika tidak cocok dengan lokasi, search sebagai layanan
-                window.location.href = `/services?search=${encodeURIComponent(keyword)}`;
+            if (matchedProvince) {
+                window.location.href = `/services?province_id=${matchedProvince.id}&search=${encodeURIComponent(matchedProvince.name)}`;
+                return;
             }
-        });
+
+            const matchedRegency = regencies.find(r =>
+                r.name.toLowerCase() === keyword.toLowerCase()
+            );
+
+            if (matchedRegency) {
+                window.location.href = `/services?province_id=${matchedRegency.province_id}&regency_id=${matchedRegency.id}&search=${encodeURIComponent(matchedRegency.name)}`;
+                return;
+            }
+
+            window.location.href = `/services?search=${encodeURIComponent(keyword)}`;
+        }
+
+        // === INITIALIZATION ===
+        async function initialize() {
+            try {
+                // Setup flash notification and modal
+                setupFlashNotification();
+
+                // Get order ID
+                appState.orderId = getOrderIdFromUrl();
+
+                // Initialize authentication
+                const authSuccess = await initializeAuth();
+                if (!authSuccess) return;
+
+                // Load data in parallel
+                await Promise.all([
+                    loadSearchData(),
+                    loadOrderDetail()
+                ]);
+
+                // Setup search functionality
+                setupSearchSuggestion();
+
+            } catch (error) {
+                console.error('Initialization error:', error);
+                showFlashNotification('Gagal memuat halaman', 'error', 'Silakan refresh halaman');
+                showError('Gagal memuat halaman. Silakan refresh.');
+            }
+        }
+
+        // Start the application
+        document.addEventListener('DOMContentLoaded', initialize);
     </script>
+
+    <style>
+        .rating-stars label {
+            transition: color 0.2s ease;
+        }
+
+        .rating-stars label:hover {
+            transform: scale(1.1);
+        }
+    </style>
 </body>
 
 </html>
