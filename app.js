@@ -139,6 +139,23 @@ app.get("/profile", isAuthenticated, (req, res) => {
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/public", express.static(path.join(__dirname, "public")));
+app.get("/manifest.webmanifest", (req, res) => {
+  res.setHeader("Content-Type", "application/manifest+json");
+  res.sendFile(path.join(__dirname, "manifest.webmanifest"));
+});
+app.get("/favicon.ico", (req, res) => {
+  res.redirect("/public/images/favicon.ico");
+});
+
+app.get("/android-chrome-:size.png", (req, res) => {
+  const size = req.params.size;
+  const validSizes = ["192x192", "512x512"];
+  if (validSizes.includes(size)) {
+    res.redirect(`/public/images/android-chrome-${size}.png`);
+  } else {
+    res.status(404).send("Not found");
+  }
+});
 
 (async () => {
   try {
