@@ -44,7 +44,7 @@
                         Batal
                     </button>
                     <button id="modal-confirm"
-                        class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+                        class="px-4 py-2 bg-[#029FAE] text-white rounded-lg hover:bg-[#027f8a] transition">
                         Ya
                     </button>
                 </div>
@@ -189,7 +189,7 @@
                 <h3 class="text-xl font-medium text-gray-700 mb-2">Belum Ada Pesanan</h3>
                 <p class="text-gray-500 mb-6">Anda belum memiliki pesanan dalam kategori ini</p>
                 <a href="/services" class="bg-[#029FAE] text-white px-6 py-2 rounded-lg hover:bg-[#027f8a] transition">
-                    Mulai Berbelanja
+                    Mulai Pesan Layanan
                 </a>
             </div>
         </div>
@@ -425,37 +425,85 @@
         function showConfirmationModal(title, message, confirmText, iconType = 'info') {
             return new Promise((resolve) => {
                 const modal = document.getElementById('confirmation-modal');
-                document.getElementById('modal-title').textContent = title;
-                document.getElementById('modal-message').textContent = message;
-                document.getElementById('modal-confirm').textContent = confirmText;
+                const modalTitle = document.getElementById('modal-title');
+                const modalMessage = document.getElementById('modal-message');
+                const modalConfirm = document.getElementById('modal-confirm');
+                const modalCancel = document.getElementById('modal-cancel');
+                const modalIcon = document.getElementById('modal-icon');
+
+                modalTitle.textContent = title;
+                modalMessage.textContent = message;
+                modalConfirm.textContent = confirmText;
+
+                // Reset button classes
+                modalConfirm.className = 'px-4 py-2 rounded-lg transition';
+                modalCancel.className = 'px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 transition';
+
+                // Set icon and button colors based on type
                 const iconMap = {
-                    warning: { icon: 'warning', color: 'text-amber-500' },
-                    danger: { icon: 'dangerous', color: 'text-red-500' },
-                    info: { icon: 'info', color: 'text-blue-500' },
-                    question: { icon: 'help', color: 'text-gray-500' }
+                    warning: {
+                        icon: 'warning',
+                        color: 'text-amber-500',
+                        confirmClass: 'bg-amber-500 text-white hover:bg-amber-600'
+                    },
+                    danger: {
+                        icon: 'dangerous',
+                        color: 'text-red-500',
+                        confirmClass: 'bg-red-500 text-white hover:bg-red-600'
+                    },
+                    info: {
+                        icon: 'info',
+                        color: 'text-blue-500',
+                        confirmClass: 'bg-[#029FAE] text-white hover:bg-[#027f8a]'
+                    },
+                    success: {
+                        icon: 'check_circle',
+                        color: 'text-green-500',
+                        confirmClass: 'bg-[#029FAE] text-white hover:bg-[#027f8a]'
+                    },
+                    question: {
+                        icon: 'help',
+                        color: 'text-gray-500',
+                        confirmClass: 'bg-[#029FAE] text-white hover:bg-[#027f8a]'
+                    }
                 };
+
                 const iconConfig = iconMap[iconType] || iconMap['info'];
-                document.getElementById('modal-icon').textContent = iconConfig.icon;
-                document.getElementById('modal-icon').className = `material-symbols-outlined text-2xl ${iconConfig.color}`;
+                modalIcon.textContent = iconConfig.icon;
+                modalIcon.className = `material-symbols-outlined text-2xl ${iconConfig.color}`;
+                modalConfirm.className += ` ${iconConfig.confirmClass}`;
+
                 modal.classList.remove('hidden');
+
                 function cleanup() {
                     confirmBtn.removeEventListener('click', handleConfirm);
                     cancelBtn.removeEventListener('click', handleCancel);
                     modal.removeEventListener('click', handleOutsideClick);
                     document.removeEventListener('keydown', handleEscape);
                 }
+
                 function handleConfirm() {
                     modal.classList.add('hidden');
-                    resolve(true); cleanup();
+                    resolve(true);
+                    cleanup();
                 }
+
                 function handleCancel() {
                     modal.classList.add('hidden');
-                    resolve(false); cleanup();
+                    resolve(false);
+                    cleanup();
                 }
-                function handleOutsideClick(e) { if (e.target === modal) handleCancel(); }
-                function handleEscape(e) { if (e.key === 'Escape') handleCancel(); }
-                const confirmBtn = document.getElementById('modal-confirm');
-                const cancelBtn = document.getElementById('modal-cancel');
+
+                function handleOutsideClick(e) {
+                    if (e.target === modal) handleCancel();
+                }
+
+                function handleEscape(e) {
+                    if (e.key === 'Escape') handleCancel();
+                }
+
+                const confirmBtn = modalConfirm;
+                const cancelBtn = modalCancel;
                 confirmBtn.addEventListener('click', handleConfirm);
                 cancelBtn.addEventListener('click', handleCancel);
                 modal.addEventListener('click', handleOutsideClick);
@@ -965,7 +1013,7 @@
                 'Konfirmasi Selesai',
                 'Konfirmasi pesanan sudah selesai?',
                 'Selesai',
-                'info'
+                'success'
             );
             if (!confirmed) return;
 

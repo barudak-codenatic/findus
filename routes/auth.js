@@ -18,8 +18,10 @@ router.get("/me", (req, res) => {
   if (!req.session.user) return res.json({ user: null });
   res.json({ user: req.session.user });
 });
+
 router.post("/login", authController.login);
 router.post("/register", authController.register);
+router.post("/check-email", authController.checkEmail); // New route
 router.get("/logout", authController.logout);
 
 module.exports = router;

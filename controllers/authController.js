@@ -9,32 +9,86 @@ exports.isAuthenticated = (req, res, next) => {
   next();
 };
 
+// Add email check endpoint
+exports.checkEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const existingUser = await User.findOne({ where: { email } });
+    res.json({ exists: !!existingUser });
+  } catch (error) {
+    console.error("Error checking email:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 exports.register = async (req, res) => {
-  const { full_name, email, password, role } = req.body;
-  const hashed = await bcrypt.hash(password, 10);
+  try {
+    const { full_name, email, password, role } = req.body;
 
-  await User.create({
-    full_name,
-    email,
-    password: hashed,
-    role,
-  });
+    // Validation
+    if (!full_name || !email || !password || !role) {
+      return res.status(400).json({ error: "Semua field wajib diisi" });
+    }
 
-  res.redirect("/login");
+    // Check if email already exists
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      return res.status(400).json({ error: "Email sudah terdaftar" });
+    }
+
+    // Hash password
+    const hashed = await bcrypt.hash(password, 10);
+
+    // Create user
+    await User.create({
+      full_name,
+      email,
+      password: hashed,
+      role,
+    });
+
+    res.json({
+      success: true,
+      message: "Pendaftaran berhasil! Silakan login.",
+    });
+  } catch (error) {
+    console.error("Registration error:", error);
+    res.status(500).json({ error: "Terjadi kesalahan server" });
+  }
 };
 
 exports.login = async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ where: { email } });
+  try {
+    const { email, password } = req.body;
 
-  if (!user || !(await bcrypt.compare(password, user.password))) {
-    return res.send(
-      '<script>alert("Email atau password salah!"); window.location="/login";</script>'
-    );
+    // Validation
+    if (!email || !password) {
+      return res.status(400).json({ error: "Email dan password wajib diisi" });
+    }
+
+    const user = await User.findOne({ where: { email } });
+
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ error: "Email atau password salah!" });
+    }
+
+    req.session.user = {
+      id: user.id,
+      name: user.full_name,
+      full_name: user.full_name,
+      email: user.email,
+      role: user.role,
+    };
+
+    res.json({
+      success: true,
+      message: "Login berhasil",
+      redirect: "/api/auth/dashboard",
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ error: "Terjadi kesalahan server" });
   }
-
-  req.session.user = { id: user.id, name: user.full_name, role: user.role };
-  res.redirect("/api/auth/dashboard");
 };
 
 exports.logout = (req, res) => {
