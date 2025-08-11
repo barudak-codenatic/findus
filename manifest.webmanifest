@@ -1,7 +1,7 @@
 {
   "name": "FindUS - Platform Layanan Mahasiswa",
   "short_name": "FindUS",
-  "description": "Platform online untuk mahasiswa yang kos! Belanja kebutuhan harian dan pesan layanan dengan mudah.",
+  "description": "Platform online untuk pesan layanan seperti jasa layanan, bersih-bersih, dan lainnya dengan mudah.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
